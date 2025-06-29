@@ -5,150 +5,33 @@
  */
 package com.cancheros.GymApp.Dominio.Sesiones;
 
+import com.cancheros.GymApp.Dominio.Rutinas.Ejercicio;
 import com.cancheros.GymApp.Dominio.Usuarios.Cliente;
 import com.cancheros.GymApp.Dominio.Usuarios.Entrenador;
+import jakarta.persistence.*;
 
 import java.util.*;
 import java.time.*;
 
 
+@Entity
+@Table(name = "sesion")
 public class Sesion {
+    @Id
     private int id;
     private String estado;
-    private Cliente cliente;
+
+    @ManyToMany
+    private List<Cliente> clientes = new ArrayList<>();
+
+    @ManyToOne
     private Entrenador Entrenador;
+
+    @Embedded
     private Horario horario;
+
+    @ManyToOne
     private Sala Sala;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public Cliente get() {
-        return cliente;
-    }
-
-    public Entrenador getEntrenador() {
-        return Entrenador;
-    }
-
-    public Horario getHorario() {
-        return horario;
-    }
-
-    public Sala getSala() {
-        return Sala;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public void setEntrenador(Entrenador Entrenador) {
-        this.Entrenador = Entrenador;
-    }
-
-    public void setHorario(Horario horario) {
-        this.horario = horario;
-    }
-
-    public void setSala(Sala Sala) {
-        this.Sala = Sala;
-    }
-
-    public void set(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public void set(Entrenador Entrenador) {
-        this.Entrenador = Entrenador;
-    }
-
-    public void link(Cliente _cliente) {
-        if (_cliente != null) {
-            _cliente.unlink();
-            _cliente.set(this);
-        }
-
-        unlink();
-        set(_cliente);
-    }
-
-    public void linkEntrenador(Entrenador _Entrenador) {
-//        if (_Entrenador != null) {
-//            _Entrenador.unlinkSesion();
-//            _Entrenador.setSesion(this);
-//        }
-//
-//        unlinkEntrenador();
-//        setEntrenador(_Entrenador);
-    }
-
-    public void linkHorario(Horario _horario) {
-        if (_horario != null) {
-            _horario.unlinkSesion();
-            _horario.setSesion(this);
-        }
-
-        unlinkHorario();
-        setHorario(_horario);
-    }
-
-    public void linkSala(Sala _Sala) {
-        if (_Sala != null) {
-            _Sala.unlinkSesion();
-            _Sala.setSesion(this);
-        }
-
-        unlinkSala();
-        setSala(_Sala);
-    }
-
-    public void link(Entrenador _Entrenador) {
-//        if (_Entrenador != null) {
-//            _Entrenador.unlink();
-//            _Entrenador.set(this);
-//        }
-//
-//        unlink();
-//        set(_Entrenador);
-    }
-
-    public void unlink() {
-//        if (get() != null) {
-//            get().set(null);
-//            set(null);
-//        }
-    }
-
-    public void unlinkEntrenador() {
-        if (getEntrenador() != null) {
-            getEntrenador().setSesion(null);
-            setEntrenador(null);
-        }
-    }
-
-    public void unlinkHorario() {
-        if (getHorario() != null) {
-            getHorario().setSesion(null);
-            setHorario(null);
-        }
-    }
-
-    public void unlinkSala() {
-        if (getSala() != null) {
-            getSala().setSesion(null);
-            setSala(null);
-        }
-    }
 
     public void confirmar() {
 

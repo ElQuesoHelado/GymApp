@@ -1,19 +1,15 @@
 package com.cancheros.GymApp.Dominio.Usuarios;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import java.util.*;
 import java.time.*;
 
+@Entity
+@Table(name = "administrador")
 public class Administrador extends Usuario {
-
     private String rol;
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
 
     public void gestionarUsuarios() {
 

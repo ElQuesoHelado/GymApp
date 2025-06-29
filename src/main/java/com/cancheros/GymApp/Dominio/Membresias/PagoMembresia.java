@@ -1,20 +1,24 @@
 package com.cancheros.GymApp.Dominio.Membresias;
 
 import java.util.*;
-import java.time.*;
 
-import com.cancheros.GymApp.Dominio.Membresias.MetodoPago;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "pagos_membresia")
 public class PagoMembresia {
-
+    @Id
     private String idPago;
 
     private float monto;
 
     private Date fechaPago;
 
-    private Membresia Menbresia;
+    @ManyToOne
+    private Membresia membresia;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private MetodoPago MetodoPago;
 
     public String getIdPago() {
@@ -29,8 +33,8 @@ public class PagoMembresia {
         return fechaPago;
     }
 
-    public Membresia getMenbresia() {
-        return Menbresia;
+    public Membresia getMembresia() {
+        return membresia;
     }
 
     public MetodoPago getMetodoPago() {
@@ -38,7 +42,7 @@ public class PagoMembresia {
     }
 
     public Membresia get() {
-        return Menbresia;
+        return membresia;
     }
 
     public void setIdPago(String idPago) {
@@ -53,8 +57,8 @@ public class PagoMembresia {
         this.fechaPago = fechaPago;
     }
 
-    public void setMenbresia(Membresia Menbresia) {
-        this.Menbresia = Menbresia;
+    public void setMembresia(Membresia Menbresia) {
+        this.membresia = Menbresia;
     }
 
     public void setMetodoPago(MetodoPago MetodoPago) {
@@ -62,59 +66,9 @@ public class PagoMembresia {
     }
 
     public void set(Membresia Menbresia) {
-        this.Menbresia = Menbresia;
+        this.membresia = Menbresia;
     }
-
-    public void linkMenbresia(Membresia _Menbresia) {
-        if (_Menbresia != null) {
-            _Menbresia.getPagoMembresia().add(this);
-        }
-
-        unlinkMenbresia();
-        setMenbresia(_Menbresia);
-    }
-
-    public void linkMetodoPago(MetodoPago _MetodoPago) {
-        if (_MetodoPago != null) {
-            _MetodoPago.unlinkPagoMenbreswia();
-            _MetodoPago.setPagoMenbreswia(this);
-        }
-
-        unlinkMetodoPago();
-        setMetodoPago(_MetodoPago);
-    }
-
-    public void link(Membresia _Menbresia) {
-//        if (_Menbresia != null) {
-//            _Menbresia.get().add(this);
-//        }
-//
-//        unlink();
-//        set(_Menbresia);
-    }
-
-    public void unlinkMenbresia() {
-        if (getMenbresia() != null) {
-            getMenbresia().getPagoMembresia().remove(this);
-            setMenbresia(null);
-        }
-    }
-
-    public void unlinkMetodoPago() {
-        if (getMetodoPago() != null) {
-            getMetodoPago().setPagoMenbreswia(null);
-            setMetodoPago(null);
-        }
-    }
-
-    public void unlink() {
-        if (get() != null) {
-            get().get().remove(this);
-            set(null);
-        }
-    }
-
-
+    
     public void procesarPago() {
 
     }

@@ -12,30 +12,30 @@ import java.util.*;
 import java.time.*;
 
 
-public class IUsuarioRepositoriolmpl implements IUsuarioRepositorio {
-    @Override
-    public void guardar(Usuario usuario) {
-
-    }
-
-    @Override
-    public void actualizar(Usuario usuario) {
-
-    }
-
-    @Override
-    public void eliminarPorId(String id) {
-
-    }
-
-    @Override
-    public void buscarPorId(String id) {
-
-    }
-
-    @Override
-    public void listarTodos() {
-
-    }
-
-}
+//public class IUsuarioRepositoriolmpl implements IUsuarioRepositorio {
+//    @Override
+//    public void guardar(Usuario usuario) {
+//
+//    }
+//
+//    @Override
+//    public void actualizar(Usuario usuario) {
+//
+//    }
+//
+//    @Override
+//    public void eliminarPorId(String id) {
+//
+//    }
+//
+//    @Override
+//    public void buscarPorId(String id) {
+//
+//    }
+//
+//    @Override
+//    public void listarTodos() {
+//
+//    }
+//
+//}

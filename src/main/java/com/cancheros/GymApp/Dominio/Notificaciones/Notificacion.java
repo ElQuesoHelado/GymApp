@@ -1,16 +1,25 @@
 package com.cancheros.GymApp.Dominio.Notificaciones;
 
 import com.cancheros.GymApp.Dominio.Usuarios.Usuario;
+import jakarta.persistence.*;
 
 import java.util.*;
 import java.time.*;
 
+@Entity
 public class Notificacion {
+    @Id
     private int id;
     private String mensaje;
     private Date fechaEnvio;
     private boolean leido;
-    private Usuario Usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Usuario usuario;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TipoNotificacion TipoNotificacion;
 
     public int getId() {
@@ -30,7 +39,7 @@ public class Notificacion {
     }
 
     public Usuario getUsuario() {
-        return Usuario;
+        return usuario;
     }
 
     public TipoNotificacion getTipoNotificacion() {
@@ -38,7 +47,7 @@ public class Notificacion {
     }
 
     public Usuario get() {
-        return Usuario;
+        return usuario;
     }
 
     public void setId(int id) {
@@ -57,67 +66,16 @@ public class Notificacion {
         this.leido = leido;
     }
 
-    public void setUsuario(Usuario Usuario) {
-        this.Usuario = Usuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public void setTipoNotificacion(TipoNotificacion TipoNotificacion) {
         this.TipoNotificacion = TipoNotificacion;
     }
 
-    public void set(Usuario Usuario) {
-        this.Usuario = Usuario;
-    }
-
-    public void linkUsuario(Usuario _Usuario) {
-        if (_Usuario != null) {
-            _Usuario.unlinkNotificacion();
-            _Usuario.setNotificacion(this);
-        }
-
-        unlinkUsuario();
-        setUsuario(_Usuario);
-    }
-
-    public void linkTipoNotificacion(TipoNotificacion _TipoNotificacion) {
-        if (_TipoNotificacion != null) {
-            _TipoNotificacion.unlinkNotificacion();
-            _TipoNotificacion.setNotificacion(this);
-        }
-
-        unlinkTipoNotificacion();
-        setTipoNotificacion(_TipoNotificacion);
-    }
-
-    public void link(Usuario _Usuario) {
-//        if (_Usuario != null) {
-//            _Usuario.unlink();
-//            _Usuario.set(this);
-//        }
-//
-//        unlink();
-//        set(_Usuario);
-    }
-
-    public void unlinkUsuario() {
-        if (getUsuario() != null) {
-            getUsuario().setNotificacion(null);
-            setUsuario(null);
-        }
-    }
-
-    public void unlinkTipoNotificacion() {
-        if (getTipoNotificacion() != null) {
-            getTipoNotificacion().setNotificacion(null);
-            setTipoNotificacion(null);
-        }
-    }
-
-    public void unlink() {
-//        if (get() != null) {
-//            get().set(null);
-//            set(null);
-//        }
+    public void set(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public void marcarComoLeida() {
