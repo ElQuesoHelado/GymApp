@@ -1,5 +1,11 @@
 # Gimnasio App
 
+1. Supo Molina Gerald Steve
+1. Alva Cornejo Jose Javier
+1. Palomino Rivadeneyra Misael Jesus
+1. Chavez Medina Fernando Jesus
+1. Zapana Pariapaza Gonzalo Rodrigo
+
 ## Proposito
 
 Ayudar a tanto usuarios de gimnasios, entrenadores, y administradores de gimnasios a lograr una experiencia de entrenamiento
