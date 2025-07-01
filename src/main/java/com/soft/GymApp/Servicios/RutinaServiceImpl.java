@@ -1,5 +1,5 @@
 package com.soft.GymApp.Servicios;
 
-public class RutinaServiceImpl implements IRutinaService {
+public class RutinaServiceImpl implements RutinaService {
 
 }

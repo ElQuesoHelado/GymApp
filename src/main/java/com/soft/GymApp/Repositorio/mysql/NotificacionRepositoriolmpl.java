@@ -1,7 +1,7 @@
 package com.soft.GymApp.Repositorio.mysql;
 
 
-//public class INotificacionRepositoriolmpl implements INotificacionRepositorio {
+//public class NotificacionRepositoriolmpl implements NotificacionRepositorio {
 //    @Override
 //
 //    public void guardar(Notificacion n) {

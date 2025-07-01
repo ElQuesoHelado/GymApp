@@ -1,6 +1,6 @@
 package com.soft.GymApp.Servicios;
 
 
-public class NotificacionServiceImpl implements INotificacionService {
+public class NotificacionServiceImpl implements NotificacionService {
 
 }

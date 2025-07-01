@@ -1,7 +1,7 @@
 package com.soft.GymApp.Repositorio.mysql;
 
 
-//public class IPlanEntrenamientoRepositoriolmpl implements IPlanEntrenamientoRepositorio {
+//public class PlanEntrenamientoRepositoriolmpl implements PlanEntrenamientoRepositorio {
 //
 //    @Override
 //    public void guardar(Rutina rutina) {

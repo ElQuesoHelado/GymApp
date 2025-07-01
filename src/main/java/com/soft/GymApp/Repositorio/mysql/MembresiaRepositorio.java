@@ -1,7 +1,7 @@
 package com.soft.GymApp.Repositorio.mysql;
 
 //
-//public class IMembresiaRepositoriolmpl implements IMembresiaRepositorio {
+//public class MembresiaRepositoriolmpl implements MembresiaRepositorio {
 //
 //    @Override
 //    public void guardar(Membresia membresia) {

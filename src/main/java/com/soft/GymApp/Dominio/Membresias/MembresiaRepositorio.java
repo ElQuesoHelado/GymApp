@@ -2,7 +2,7 @@ package com.soft.GymApp.Dominio.Membresias;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IMembresiaRepositorio extends JpaRepository<Membresia, Integer> {
+public interface MembresiaRepositorio extends JpaRepository<Membresia, Integer> {
 //
 //    void guardar(Membresia membresia);
 //

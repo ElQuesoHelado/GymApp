@@ -2,7 +2,7 @@ package com.soft.GymApp.Dominio.Notificaciones;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface INotificacionRepositorio extends JpaRepository<Notificacion, Integer> {
+public interface NotificacionRepositorio extends JpaRepository<Notificacion, Integer> {
 //    void guardar(Notificacion n);
 //
 //    void actualizar(Notificacion n);

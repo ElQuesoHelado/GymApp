@@ -1,7 +1,7 @@
 package com.soft.GymApp.Repositorio.mysql;
 
 
-//public class ISesionRepositoriolmpl implements ISesionRepositorio {
+//public class SesionRepositoriolmpl implements SesionRepositorio {
 //
 //    @Override
 //    public void guardar(Sesion s) {

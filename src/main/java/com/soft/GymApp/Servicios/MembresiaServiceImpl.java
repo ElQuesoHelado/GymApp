@@ -1,5 +1,5 @@
 package com.soft.GymApp.Servicios;
 
-public class MembresiaServiceImpl implements IMembresiaService {
+public class MembresiaServiceImpl implements MembresiaService {
 
 }

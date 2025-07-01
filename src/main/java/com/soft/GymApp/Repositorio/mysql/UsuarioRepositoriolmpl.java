@@ -6,7 +6,7 @@
 package com.soft.GymApp.Repositorio.mysql;
 
 
-//public class IUsuarioRepositoriolmpl implements IUsuarioRepositorio {
+//public class UsuarioRepositoriolmpl implements UsuarioRepositorio {
 //    @Override
 //    public void guardar(Usuario usuario) {
 //

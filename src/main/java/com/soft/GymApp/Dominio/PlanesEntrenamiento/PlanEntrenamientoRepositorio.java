@@ -2,7 +2,7 @@ package com.soft.GymApp.Dominio.PlanesEntrenamiento;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IPlanEntrenamientoRepositorio extends JpaRepository<PlanEntrenamiento, Integer> {
+public interface PlanEntrenamientoRepositorio extends JpaRepository<PlanEntrenamiento, Integer> {
 //    void guardar(Rutina rutina);
 //
 //    void actualizar(Rutina rutina);

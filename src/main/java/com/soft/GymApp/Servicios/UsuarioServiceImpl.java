@@ -1,5 +1,5 @@
 package com.soft.GymApp.Servicios;
 
-public class UsuarioServiceImpl implements IUsuarioService {
+public class UsuarioServiceImpl implements UsuarioService {
 
 }

@@ -1,5 +1,5 @@
 package com.soft.GymApp.Servicios;
 
-public class SesionServiceImpl implements ISesionService {
+public class SesionServiceImpl implements SesionService {
 
 }
