@@ -14574,7 +14574,7 @@
 											"top": 2070,
 											"width": 1095,
 											"height": 13,
-											"text": "mysql"
+											"text": "sqlite"
 										},
 										{
 											"_type": "LabelView",
@@ -14718,7 +14718,7 @@
 											"top": 88,
 											"width": 128.5908203125,
 											"height": 13,
-											"text": "(from mysql)"
+											"text": "(from sqlite)"
 										},
 										{
 											"_type": "LabelView",
@@ -14908,7 +14908,7 @@
 											"top": 216,
 											"width": 128.5908203125,
 											"height": 13,
-											"text": "(from mysql)"
+											"text": "(from sqlite)"
 										},
 										{
 											"_type": "LabelView",
@@ -15098,7 +15098,7 @@
 											"top": 232,
 											"width": 128.5908203125,
 											"height": 13,
-											"text": "(from mysql)"
+											"text": "(from sqlite)"
 										},
 										{
 											"_type": "LabelView",
@@ -15288,7 +15288,7 @@
 											"top": 200,
 											"width": 128.5908203125,
 											"height": 13,
-											"text": "(from mysql)"
+											"text": "(from sqlite)"
 										},
 										{
 											"_type": "LabelView",
@@ -15478,7 +15478,7 @@
 											"top": 192,
 											"width": 128.5908203125,
 											"height": 13,
-											"text": "(from mysql)"
+											"text": "(from sqlite)"
 										},
 										{
 											"_type": "LabelView",
@@ -22372,7 +22372,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGXfCxywm8lAMk="
 									},
-									"name": "mysql",
+									"name": "sqlite",
 									"ownedElements": [
 										{
 											"_type": "UMLClass",
