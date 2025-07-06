@@ -24,11 +24,26 @@ public class PlanEntrenamiento {
     private Entrenador entrenador;
 
     public void asignarRutina(Rutina rutina) {
-
+        this.rutinas.add(rutina);
     }
 
     public void modificarRutina(Rutina rutina) {
-
+        // Se implementara en el futuro
     }
 
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public int getDuracionSemanas() {
+        return duracionSemanas;
+    }
+
+    public void setDuracionSemanas(int duracionSemanas) {
+        this.duracionSemanas = duracionSemanas;
+    }
 }
