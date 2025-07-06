@@ -28,18 +28,16 @@ public class Membresia {
     private Cliente cliente;
 
 
-    public void activar() throws UnsupportedOperationException {
-        // TODO El proceso de "activar" implicaria relacionarse con EstadoMembresia,
-        // Implementar esta funcionalidad aun no es prioridad
+    public void activar() {
+        estado = EstadoMembresia.ACTIVADA;
     }
 
-    public void cancelar() throws UnsupportedOperationException {
-        // TODO Cancelar de igual forma afectaria a EstadoMembresia,
-        // Implementar esta funcionalidad aun no es prioridad
+    public void cancelar() {
+        estado = EstadoMembresia.CANCELADA;
     }
 
     public boolean esActiva() {
-        return false;
+        return estado == EstadoMembresia.ACTIVADA;
     }
 
     public Integer getIdMembresia() {
