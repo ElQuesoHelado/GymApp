@@ -36,16 +36,16 @@ public class Sesion {
     private Sala Sala;
 
     public void confirmar() {
-        this.estado = EstadoSesion.CONFIRMADA;
+        this.estado = EstadoSesion.EnProgreso;
     }
 
     public void cancelar() {
-        this.estado = EstadoSesion.CANCELADA;
+        this.estado = EstadoSesion.Terminada;
     }
 
     public void reprogramar(Horario nuevoHorario) {
         this.horario = nuevoHorario;
-        this.estado = EstadoSesion.REPROGRAMADA;
+        this.estado = EstadoSesion.SinEmpezar;
     }
 
     // Getters
