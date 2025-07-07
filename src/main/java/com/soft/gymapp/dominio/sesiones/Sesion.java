@@ -47,6 +47,7 @@ public class Sesion {
         this.horario = nuevoHorario;
         this.estado = EstadoSesion.SinEmpezar;
     }
+
     // Getters
     public int getId() {
         return id;
