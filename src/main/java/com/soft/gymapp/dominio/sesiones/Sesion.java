@@ -5,6 +5,7 @@
  */
 package com.soft.gymapp.dominio.sesiones;
 
+import com.soft.gymapp.dominio.membresias.EstadoMembresia;
 import com.soft.gymapp.dominio.usuarios.Cliente;
 import com.soft.gymapp.dominio.usuarios.Entrenador;
 import jakarta.persistence.*;
@@ -17,7 +18,10 @@ import java.util.*;
 public class Sesion {
     @Id
     private int id;
-    private String estado;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoSesion estado;
 
     @ManyToMany
     private List<Cliente> clientes = new ArrayList<>();
@@ -32,15 +36,34 @@ public class Sesion {
     private Sala Sala;
 
     public void confirmar() {
-
+        this.estado = EstadoSesion.EnProgreso;
     }
 
-
     public void cancelar() {
-
+        this.estado = EstadoSesion.Terminada;
     }
 
     public void reprogramar(Horario nuevoHorario) {
-
+        this.horario = nuevoHorario;
+        this.estado = EstadoSesion.SinEmpezar;
+    }
+    // Getters
+    public int getId() {
+        return id;
+    }
+    public EstadoSesion getEstado() {
+        return estado;
+    }
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+    public Entrenador getEntrenador() {
+        return entrenador;
+    }
+    public Horario getHorario() {
+        return horario;
+    }
+    public Sala getSala() {
+        return sala;
     }
 }
