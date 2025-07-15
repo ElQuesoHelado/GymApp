@@ -11,13 +11,18 @@ public class Horario {
     private Time horaInicio;
     private Time horaFin;
 
-    //?No necesario por ValueObject?
-//    @OneToOne
-//    private Sesion sesion;
-
     public boolean esDisponible() {
+        Date ahora = new Date();
+        Time horaActual = new Time(ahora.getTime());
 
-        return false;
+        if (horaInicio == null || horaFin == null || fecha == null) {
+            throw new IllegalStateException("Horario invalido");
+        }
+        if (horaInicio.after(horaFin)) {
+            return false;
+        }
+
+        return fecha.after(ahora) || (fecha.equals(ahora) && horaFin.after(horaActual));
     }
 
 }
