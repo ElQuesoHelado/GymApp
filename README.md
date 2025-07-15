@@ -1,11 +1,5 @@
 # Gimnasio App
 
-1. Supo Molina Gerald Steve
-1. Alva Cornejo Jose Javier
-1. Palomino Rivadeneyra Misael Jesus
-1. Chavez Medina Fernando Jesus
-1. Zapana Pariapaza Gonzalo Rodrigo
-
 ## Proposito
 
 Ayudar a tanto usuarios de gimnasios, entrenadores, y administradores de gimnasios a lograr una experiencia de entrenamiento
@@ -29,3 +23,66 @@ https://www.plantuml.com/plantuml/uml/dLNDZXit3BxFKn3RYtsmiUV2MCGnia4F0Le7pPsMkB
 ![image](./assets/Repositorio.png)
 
 ![image](https://github.com/user-attachments/assets/a330ed80-678e-4e63-b592-dff888c67bf5)
+
+# Estilos de Programación y Arquitectura
+
+## 1. Arquitectura Monolítica (en Capas)
+
+### Descripción
+La aplicación sigue una **arquitectura monolítica en capas**. Esto significa que todo el código del proyecto (desde la interfaz de usuario -simulada por el controlador API-, la lógica de negocio, hasta el acceso a datos) reside en una única base de código y se despliega como una sola unidad.
+
+A pesar de ser un monolito, internamente el código está bien organizado en distintas **capas lógicas** para separar las responsabilidades:
+
+* **Capa de Presentación (`com.soft.gymapp.presentation.controladores`):** Maneja las solicitudes HTTP entrantes y las respuestas salientes. Es responsable de la comunicación con el cliente.
+* **Capa de Servicio (Lógica de Negocio) (`com.soft.gymapp.servicio` y `com.soft.gymapp.servicio.impl`):** Contiene las reglas de negocio, validaciones complejas y la orquestación de operaciones. Aquí reside la "inteligencia" de la aplicación.
+* **Capa de Repositorio (Acceso a Datos) (`com.soft.gymapp.repositorio` y `com.soft.gymapp.repositorio.sqlite`):** Se encarga de la interacción con la fuente de datos (en este ejemplo, una simulación en memoria). Define las operaciones CRUD (Crear, Leer, Actualizar, Eliminar).
+* **Capa de Dominio (`com.soft.gymapp.dominio`):** Contiene las entidades de negocio (`Usuario`, `CuentaUsuario`, `Notificacion`) que representan los conceptos clave de la aplicación.
+
+### ¿Por qué esta elección?
+Esta arquitectura es ideal para proyectos pequeños a medianos debido a su simplicidad en el desarrollo inicial, pruebas y despliegue. Mantiene una buena separación de preocupaciones internas sin la complejidad añadida de la comunicación entre múltiples servicios distribuidos.
+
+### Dónde verlo en el código:
+* `src/main/java/com/soft/gymapp/presentation/controladores/UsuarioController.java`
+* `src/main/java/com/soft/gymapp/servicio/UsuarioService.java` y `src/main/java/com/soft/gymapp/servicio/impl/UsuarioServiceImpl.java`
+* `src/main/java/com/soft/gymapp/repositorio/UsuarioRepositorio.java` y `src/main/java/com/soft/gymapp/repositorio/sqlite/UsuarioRepositoriolmpl.java`
+* `src/main/java/com/soft/gymapp/dominio/usuarios/Usuario.java` y `CuentaUsuario.java`
+
+---
+
+## 2. Estilo de Programación: Cookbook (Libro de Recetas)
+
+### Descripción
+El estilo "Cookbook" (Libro de Recetas) es un patrón de diseño que consiste en descomponer un proceso o tarea compleja en una serie de **"recetas" o "pasos" más pequeños, atómicos y bien definidos**. Cada "receta" es un método auxiliar (a menudo privado) que realiza una parte específica de la tarea general. El método principal actúa como el "chef", que orquesta estas recetas en la secuencia correcta para completar la "comida" (la tarea completa).
+
+Este estilo mejora la legibilidad, la mantenibilidad y la reusabilidad del código al hacer que cada paso sea explícito y fácil de entender.
+
+### ¿Dónde y cómo se aplica?
+
+#### a) En la Capa de Servicio (`UsuarioServiceImpl`) - Lógica de Negocio:
+
+Se ha aplicado el estilo Cookbook en el método `registrarUsuario` dentro de `UsuarioServiceImpl.java`. Este proceso complejo se divide en las siguientes "recetas":
+
+* `receta_ValidarDatosRegistro()`: Se encarga de todas las validaciones de los datos de entrada del usuario.
+* `receta_HashearContrasena()`: Realiza el proceso de hashing de la contraseña proporcionada.
+* `receta_CrearEntidadUsuario()`: Construye y ensambla el objeto `Usuario` (incluyendo `CuentaUsuario`) a partir de los datos validados.
+* `receta_GuardarUsuario()`: Persiste el objeto `Usuario` finalizado utilizando el repositorio.
+
+El método `registrarUsuario` orquesta estas recetas para llevar a cabo el flujo completo de registro.
+
+**Beneficios:** La lógica de registro es muy clara, paso a paso, y cada parte es un método aislado y probado.
+
+### Dónde verlo en el código:
+* `src/main/java/com/soft/gymapp/servicio/impl/UsuarioServiceImpl.java` (Ver `registrarUsuario` y los métodos `private receta_*`)
+
+#### b) En la Capa de Presentación (`UsuarioController`) - Formato de Respuesta:
+
+Aunque la lógica principal se delega al servicio, se ha incluido una pequeña "receta" en el controlador para ilustrar cómo el estilo Cookbook puede aplicarse incluso a tareas más pequeñas y repetitivas a nivel de presentación:
+
+* `receta_FormatearRespuesta()`: Un método privado que estandariza la estructura de las respuestas JSON que se envían al cliente, asegurando consistencia en el `status`, `message`, `data` y `errors`.
+
+**Beneficios:** Garantiza un formato de respuesta API consistente, lo que facilita el consumo por parte de los clientes y mejora la claridad del controlador al separar la lógica de formato de la lógica de delegación.
+
+### Dónde verlo en el código:
+* `src/main/java/com/soft/gymapp/presentation/controladores/UsuarioController.java` (Ver `receta_FormatearRespuesta` y cómo se usa en los métodos POST y GET).
+
+---
