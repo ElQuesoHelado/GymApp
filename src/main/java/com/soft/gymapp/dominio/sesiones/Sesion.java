@@ -27,13 +27,13 @@ public class Sesion {
     private List<Cliente> clientes = new ArrayList<>();
 
     @ManyToOne
-    private Entrenador Entrenador;
+    private Entrenador entrenador;
 
     @Embedded
     private Horario horario;
 
     @ManyToOne
-    private Sala Sala;
+    private Sala sala;
 
     public void confirmar() {
         this.estado = EstadoSesion.EnProgreso;
