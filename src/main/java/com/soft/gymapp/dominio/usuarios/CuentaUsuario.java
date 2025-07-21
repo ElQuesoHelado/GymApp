@@ -4,33 +4,53 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class CuentaUsuario {
+    private static final int LONGITUD_MINIMA_PASSWORD = 6;
 
     private String username;
-    private String password; // Aquí irá el hash de la contraseña
-    private String estado;
+    private String password;
+    private EstadoCuentaUsuario estado;
 
-    public CuentaUsuario() {
-        // Constructor vacío requerido por JPA
+    /*
+     * Nueva contrasenia debe cumplir requisitos de longitud y seguridad
+     */
+    private void validarNuevoPassword(String nuevoPassword) {
+        if (nuevoPassword.length() < LONGITUD_MINIMA_PASSWORD) {
+            throw new IllegalArgumentException("Contrasenia muy corta");
+        }
+
+        if (nuevoPassword.equals(password)) {
+            throw new IllegalArgumentException("Contrasenia identica a anterior");
+        }
     }
 
-    public CuentaUsuario(String username, String password, String estado) {
-        this.username = username;
-        this.password = password;
-        this.estado = estado;
+    private void validarPassword(String password) {
+        if (!password.equals(this.password)) {
+            throw new SecurityException("Credenciales invalidas");
+        }
     }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
-
-    public void cambiarPassword() {
-        // Lógica para cambiar la contraseña
+    public void cambiarPassword(String nuevoPassword, String actualPassword) {
+        validarPassword(actualPassword);
+        validarNuevoPassword(nuevoPassword);
     }
 
     public void bloquearCuenta() {
-        this.estado = "BLOQUEADA";
+        this.estado = EstadoCuentaUsuario.BLOQUEADA;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public EstadoCuentaUsuario getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoCuentaUsuario estado) {
+        this.estado = estado;
     }
 }

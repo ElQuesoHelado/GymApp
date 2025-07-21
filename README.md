@@ -24,11 +24,11 @@ https://www.plantuml.com/plantuml/uml/dLNDZXit3BxFKn3RYtsmiUV2MCGnia4F0Le7pPsMkB
 
 ![image](https://github.com/user-attachments/assets/a330ed80-678e-4e63-b592-dff888c67bf5)
 
-# Estilos de Programación y Arquitectura
+## Estilos de Programación y Arquitectura
 
-## 1. Arquitectura Monolítica (en Capas)
+### 1. Arquitectura Monolítica (en Capas)
 
-### Descripción
+#### Descripción
 La aplicación sigue una **arquitectura monolítica en capas**. Esto significa que todo el código del proyecto (desde la interfaz de usuario -simulada por el controlador API-, la lógica de negocio, hasta el acceso a datos) reside en una única base de código y se despliega como una sola unidad.
 
 A pesar de ser un monolito, internamente el código está bien organizado en distintas **capas lógicas** para separar las responsabilidades:
@@ -38,10 +38,10 @@ A pesar de ser un monolito, internamente el código está bien organizado en dis
 * **Capa de Repositorio (Acceso a Datos) (`com.soft.gymapp.repositorio` y `com.soft.gymapp.repositorio.sqlite`):** Se encarga de la interacción con la fuente de datos (en este ejemplo, una simulación en memoria). Define las operaciones CRUD (Crear, Leer, Actualizar, Eliminar).
 * **Capa de Dominio (`com.soft.gymapp.dominio`):** Contiene las entidades de negocio (`Usuario`, `CuentaUsuario`, `Notificacion`) que representan los conceptos clave de la aplicación.
 
-### ¿Por qué esta elección?
+#### ¿Por qué esta elección?
 Esta arquitectura es ideal para proyectos pequeños a medianos debido a su simplicidad en el desarrollo inicial, pruebas y despliegue. Mantiene una buena separación de preocupaciones internas sin la complejidad añadida de la comunicación entre múltiples servicios distribuidos.
 
-### Dónde verlo en el código:
+#### Dónde verlo en el código:
 * `src/main/java/com/soft/gymapp/presentation/controladores/UsuarioController.java`
 * `src/main/java/com/soft/gymapp/servicio/UsuarioService.java` y `src/main/java/com/soft/gymapp/servicio/impl/UsuarioServiceImpl.java`
 * `src/main/java/com/soft/gymapp/repositorio/UsuarioRepositorio.java` y `src/main/java/com/soft/gymapp/repositorio/sqlite/UsuarioRepositoriolmpl.java`
@@ -49,16 +49,16 @@ Esta arquitectura es ideal para proyectos pequeños a medianos debido a su simpl
 
 ---
 
-## 2. Estilo de Programación: Cookbook (Libro de Recetas)
+### 2. Estilo de Programación: Cookbook (Libro de Recetas)
 
-### Descripción
+#### Descripción
 El estilo "Cookbook" (Libro de Recetas) es un patrón de diseño que consiste en descomponer un proceso o tarea compleja en una serie de **"recetas" o "pasos" más pequeños, atómicos y bien definidos**. Cada "receta" es un método auxiliar (a menudo privado) que realiza una parte específica de la tarea general. El método principal actúa como el "chef", que orquesta estas recetas en la secuencia correcta para completar la "comida" (la tarea completa).
 
 Este estilo mejora la legibilidad, la mantenibilidad y la reusabilidad del código al hacer que cada paso sea explícito y fácil de entender.
 
-### ¿Dónde y cómo se aplica?
+#### ¿Dónde y cómo se aplica?
 
-#### a) En la Capa de Servicio (`UsuarioServiceImpl`) - Lógica de Negocio:
+##### a) En la Capa de Servicio (`UsuarioServiceImpl`) - Lógica de Negocio:
 
 Se ha aplicado el estilo Cookbook en el método `registrarUsuario` dentro de `UsuarioServiceImpl.java`. Este proceso complejo se divide en las siguientes "recetas":
 
@@ -71,10 +71,10 @@ El método `registrarUsuario` orquesta estas recetas para llevar a cabo el flujo
 
 **Beneficios:** La lógica de registro es muy clara, paso a paso, y cada parte es un método aislado y probado.
 
-### Dónde verlo en el código:
+#### Dónde verlo en el código:
 * `src/main/java/com/soft/gymapp/servicio/impl/UsuarioServiceImpl.java` (Ver `registrarUsuario` y los métodos `private receta_*`)
 
-#### b) En la Capa de Presentación (`UsuarioController`) - Formato de Respuesta:
+##### b) En la Capa de Presentación (`UsuarioController`) - Formato de Respuesta:
 
 Aunque la lógica principal se delega al servicio, se ha incluido una pequeña "receta" en el controlador para ilustrar cómo el estilo Cookbook puede aplicarse incluso a tareas más pequeñas y repetitivas a nivel de presentación:
 
@@ -82,7 +82,76 @@ Aunque la lógica principal se delega al servicio, se ha incluido una pequeña "
 
 **Beneficios:** Garantiza un formato de respuesta API consistente, lo que facilita el consumo por parte de los clientes y mejora la claridad del controlador al separar la lógica de formato de la lógica de delegación.
 
-### Dónde verlo en el código:
+#### Dónde verlo en el código:
 * `src/main/java/com/soft/gymapp/presentation/controladores/UsuarioController.java` (Ver `receta_FormatearRespuesta` y cómo se usa en los métodos POST y GET).
 
----
+
+## Practicas Clean Code
+### Nombres
+```java
+public void cambiarPassword(String nuevaPassword, String passwordActual);
+```
+
+### Funciones
+#### Responsabilidad unica
+```java
+public void cambiarPassword(String nuevoPassword, String actualPassword) {
+    validarPassword(actualPassword);
+    validarNuevoPassword(nuevoPassword);
+}
+```
+
+### Comentarios
+```java
+/*
+* Nueva contrasenia debe cumplir requisitos de longitud y seguridad
+*/
+private void validarNuevoPassword(String nuevoPassword);
+```
+### Estructura de Código Fuente 
+#### Agrupacion de campos y metodos
+```java
+// Constantes
+private static final int LONGITUD_MINIMA_PASSWORD = 6;
+
+// Campos
+private String username;
+private String password;
+private EstadoCuentaUsuario estado;
+
+// Logica interna
+private void validarNuevoPassword(String nuevoPassword);
+private void validarPassword(String password);
+
+// API
+public void cambiarPassword(String nuevoPassword, String actualPassword);
+public void bloquearCuenta();
+
+// Getters/Setters
+/*...*/
+
+
+```
+
+### Objetos/Estructura de Datos 
+#### Uso de enums en lugar de strings
+```java
+public enum EstadoCuentaUsuario {
+    ACTIVA, INACTIVA, BLOQUEADA
+}
+```
+### Tratamiento de Errores
+#### En validacion de credenciales
+```java
+if (nuevoPassword.length() < 6) {
+    throw new IllegalArgumentException("Contrasenia muy corta");
+}
+
+if (nuevoPassword.equals(password)) {
+    throw new IllegalArgumentException("Contrasenia identica a anterior");
+}
+```
+### Clases
+...
+
+## Principios SOLID
