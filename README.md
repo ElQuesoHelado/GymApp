@@ -29,3 +29,73 @@ https://www.plantuml.com/plantuml/uml/dLNDZXit3BxFKn3RYtsmiUV2MCGnia4F0Le7pPsMkB
 ![image](./assets/Repositorio.png)
 
 ![image](https://github.com/user-attachments/assets/a330ed80-678e-4e63-b592-dff888c67bf5)
+
+## Practicas Clean Code
+### Nombres
+```java
+public void cambiarPassword(String nuevaPassword, String passwordActual);
+```
+
+### Funciones
+#### Responsabilidad unica
+```java
+public void cambiarPassword(String nuevoPassword, String actualPassword) {
+    validarPassword(actualPassword);
+    validarNuevoPassword(nuevoPassword);
+}
+```
+
+### Comentarios
+```java
+/*
+* Nueva contrasenia debe cumplir requisitos de longitud y seguridad
+*/
+private void validarNuevoPassword(String nuevoPassword);
+```
+### Estructura de Código Fuente 
+#### Agrupacion de campos y metodos
+```java
+// Constantes
+private static final int LONGITUD_MINIMA_PASSWORD = 6;
+
+// Campos
+private String username;
+private String password;
+private EstadoCuentaUsuario estado;
+
+// Logica interna
+private void validarNuevoPassword(String nuevoPassword);
+private void validarPassword(String password);
+
+// API
+public void cambiarPassword(String nuevoPassword, String actualPassword);
+public void bloquearCuenta();
+
+// Getters/Setters
+/*...*/
+
+
+```
+
+### Objetos/Estructura de Datos 
+#### Uso de enums en lugar de strings
+```java
+public enum EstadoCuentaUsuario {
+    ACTIVA, INACTIVA, BLOQUEADA
+}
+```
+### Tratamiento de Errores
+#### En validacion de credenciales
+```java
+if (nuevoPassword.length() < 6) {
+    throw new IllegalArgumentException("Contrasenia muy corta");
+}
+
+if (nuevoPassword.equals(password)) {
+    throw new IllegalArgumentException("Contrasenia identica a anterior");
+}
+```
+### Clases
+...
+
+## Principios SOLID
