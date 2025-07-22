@@ -90,6 +90,9 @@ public class Notificacion {
     }
 
     public void enviar() {
+        if (this.usuario == null) {
+            throw new IllegalStateException("No se puede enviar: usuario no asignado");
+        }
         usuario.pushNotificacion(this);
     }
 
