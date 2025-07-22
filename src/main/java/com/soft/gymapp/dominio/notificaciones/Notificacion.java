@@ -73,10 +73,6 @@ public class Notificacion {
         this.TipoNotificacion = TipoNotificacion;
     }
 
-    public void set(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public void marcarComoLeida() {
 
     }

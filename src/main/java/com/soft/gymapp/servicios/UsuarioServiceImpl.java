@@ -46,7 +46,7 @@ public class UsuarioServiceImpl implements UsuarioService {
      * Receta 1: Hashear la Contraseña
      * Una receta para transformar una contraseña en texto plano en un hash seguro.
      */
-    private String receta_HashearContrasena(String password) {
+    private String HashearContrasena(String password) {
         System.out.println("  [Servicio - Receta] Hasheando contraseña...");
         // En producción: usaría BCryptPasswordEncoder.encode(password)
         return "hashed_" + password + "_super_secure";
@@ -56,7 +56,7 @@ public class UsuarioServiceImpl implements UsuarioService {
      * Receta 2: Validar Datos de Registro del Usuario
      * Una receta para aplicar todas las reglas de validación de negocio.
      */
-    private Map<String, String> receta_ValidarDatosRegistro(String nombre, String DNI, String email, String telefono, String fechaNacimiento, String password) {
+    private Map<String, String> ValidarDatosRegistro(String nombre, String DNI, String email, String telefono, String fechaNacimiento, String password) {
         System.out.println("  [Servicio - Receta] Validando datos de registro...");
         Map<String, String> errors = new HashMap<>();
 
@@ -82,7 +82,7 @@ public class UsuarioServiceImpl implements UsuarioService {
      * Receta 3: Crear Entidad Usuario
      * Una receta para construir el objeto Usuario con sus sub-objetos.
      */
-    private Usuario receta_CrearEntidadUsuario(String nombre, String DNI, String email, String telefono, String fechaNacimientoStr, String hashedPassword) throws ParseException {
+    private Usuario CrearEntidadUsuario(String nombre, String DNI, String email, String telefono, String fechaNacimientoStr, String hashedPassword) throws ParseException {
         System.out.println("  [Servicio - Receta] Creando entidad Usuario y CuentaUsuario...");
         Date fechaNacimientoParsed = new SimpleDateFormat(DATE_FORMAT).parse(fechaNacimientoStr);
 
@@ -103,8 +103,7 @@ public class UsuarioServiceImpl implements UsuarioService {
      * Receta 4: Guardar Usuario
      * Una receta para persistir el objeto Usuario usando el repositorio.
      */
-    private void receta_GuardarUsuario(Usuario usuario) {
-        System.out.println("  [Servicio - Receta] Guardando usuario en el repositorio...");
+    private void GuardarUsuario(Usuario usuario) {
         usuarioRepositorio.guardar(usuario);
     }
 
@@ -115,7 +114,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         System.out.println("\n[Servicio] Ejecutando Receta Maestra: Registrar Usuario.");
 
         // Paso 1 de la Receta Maestra: Validar los datos
-        Map<String, String> validationErrors = receta_ValidarDatosRegistro(nombre, DNI, email, telefono, fechaNacimiento, password);
+        Map<String, String> validationErrors = ValidarDatosRegistro(nombre, DNI, email, telefono, fechaNacimiento, password);
         if (!validationErrors.isEmpty()) {
             Map<String, Object> response = new HashMap<>();
             response.put(KEY_STATUS, STATUS_ERROR);
@@ -126,13 +125,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         try {
             // Paso 2 de la Receta Maestra: Hashear la contraseña
-            String hashedPassword = receta_HashearContrasena(password);
+            String hashedPassword = HashearContrasena(password);
 
             // Paso 3 de la Receta Maestra: Crear la entidad Usuario
-            Usuario nuevoUsuario = receta_CrearEntidadUsuario(nombre, DNI, email, telefono, fechaNacimiento, hashedPassword);
+            Usuario nuevoUsuario = CrearEntidadUsuario(nombre, DNI, email, telefono, fechaNacimiento, hashedPassword);
 
             // Paso 4 de la Receta Maestra: Guardar el usuario
-            receta_GuardarUsuario(nuevoUsuario);
+            GuardarUsuario(nuevoUsuario);
 
             System.out.println("[Servicio] Receta Maestra 'Registrar Usuario' completada exitosamente. ID: " + nuevoUsuario.getId());
 
@@ -188,7 +187,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 return response;
             }
 
-            if (cuenta.getPassword().equals(receta_HashearContrasena(password))) { // Usamos la misma receta de hashing
+            if (cuenta.getPassword().equals(HashearContrasena(password))) { // Usamos la misma receta de hashing
                 Map<String, Object> response = new HashMap<>();
                 response.put(KEY_STATUS, STATUS_SUCCESS);
                 response.put(KEY_MESSAGE, "Inicio de sesión exitoso desde el servicio.");

@@ -22,7 +22,7 @@ public class UsuarioRepositoriolmpl implements UsuarioRepositorio {
             usuario.setId(idCounter.getAndIncrement()); // Asigna y luego incrementa
         }
         usuariosDB.add(usuario);
-        System.out.println("[Repositorio] Usuario guardado: " + usuario.getNombre() + " (ID: " + usuario.getId() + ")");
+        //System.out.println("[Repositorio] Usuario guardado: " + usuario.getNombre() + " (ID: " + usuario.getId() + ")");
     }
 
     @Override
@@ -32,10 +32,10 @@ public class UsuarioRepositoriolmpl implements UsuarioRepositorio {
             int index = usuariosDB.indexOf(existingUser.get());
             if (index != -1) {
                 usuariosDB.set(index, usuario); // Reemplaza el objeto en la lista
-                System.out.println("[Repositorio] Usuario actualizado: " + usuario.getNombre() + " (ID: " + usuario.getId() + ")");
+                //System.out.println("[Repositorio] Usuario actualizado: " + usuario.getNombre() + " (ID: " + usuario.getId() + ")");
             }
         } else {
-            System.out.println("[Repositorio] Error: Usuario con ID " + usuario.getId() + " no encontrado para actualizar.");
+            //System.out.println("[Repositorio] Error: Usuario con ID " + usuario.getId() + " no encontrado para actualizar.");
         }
     }
 
@@ -43,9 +43,9 @@ public class UsuarioRepositoriolmpl implements UsuarioRepositorio {
     public void eliminarPorId(int id) {
         boolean removed = usuariosDB.removeIf(u -> u.getId() == id);
         if (removed) {
-            System.out.println("[Repositorio] Usuario con ID " + id + " eliminado.");
+            // se elimino el usuario correctamente
         } else {
-            System.out.println("[Repositorio] Error: Usuario con ID " + id + " no encontrado para eliminar.");
+            // tratar error
         }
     }
 
@@ -58,7 +58,7 @@ public class UsuarioRepositoriolmpl implements UsuarioRepositorio {
 
     @Override
     public List<Usuario> listarTodos() {
-        System.out.println("[Repositorio] Listando todos los usuarios de la 'DB'...");
+        //System.out.println("[Repositorio] Listando todos los usuarios de la 'DB'...");
         return new ArrayList<>(usuariosDB);
     }
 

@@ -89,6 +89,9 @@ Aunque la lógica principal se delega al servicio, se ha incluido una pequeña "
 ```java
 public void cambiarPassword(String nuevaPassword, String passwordActual);
 ```
+```java
+private void GuardarUsuario(Usuario usuario);
+```
 
 ### Funciones
 #### Responsabilidad unica
@@ -96,6 +99,11 @@ public void cambiarPassword(String nuevaPassword, String passwordActual);
 public void cambiarPassword(String nuevoPassword, String actualPassword) {
     validarPassword(actualPassword);
     validarNuevoPassword(nuevoPassword);
+}
+```
+```java
+private void GuardarUsuario(Usuario usuario) {
+    usuarioRepositorio.guardar(usuario);
 }
 ```
 
@@ -150,7 +158,19 @@ if (nuevoPassword.equals(password)) {
 }
 ```
 ### Clases
-...
+#### En cumplir el criterio de Responsabilidad única y Cohesión. Igual aplica separación de responsabilidades y la importancia de las interfaces
+
+```java
+public interface UsuarioRepositorio {
+    void guardar(Usuario usuario);
+    void actualizar(Usuario usuario);
+    void eliminarPorId(int id);
+    Optional<Usuario> buscarPorId(int id);
+    List<Usuario> listarTodos();
+    Optional<Usuario> buscarPorEmail(String email);
+    Optional<Usuario> buscarPorDNI(String DNI);
+}
+```
 
 ## Principios SOLID
 ### Principio de Responsabilidad Unica
@@ -161,6 +181,18 @@ public interface MembresiaRepositorio extends JpaRepository<Membresia, Integer> 
     List<Membresia> findByTipoNombreContainingIgnoreCase(String nombre);
     List<Membresia> findByTipoPrecioLessThan(float precioMaximo);
     List<Membresia> findByTipoDuracionDiasGreaterThanEqual(int diasMinimos);
+}
+```
+En UsuarioRepositorio, su única responsabilidad es la persistencia de los objetos Usuario.
+```java
+public interface UsuarioRepositorio {
+void guardar(Usuario usuario);
+void actualizar(Usuario usuario);
+void eliminarPorId(int id);
+Optional<Usuario> buscarPorId(int id);
+List<Usuario> listarTodos();
+Optional<Usuario> buscarPorEmail(String email);
+Optional<Usuario> buscarPorDNI(String DNI);
 }
 ```
 
@@ -174,8 +206,29 @@ public interface MembresiaRepositorio extends JpaRepository<Membresia, Integer> 
 }
 ```
 
+Sobre UsuarioService y UsuarioServiceImpl, si se decide cambiar la lógica de cómo se registran
+o se inician sesión los usuarios (ej. añadir autenticación multifactor), se podría crear una nueva implementación
+de UsuarioService o extender la actual, sin afectar el código que depende de la interfaz UsuarioService.
+```java
+public interface UsuarioService {
+    // Los parámetros son desagregados para que el servicio reciba solo los datos puros
+    Map<String, Object> registrarUsuario(String nombre, String DNI, String email, String telefono, String fechaNacimiento, String password);
+    List<Usuario> listarTodosUsuarios();
+    Map<String, Object> iniciarSesion(String emailOrUsername, String password);
+    Map<String, Object> editarPerfil(int userId, Map<String, Object> updates);
+}
+```
+
 ### Principio de Sustitucion de Liskov
 
 ### Principio de Segregacion de Interfaces
 
 ### Principio de Inversion de Dependencias
+Aplicado en UsuarioServiceImpl (módulo de alto nivel), no depende de la implementación concreta de UsuarioRepositoriolmpl
+(módulo de bajo nivel/detalle). En su lugar, depende de la abstracción UsuarioRepositorio a través de la inyección por 
+constructor (o @Autowired en este caso).
+```java
+// UsuarioServiceImpl (alto nivel) depende de la abstracción UsuarioRepositorio
+@Autowired
+private UsuarioRepositorio usuarioRepositorio; // Depende de la interfaz, no de la implementación específica
+```
