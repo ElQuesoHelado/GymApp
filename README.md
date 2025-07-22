@@ -156,8 +156,25 @@ if (nuevoPassword.equals(password)) {
 
 ## Principios SOLID
 ### Principio de Responsabilidad Unica
+Los repositorios del proyecto tienen como unica funcion el acceso a datos, junto con algunas consultas
+un tanto derivadas(acceder a objeto de valor TipoMembresia desde repositorio Membresia).
+```java
+public interface MembresiaRepositorio extends JpaRepository<Membresia, Integer> {
+    List<Membresia> findByTipoNombreContainingIgnoreCase(String nombre);
+    List<Membresia> findByTipoPrecioLessThan(float precioMaximo);
+    List<Membresia> findByTipoDuracionDiasGreaterThanEqual(int diasMinimos);
+}
+```
 
 ### Principio de Abierto/Cerrado
+Dicho repositorio puede extenderse a funcionalidades/consultas nuevas y mas complejas,
+pero no se modifica las proporcionadas por JPA.
+```java
+public interface MembresiaRepositorio extends JpaRepository<Membresia, Integer> {
+    List<Membresia> findByTipoNombreContainingIgnoreCase(String nombre);
+    /* ... */
+}
+```
 
 ### Principio de Sustitucion de Liskov
 
