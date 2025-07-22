@@ -1,9 +1,9 @@
 package com.soft.gymapp.servicios;
 
 import com.soft.gymapp.dominio.usuarios.CuentaUsuario;
+import com.soft.gymapp.dominio.usuarios.EstadoCuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import com.soft.gymapp.repositorio.UsuarioRepositorio;
-import com.soft.gymapp.servicios.UsuarioService; // Importa la interfaz correcta
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,12 +88,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombre(nombre);
-        nuevoUsuario.setDNI(DNI);
+        nuevoUsuario.setDni(DNI);
         nuevoUsuario.setEmail(email);
         nuevoUsuario.setTelefono(telefono);
         nuevoUsuario.setFechaNacimiento(fechaNacimientoParsed);
 
-        CuentaUsuario cuentaUsuario = new CuentaUsuario(email, hashedPassword, ACCOUNT_STATUS_ACTIVE);
+        CuentaUsuario cuentaUsuario = new CuentaUsuario(email, hashedPassword, EstadoCuentaUsuario.ACTIVA);
         nuevoUsuario.setCuentaUsuario(cuentaUsuario);
 
         return nuevoUsuario;
@@ -143,7 +143,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                     KEY_ID, nuevoUsuario.getId(),
                     KEY_NOMBRE, nuevoUsuario.getNombre(),
                     KEY_EMAIL, nuevoUsuario.getEmail(),
-                    KEY_DNI, nuevoUsuario.getDNI(),
+                    KEY_DNI, nuevoUsuario.getDni(),
                     KEY_ESTADO_CUENTA, nuevoUsuario.getCuentaUsuario().getEstado()
             ));
             return response;

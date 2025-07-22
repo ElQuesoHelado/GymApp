@@ -10,6 +10,16 @@ public class CuentaUsuario {
     private String password;
     private EstadoCuentaUsuario estado;
 
+    public CuentaUsuario(String username, String password, EstadoCuentaUsuario estado) {
+        this.username = username;
+        this.password = password;
+        this.estado = estado;
+    }
+
+    public CuentaUsuario() {
+
+    }
+
     /*
      * Nueva contrasenia debe cumplir requisitos de longitud y seguridad
      */
@@ -32,6 +42,7 @@ public class CuentaUsuario {
     public void cambiarPassword(String nuevoPassword, String actualPassword) {
         validarPassword(actualPassword);
         validarNuevoPassword(nuevoPassword);
+        password = nuevoPassword;
     }
 
     public void bloquearCuenta() {
@@ -52,5 +63,9 @@ public class CuentaUsuario {
 
     public void setEstado(EstadoCuentaUsuario estado) {
         this.estado = estado;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

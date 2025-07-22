@@ -105,7 +105,7 @@ public class UsuarioController {
                     userMap.put(KEY_ID, u.getId());
                     userMap.put(KEY_NOMBRE, u.getNombre());
                     userMap.put(KEY_EMAIL, u.getEmail());
-                    userMap.put(KEY_DNI, u.getDNI());
+                    userMap.put(KEY_DNI, u.getDni());
                     userMap.put(KEY_TELEFONO, u.getTelefono());
                     if (u.getFechaNacimiento() != null) {
                         userMap.put(KEY_FECHA_NACIMIENTO, new SimpleDateFormat(DATE_FORMAT_PATTERN).format(u.getFechaNacimiento()));

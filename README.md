@@ -155,3 +155,12 @@ if (nuevoPassword.equals(password)) {
 ...
 
 ## Principios SOLID
+### Principio de Responsabilidad Unica
+
+### Principio de Abierto/Cerrado
+
+### Principio de Sustitucion de Liskov
+
+### Principio de Segregacion de Interfaces
+
+### Principio de Inversion de Dependencias

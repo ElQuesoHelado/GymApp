@@ -72,7 +72,7 @@ public class UsuarioRepositoriolmpl implements UsuarioRepositorio {
     @Override
     public Optional<Usuario> buscarPorDNI(String DNI) {
         return usuariosDB.stream()
-                .filter(u -> u.getDNI().equalsIgnoreCase(DNI))
+                .filter(u -> u.getDni().equalsIgnoreCase(DNI))
                 .findFirst();
     }
 }
