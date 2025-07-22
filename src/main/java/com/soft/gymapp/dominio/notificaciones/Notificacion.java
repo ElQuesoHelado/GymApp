@@ -3,6 +3,8 @@ package com.soft.gymapp.dominio.notificaciones;
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import jakarta.persistence.*;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -19,8 +21,22 @@ public class Notificacion {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TipoNotificacion TipoNotificacion;
+    private TipoNotificacion tipo;
 
+    // Constructor por defecto (Cookbook)
+    public Notificacion() {
+        this.fechaEnvio = Date.from(Instant.from(LocalDateTime.now()));
+    }
+
+    // Constructor con parámetros esenciales (Cookbook)
+    public Notificacion(String mensaje, Usuario usuario, TipoNotificacion tipo) {
+        this();
+        this.mensaje = mensaje;
+        this.usuario = usuario;
+        this.tipo = tipo;
+    }
+
+    // Getters y Setters separados
     public int getId() {
         return id;
     }
@@ -41,12 +57,8 @@ public class Notificacion {
         return usuario;
     }
 
-    public TipoNotificacion getTipoNotificacion() {
-        return TipoNotificacion;
-    }
-
-    public Usuario get() {
-        return usuario;
+    public TipoNotificacion getTipo() {
+        return tipo;
     }
 
     public void setId(int id) {
@@ -69,20 +81,16 @@ public class Notificacion {
         this.usuario = usuario;
     }
 
-    public void setTipoNotificacion(TipoNotificacion TipoNotificacion) {
-        this.TipoNotificacion = TipoNotificacion;
-    }
-
-    public void set(Usuario usuario) {
-        this.usuario = usuario;
+    public void setTipo(TipoNotificacion tipoNotificacion) {
+        this.tipo = tipoNotificacion;
     }
 
     public void marcarComoLeida() {
-
+        leido = true;
     }
 
     public void enviar() {
-
+        usuario.pushNotificacion(this);
     }
 
 }

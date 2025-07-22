@@ -55,4 +55,8 @@ public class Usuario {
     public void cerrarSesion() {
         // Lógica de dominio para cerrar sesión
     }
+
+    public void pushNotificacion(Notificacion notificacion) {
+        this.notificaciones.add(notificacion);
+    }
 }
