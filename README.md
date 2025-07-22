@@ -22,8 +22,6 @@ https://www.plantuml.com/plantuml/uml/dLNDZXit3BxFKn3RYtsmiUV2MCGnia4F0Le7pPsMkB
 ![image](./assets/PlanesEntrenamiento.png)
 ![image](./assets/Repositorio.png)
 
-![image](https://github.com/user-attachments/assets/a330ed80-678e-4e63-b592-dff888c67bf5)
-
 ## Estilos de Programación y Arquitectura
 
 ### 1. Arquitectura Monolítica (en Capas)
