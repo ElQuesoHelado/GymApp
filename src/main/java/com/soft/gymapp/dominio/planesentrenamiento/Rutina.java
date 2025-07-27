@@ -12,11 +12,12 @@ public class Rutina {
     private String nombre;
     private String objetivo;
 
-    @ManyToOne
-    private PlanEntrenamiento planEntrenamiento;
+    @ManyToMany(mappedBy = "rutinas")
+    private List<PlanEntrenamiento> planEntrenamiento;
 
     //Composicion
     @OneToMany(mappedBy = "rutina", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @ManyToMany
     private List<Ejercicio> ejercicios = new ArrayList<>();
 
     public void agregarEjercicio(Ejercicio ejercicio) {

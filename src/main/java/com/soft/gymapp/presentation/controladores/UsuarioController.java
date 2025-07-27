@@ -169,6 +169,9 @@ public class UsuarioController {
     @PreAuthorize("hasRole('CLIENTE')")
     @GetMapping("/usuarios/cliente/dashboard")
     public String cliente_dashboard() {
+
+//        usuarioService.
+
         return "cliente_dashboard";
     }
 

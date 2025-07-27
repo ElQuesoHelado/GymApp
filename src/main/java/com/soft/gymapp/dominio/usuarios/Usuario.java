@@ -22,9 +22,9 @@ public class Usuario {
     private LocalDate fechaNacimiento;
 
     @Embedded
-    private CuentaUsuario cuentaUsuario; // JPA maneja el nombre de campo automáticamente
+    private CuentaUsuario cuentaUsuario;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) // Añadir configuración básica para OneToMany
+    @OneToMany(mappedBy = "usuario")
     private List<Notificacion> notificaciones = new ArrayList<>();
 
 

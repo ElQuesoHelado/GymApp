@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 
 
 @Controller
-public class RutinaController {
+public class PlanEntrenamientoController {
     public void crearRutina() {
 
     }

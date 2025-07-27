@@ -3,26 +3,30 @@ package com.soft.gymapp.dominio.sesiones;
 import jakarta.persistence.Embeddable;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @Embeddable
 public class Horario {
-    private Date fecha;
-    private Time horaInicio;
-    private Time horaFin;
+    private LocalDate fecha;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
 
     public boolean esDisponible() {
-        Date ahora = new Date();
-        Time horaActual = new Time(ahora.getTime());
+        LocalDateTime ahora = LocalDateTime.now();
+        LocalTime horaActual = ahora.toLocalTime();
+        LocalDate fechaActual = ahora.toLocalDate();
 
         if (horaInicio == null || horaFin == null || fecha == null) {
             throw new IllegalStateException("Horario invalido");
         }
-        if (horaInicio.after(horaFin)) {
+        if (horaInicio.isAfter(horaFin)) {
             return false;
         }
 
-        return fecha.after(ahora) || (fecha.equals(ahora) && horaFin.after(horaActual));
+        return fecha.isAfter(fechaActual) ||
+                (fecha.equals(fechaActual) && horaFin.isAfter(horaActual));
     }
-
 }

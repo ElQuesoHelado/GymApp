@@ -5,7 +5,6 @@
  */
 package com.soft.gymapp.dominio.sesiones;
 
-import com.soft.gymapp.dominio.membresias.EstadoMembresia;
 import com.soft.gymapp.dominio.usuarios.Cliente;
 import com.soft.gymapp.dominio.usuarios.Entrenador;
 import jakarta.persistence.*;
@@ -17,6 +16,7 @@ import java.util.*;
 @Table(name = "sesion")
 public class Sesion {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Enumerated(EnumType.STRING)
@@ -24,6 +24,11 @@ public class Sesion {
     private EstadoSesion estado;
 
     @ManyToMany
+    @JoinTable(
+            name = "cliente_sesion",
+            joinColumns = @JoinColumn(name = "sesion_id"),
+            inverseJoinColumns = @JoinColumn(name = "cliente_id")
+    )
     private List<Cliente> clientes = new ArrayList<>();
 
     @ManyToOne
@@ -36,16 +41,16 @@ public class Sesion {
     private Sala sala;
 
     public void confirmar() {
-        this.estado = EstadoSesion.EnProgreso;
+        this.estado = EstadoSesion.EN_PROGRESO;
     }
 
     public void cancelar() {
-        this.estado = EstadoSesion.Terminada;
+        this.estado = EstadoSesion.TERMINADA;
     }
 
     public void reprogramar(Horario nuevoHorario) {
         this.horario = nuevoHorario;
-        this.estado = EstadoSesion.SinEmpezar;
+        this.estado = EstadoSesion.SIN_EMPEZAR;
     }
     // Getters
     public int getId() {

@@ -4,6 +4,7 @@ import com.soft.gymapp.dominio.usuarios.Cliente;
 import com.soft.gymapp.dominio.usuarios.Entrenador;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -11,13 +12,19 @@ import java.util.*;
 public class PlanEntrenamiento {
     @Id
     private int id;
-    private Date fechaInicio;
+    private LocalDate fechaInicio;
     private int duracionSemanas;
 
     @OneToOne
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "planEntrenamiento", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OneToMany(mappedBy = "planEntrenamiento", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany
+    @JoinTable(
+            name = "plan_entrenamiento_rutina",
+            joinColumns = @JoinColumn(name = "plan_entrenamiento_id"),
+            inverseJoinColumns = @JoinColumn(name = "rutina_id")
+    )
     private List<Rutina> rutinas = new ArrayList<>();
 
     @ManyToOne
@@ -31,11 +38,11 @@ public class PlanEntrenamiento {
         // Se implementara en el futuro
     }
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
