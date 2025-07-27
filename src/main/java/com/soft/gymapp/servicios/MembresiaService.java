@@ -1,15 +1,11 @@
 package com.soft.gymapp.servicios;
 
-public interface MembresiaService {
-
-}
-
-//G
-package com.gymapp.service;
-
-import com.gymapp.entity.Membresia;
-import com.gymapp.entity.Usuario;
-import com.gymapp.repository.MembresiaRepository;
+import com.soft.gymapp.dominio.membresias.EstadoMembresia;
+import com.soft.gymapp.dominio.membresias.Membresia;
+import com.soft.gymapp.dominio.membresias.MembresiaRepositorio;
+import com.soft.gymapp.dominio.usuarios.Usuario;
+//import com.soft.gymapp.repositorio.;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,36 +15,37 @@ import java.util.List;
 @Service
 public class MembresiaService {
 
-    private final MembresiaRepository membresiaRepository;
+    @Autowired
+    private final MembresiaRepositorio membresiaRepositorio;
 
-    public MembresiaService(MembresiaRepository membresiaRepository) {
-        this.membresiaRepository = membresiaRepository;
+    public MembresiaService(MembresiaRepositorio membresiaRepository) {
+        this.membresiaRepositorio= membresiaRepository;
     }
 
     @Transactional
-    public Membresia marcarComoAdeudada(Long membresiaId, double montoDeuda) {
-        Membresia membresia = membresiaRepository.findById(membresiaId)
+    public Membresia marcarComoAdeudada(Integer membresiaId, double montoDeuda) {
+        Membresia membresia = membresiaRepositorio.findById(membresiaId)
                 .orElseThrow(() -> new RuntimeException("Membresía no encontrada"));
 
-        membresia.setEstado(Membresia.EstadoMembresia.ADEUDADA);
-        membresia.setDeuda(montoDeuda);
-        membresia.setMetodoPago(null); 
+//        membresia.setEstado(Estado);
+//        membresia.setDeuda(montoDeuda);
+//        membresia.setMetodoPago(null);
 
-        return membresiaRepository.save(membresia);
+        return membresiaRepositorio.save(membresia);
     }
 
     @Transactional
-    public Membresia cancelarMembresia(Long membresiaId) {
-        Membresia membresia = membresiaRepository.findById(membresiaId)
+    public Membresia cancelarMembresia(Integer membresiaId) {
+        Membresia membresia = membresiaRepositorio.findById(membresiaId)
                 .orElseThrow(() -> new RuntimeException("Membresía no encontrada"));
 
-        membresia.setEstado(Membresia.EstadoMembresia.CANCELADA);
-        membresia.setDeuda(0.0); 
+        membresia.setEstado(EstadoMembresia.CANCELADA);
+//        membresia.setDeuda(0.0);
 
-        return membresiaRepository.save(membresia);
+        return membresiaRepositorio.save(membresia);
     }
 
-    public List<Membresia> buscarPorEstado(Membresia.EstadoMembresia estado) {
-        return membresiaRepository.findByEstado(estado);
+    public List<Membresia> buscarPorEstado(EstadoMembresia estado) {
+        return membresiaRepositorio.findByEstado(estado);
     }
 }
