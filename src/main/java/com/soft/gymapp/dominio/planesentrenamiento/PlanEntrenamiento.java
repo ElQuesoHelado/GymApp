@@ -18,7 +18,7 @@ public class PlanEntrenamiento {
     @OneToOne
     private Cliente cliente;
 
-//    @OneToMany(mappedBy = "planEntrenamiento", cascade = CascadeType.ALL, orphanRemoval = true)
+    //    @OneToMany(mappedBy = "planEntrenamiento", cascade = CascadeType.ALL, orphanRemoval = true)
     @ManyToMany
     @JoinTable(
             name = "plan_entrenamiento_rutina",
@@ -52,5 +52,37 @@ public class PlanEntrenamiento {
 
     public void setDuracionSemanas(int duracionSemanas) {
         this.duracionSemanas = duracionSemanas;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<Rutina> getRutinas() {
+        return rutinas;
+    }
+
+    public void setRutinas(List<Rutina> rutinas) {
+        this.rutinas = rutinas;
+    }
+
+    public Entrenador getEntrenador() {
+        return entrenador;
+    }
+
+    public void setEntrenador(Entrenador entrenador) {
+        this.entrenador = entrenador;
     }
 }
