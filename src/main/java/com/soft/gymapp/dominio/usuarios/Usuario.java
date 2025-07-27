@@ -3,6 +3,7 @@ package com.soft.gymapp.dominio.usuarios;
 import com.soft.gymapp.dominio.notificaciones.Notificacion;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -15,7 +16,10 @@ public class Usuario {
     private String dni;
     private String email;
     private String telefono;
-    private Date fechaNacimiento;
+
+    @Column(name = "fecha_nacimiento")
+    @Temporal(TemporalType.DATE)
+    private LocalDate fechaNacimiento;
 
     @Embedded
     private CuentaUsuario cuentaUsuario; // JPA maneja el nombre de campo automáticamente
@@ -39,8 +43,8 @@ public class Usuario {
     public void setEmail(String email) { this.email = email; }
     public String getTelefono() { return telefono; }
     public void setTelefono(String telefono) { this.telefono = telefono; }
-    public Date getFechaNacimiento() { return fechaNacimiento; }
-    public void setFechaNacimiento(Date fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
+    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
     public CuentaUsuario getCuentaUsuario() { return cuentaUsuario; }
     public void setCuentaUsuario(CuentaUsuario cuentaUsuario) { this.cuentaUsuario = cuentaUsuario; }
     public List<Notificacion> getNotificaciones() { return notificaciones; }

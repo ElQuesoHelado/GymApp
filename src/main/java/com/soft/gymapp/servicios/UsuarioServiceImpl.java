@@ -3,19 +3,20 @@ package com.soft.gymapp.servicios;
 import com.soft.gymapp.dominio.usuarios.CuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.EstadoCuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.Usuario;
-import com.soft.gymapp.repositorio.UsuarioRepositorio;
+//import com.soft.gymapp.repositorio.UsuarioRepositorio;
+import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
-    @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
+    private final UsuarioRepositorio usuarioRepositorio;
 
     // --- CONSTANTES PARA EVITAR CADENAS MÁGICAS (Solución de SonarLint) ---
     // Estas constantes mejoran la legibilidad y mantenibilidad del código.
@@ -38,6 +39,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     private static final String ACCOUNT_STATUS_BLOCKED = "BLOQUEADA";
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
+
+    @Autowired
+    public UsuarioServiceImpl(UsuarioRepositorio usuarioRepositorio) {
+        this.usuarioRepositorio = usuarioRepositorio;
+    }
 
 
     // --- Métodos Auxiliares/Privados para el Estilo Cookbook ---
@@ -72,8 +78,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         // Usando el repositorio para verificar unicidad
-        if (usuarioRepositorio.buscarPorEmail(email).isPresent()) { errors.put(KEY_EMAIL, "El email ya está registrado."); }
-        if (usuarioRepositorio.buscarPorDNI(DNI).isPresent()) { errors.put(KEY_DNI, "El DNI ya está registrado."); }
+        if (usuarioRepositorio.findByEmail(email).isPresent()) { errors.put(KEY_EMAIL, "El email ya está registrado."); }
+        if (usuarioRepositorio.findByDni(DNI).isPresent()) { errors.put(KEY_DNI, "El DNI ya está registrado."); }
 
         return errors;
     }
@@ -84,7 +90,7 @@ public class UsuarioServiceImpl implements UsuarioService {
      */
     private Usuario receta_CrearEntidadUsuario(String nombre, String DNI, String email, String telefono, String fechaNacimientoStr, String hashedPassword) throws ParseException {
         System.out.println("  [Servicio - Receta] Creando entidad Usuario y CuentaUsuario...");
-        Date fechaNacimientoParsed = new SimpleDateFormat(DATE_FORMAT).parse(fechaNacimientoStr);
+        LocalDate fechaNacimientoParsed = LocalDate.parse(fechaNacimientoStr);
 
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombre(nombre);
@@ -105,7 +111,7 @@ public class UsuarioServiceImpl implements UsuarioService {
      */
     private void receta_GuardarUsuario(Usuario usuario) {
         System.out.println("  [Servicio - Receta] Guardando usuario en el repositorio...");
-        usuarioRepositorio.guardar(usuario);
+        usuarioRepositorio.save(usuario);
     }
 
     // --- MÉTODO PRINCIPAL DE REGISTRO (LA "RECETA MAESTRA") ---
@@ -161,7 +167,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<Usuario> listarTodosUsuarios() {
         System.out.println("[Servicio] Listando todos los usuarios...");
-        return usuarioRepositorio.listarTodos();
+        return usuarioRepositorio.findAll();
     }
 
     @Override
@@ -175,7 +181,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             return response;
         }
 
-        Optional<Usuario> foundUser = usuarioRepositorio.buscarPorEmail(emailOrUsername);
+        Optional<Usuario> foundUser = usuarioRepositorio.findByEmail(emailOrUsername);
 
         if (foundUser.isPresent()) {
             Usuario user = foundUser.get();
