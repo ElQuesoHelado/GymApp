@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -166,14 +165,7 @@ public class UsuarioController {
         return receta_FormatearRespuesta(STATUS_SUCCESS, "Sesión cerrada (simulado por controlador).", null, null);
     }
 
-    @PreAuthorize("hasRole('CLIENTE')")
-    @GetMapping("/usuarios/cliente/dashboard")
-    public String cliente_dashboard() {
 
-//        usuarioService.
-
-        return "cliente_dashboard";
-    }
 
     @PreAuthorize("hasRole('ENTRENADOR')")
     @GetMapping("/usuarios/entrenador/dashboard")

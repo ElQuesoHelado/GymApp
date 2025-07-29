@@ -13,7 +13,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Solo para desarrollo
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
@@ -25,19 +25,16 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/favicon.ico"
                         ).permitAll()
-                        .requestMatchers("/usuarios/cliente/**").hasRole("CLIENTE")
-                        .requestMatchers("/usuarios/entrenador/**").hasRole("ENTRENADOR")
-                        .requestMatchers("/usuarios/admin/**").hasRole("ADMIN")
-//                        .requestMatchers("/usuarios/**").hasRole("CLIENTE")
-//                        .requestMatchers("/usuarios/**").hasRole("ENTRENADOR")
-//                        .requestMatchers("/usuarios/**").hasRole("ADMIN")
+                        .requestMatchers("/usuario/**").authenticated()
+                        .requestMatchers("/cliente/**").hasRole("CLIENTE")
+                        .requestMatchers("/entrenador/**").hasRole("ENTRENADOR")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-//                        .loginProcessingUrl("/login")
-//                        .defaultSuccessUrl("/redirect-by-role")
-                        .defaultSuccessUrl("/usuarios/iniciarSesion")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/redirect-por-rol",true)
                         .permitAll()
                 )
                 .logout(logout -> logout

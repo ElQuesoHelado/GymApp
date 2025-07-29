@@ -14,7 +14,7 @@ recursos del gimnasio.
 | davids  | 123abc   |
 | sofiag  | welcome  |
 
-### Usuarios
+### Clientes
 | Usuario  | Password |
 |----------|----------|
 | joaquinf | ranger   |
