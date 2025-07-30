@@ -5,37 +5,64 @@ import com.soft.gymapp.dominio.usuarios.Entrenador;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "plan_entrenamiento")
 public class PlanEntrenamiento {
+
     @Id
     private int id;
+
     private LocalDate fechaInicio;
     private int duracionSemanas;
 
     @OneToOne
     private Cliente cliente;
 
-    //    @OneToMany(mappedBy = "planEntrenamiento", cascade = CascadeType.ALL, orphanRemoval = true)
     @ManyToMany
     @JoinTable(
-            name = "plan_entrenamiento_rutina",
-            joinColumns = @JoinColumn(name = "plan_entrenamiento_id"),
-            inverseJoinColumns = @JoinColumn(name = "rutina_id")
+        name = "plan_entrenamiento_rutina",
+        joinColumns = @JoinColumn(name = "plan_entrenamiento_id"),
+        inverseJoinColumns = @JoinColumn(name = "rutina_id")
     )
     private List<Rutina> rutinas = new ArrayList<>();
 
     @ManyToOne
     private Entrenador entrenador;
 
+    public PlanEntrenamiento() {
+        // Constructor por defecto requerido por JPA
+    }
+
+    public PlanEntrenamiento(int id, LocalDate fechaInicio, int duracionSemanas, Cliente cliente, Entrenador entrenador) {
+        this.id = id;
+        this.fechaInicio = fechaInicio;
+        this.duracionSemanas = duracionSemanas;
+        this.cliente = cliente;
+        this.entrenador = entrenador;
+    }
+
     public void asignarRutina(Rutina rutina) {
-        this.rutinas.add(rutina);
+        if (rutina == null) {
+            return;
+        }
+        rutinas.add(rutina);
     }
 
     public void modificarRutina(Rutina rutina) {
-        // Se implementara en el futuro
+        // Método pendiente de implementación
+    }
+
+    // Getters y Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDate getFechaInicio() {
@@ -54,14 +81,6 @@ public class PlanEntrenamiento {
         this.duracionSemanas = duracionSemanas;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Cliente getCliente() {
         return cliente;
     }
@@ -71,11 +90,15 @@ public class PlanEntrenamiento {
     }
 
     public List<Rutina> getRutinas() {
-        return rutinas;
+        return Collections.unmodifiableList(rutinas);
     }
 
     public void setRutinas(List<Rutina> rutinas) {
-        this.rutinas = rutinas;
+        if (rutinas == null) {
+            this.rutinas = new ArrayList<>();
+        } else {
+            this.rutinas = new ArrayList<>(rutinas);
+        }
     }
 
     public Entrenador getEntrenador() {
