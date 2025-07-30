@@ -9,27 +9,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/cliente")
 @PreAuthorize("hasRole('CLIENTE')")
 public class ClienteController {
+
     @GetMapping("/dashboard")
     public String dashboard() {
-        // ...
-        return "cliente/dashboard.html";
+        return "cliente/dashboard";
     }
 
     @GetMapping("/plan")
     public String plan() {
-        //...
-        return "cliente/plan.html";
+        return "cliente/plan";
     }
 
     @GetMapping("/membresia")
     public String membresia() {
-        //...
-        return "cliente/membresia.html";
+        return "cliente/membresia";
     }
 
     @GetMapping("/sesiones")
     public String sesiones() {
-        //...
-        return "cliente/sesiones.html";
+        return "cliente/sesiones";
     }
 }
