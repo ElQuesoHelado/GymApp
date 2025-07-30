@@ -4,6 +4,8 @@ import com.soft.gymapp.dominio.membresias.Membresia;
 import com.soft.gymapp.dominio.planesentrenamiento.PlanEntrenamiento;
 import com.soft.gymapp.dominio.sesiones.Sesion;
 import jakarta.persistence.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "cliente")
 public class Cliente extends Usuario {
+
+    private static final Logger log = LoggerFactory.getLogger(Cliente.class);
 
     private String objetivo;
     private String nivel;
@@ -25,10 +29,8 @@ public class Cliente extends Usuario {
     @ManyToMany(mappedBy = "clientes")
     private List<Sesion> sesiones = new ArrayList<>();
 
-    // Constructor vacío requerido por JPA
     public Cliente() {}
 
-    // Constructor adicional útil para inicializar
     public Cliente(String objetivo, String nivel, Membresia membresia, PlanEntrenamiento planEntrenamiento) {
         this.objetivo = objetivo;
         this.nivel = nivel;
@@ -36,7 +38,6 @@ public class Cliente extends Usuario {
         this.planEntrenamiento = planEntrenamiento;
     }
 
-    // Getters y Setters
     public String getObjetivo() {
         return objetivo;
     }
@@ -83,23 +84,21 @@ public class Cliente extends Usuario {
         sesiones.remove(sesion);
     }
 
-    // Métodos de comportamiento bien definidos
     public void verRutina() {
         if (planEntrenamiento != null) {
-            planEntrenamiento.verRutinas(); // Este método deberías implementarlo en PlanEntrenamiento
+            planEntrenamiento.verRutinas(); // Se espera que use log internamente
         } else {
-            System.out.println("No tiene un plan de entrenamiento asignado.");
+            log.warn("No tiene un plan de entrenamiento asignado.");
         }
     }
 
     public void reservarCita(Sesion sesion) {
         if (sesion != null && !sesiones.contains(sesion)) {
             sesiones.add(sesion);
-            sesion.agregarCliente(this); // Este método debe estar en Sesion
+            sesion.agregarCliente(this);
         }
     }
 
-    // Equals y hashCode (útil para listas y JPA)
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
