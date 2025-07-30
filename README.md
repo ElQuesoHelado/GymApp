@@ -104,7 +104,58 @@ Aunque la lógica principal se delega al servicio, se ha incluido una pequeña "
 
 #### Dónde verlo en el código:
 * `src/main/java/com/soft/gymapp/presentation/controladores/UsuarioController.java` (Ver `receta_FormatearRespuesta` y cómo se usa en los métodos POST y GET).
+ 1. Cookbook Style (Estilo Recetario)
+Descripción: Métodos diseñados como recetas reutilizables y encapsuladas, que realizan tareas específicas sin depender del contexto externo.
 
+Aplicación:
+El método calcularCaloriasQuemadas(int duracion) representa una unidad autocontenida de lógica, fácil de reutilizar:
+
+```java
+/**
+ * Calcula una estimación de calorías quemadas en base a la duración del ejercicio.
+ * @param duracion duración del ejercicio en minutos
+ * @return calorías quemadas (estimadas)
+ */
+public float calcularCaloriasQuemadas(int duracion) {
+    // Por ahora se retorna la duración como valor de calorías para propósitos de ejemplo.
+    return duracion;
+}
+```
+2. Lazy-River Style (Estilo Río Perezoso)
+Descripción: Procesamiento controlado y eficiente de datos, evitando cálculos innecesarios, comúnmente aplicado con estructuras como StringBuilder o flujos de datos.
+
+Aplicación (Implícita):
+Aunque no se usa explícitamente StringBuilder en esta clase, se observa una intención de procesamiento seguro y paulatino en los setters mediante validaciones antes de modificar los datos. Ejemplo:
+
+public void setNombre(String nombre) {
+    if (nombre != null && !nombre.trim().isEmpty()) {
+        this.nombre = nombre.trim();
+    }
+}
+
+3. Things Style (Objetos como Cosas del Dominio)
+Descripción: Las clases representan fielmente elementos del dominio del problema, con atributos y comportamientos propios.
+
+Aplicación:
+La clase Ejercicio es una representación directa del concepto de ejercicio físico en el dominio del gimnasio. Cuenta con propiedades como nombre, descripcion, repeticiones, series, y una relación con Rutina:
+
+@Entity
+@Table(name = "ejercicio")
+public class Ejercicio {
+    @Id
+    private Integer id;
+
+    private String nombre;
+    private String descripcion;
+    private int repeticiones;
+    private int series;
+
+    @ManyToOne
+    private Rutina rutina;
+
+    // Métodos relevantes...
+}
+Esto permite un diseño orientado al dominio, claro y escalable.
 
 ## Practicas Clean Code
 ### Nombres
