@@ -10,4 +10,5 @@ public interface UsuarioService {
     List<Usuario> listarTodosUsuarios();
     Map<String, Object> iniciarSesion(String emailOrUsername, String password);
     Map<String, Object> editarPerfil(int userId, Map<String, Object> updates);
+
 }

@@ -164,20 +164,4 @@ public class UsuarioController {
         System.out.println("[Controlador] Recibida petición de cerrar sesión.");
         return receta_FormatearRespuesta(STATUS_SUCCESS, "Sesión cerrada (simulado por controlador).", null, null);
     }
-
-
-
-    @PreAuthorize("hasRole('ENTRENADOR')")
-    @GetMapping("/usuarios/entrenador/dashboard")
-    public String entrenador_dashboard() {
-        return "entrenador_dashboard";
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/usuarios/admin/dashboard")
-    public String admin_dashboard() {
-        return "administrador_dashboard";
-    }
-
-
 }

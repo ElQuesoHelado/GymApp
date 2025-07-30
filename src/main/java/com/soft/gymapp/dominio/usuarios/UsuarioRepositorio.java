@@ -16,6 +16,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer> {
 
     Optional<Usuario> findByDni(String dni);
 
+
 //    void guardar(Usuario usuario);
 //
 //    void actualizar(Usuario usuario);

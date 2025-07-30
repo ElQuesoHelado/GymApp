@@ -26,6 +26,7 @@ public class SecurityConfig {
                                 "/favicon.ico"
                         ).permitAll()
                         .requestMatchers("/usuario/**").authenticated()
+                        .requestMatchers("/usuarios").authenticated()
                         .requestMatchers("/cliente/**").hasRole("CLIENTE")
                         .requestMatchers("/entrenador/**").hasRole("ENTRENADOR")
                         .requestMatchers("/admin/**").hasRole("ADMIN")

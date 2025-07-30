@@ -172,7 +172,18 @@ if (nuevoPassword.equals(password)) {
 }
 ```
 ### Clases
-...
+#### En cumplir el criterio de Responsabilidad única y Cohesión. Igual aplica separación de responsabilidades y la importancia de las interfaces
+```java
+public interface UsuarioRepositorio {
+void guardar(Usuario usuario);
+void actualizar(Usuario usuario);
+void eliminarPorId(int id);
+Optional<Usuario> buscarPorId(int id);
+List<Usuario> listarTodos();
+Optional<Usuario> buscarPorEmail(String email);
+Optional<Usuario> buscarPorDNI(String DNI);
+}
+```
 
 ## Principios SOLID
 ### Principio de Responsabilidad Unica
@@ -201,3 +212,11 @@ public interface MembresiaRepositorio extends JpaRepository<Membresia, Integer> 
 ### Principio de Segregacion de Interfaces
 
 ### Principio de Inversion de Dependencias
+Aplicado en UsuarioServiceImpl (módulo de alto nivel), no depende de la implementación concreta de UsuarioRepositoriolmpl
+(módulo de bajo nivel/detalle). En su lugar, depende de la abstracción UsuarioRepositorio a través de la inyección por
+constructor (o @Autowired en este caso).
+```java
+// UsuarioServiceImpl (alto nivel) depende de la abstracción UsuarioRepositorio
+@Autowired
+private UsuarioRepositorio usuarioRepositorio; // Depende de la interfaz, no de la implementación específica
+```
