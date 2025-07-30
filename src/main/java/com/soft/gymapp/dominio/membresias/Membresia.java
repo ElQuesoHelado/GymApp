@@ -9,12 +9,12 @@ import jakarta.persistence.*;
 @Table(name = "membresia")
 public class Membresia {
     @Id
-    private Integer idMembresia;
+    private Integer id;
 
     private Date fechaInicio;
     private Date fechaFin;
 
-    @OneToMany
+    @OneToMany(mappedBy = "membresia")
     private List<PagoMembresia> pagosMembresia = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
@@ -40,12 +40,12 @@ public class Membresia {
         return estado == EstadoMembresia.ACTIVADA;
     }
 
-    public Integer getIdMembresia() {
-        return idMembresia;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdMembresia(Integer idMembresia) {
-        this.idMembresia = idMembresia;
+    public void setId(Integer idMembresia) {
+        this.id = idMembresia;
     }
 
     public Date getFechaInicio() {

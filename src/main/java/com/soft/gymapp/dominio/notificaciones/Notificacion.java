@@ -16,7 +16,7 @@ public class Notificacion {
 
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
+//    @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
     @Enumerated(EnumType.STRING)

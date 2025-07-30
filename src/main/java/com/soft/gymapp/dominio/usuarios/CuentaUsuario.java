@@ -1,6 +1,8 @@
 package com.soft.gymapp.dominio.usuarios;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Embeddable
 public class CuentaUsuario {
@@ -8,6 +10,8 @@ public class CuentaUsuario {
 
     private String username;
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private EstadoCuentaUsuario estado;
 
     public CuentaUsuario(String username, String password, EstadoCuentaUsuario estado) {

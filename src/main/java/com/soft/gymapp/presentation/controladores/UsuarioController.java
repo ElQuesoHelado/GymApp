@@ -3,20 +3,19 @@ package com.soft.gymapp.presentation.controladores;
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import com.soft.gymapp.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     // --- CONSTANTES PARA EVITAR CADENAS MÁGICAS EN ESTE CONTROLADOR ---
     // Estas constantes centralizan las cadenas literales repetidas aquí.
@@ -41,6 +40,11 @@ public class UsuarioController {
     private static final String STATUS_INFO = "info";
 
     private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd"; // Para el formato de fecha
+
+    @Autowired
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
 
     // Clase DTO (Data Transfer Object) para el registro de usuario
@@ -108,7 +112,7 @@ public class UsuarioController {
                     userMap.put(KEY_DNI, u.getDni());
                     userMap.put(KEY_TELEFONO, u.getTelefono());
                     if (u.getFechaNacimiento() != null) {
-                        userMap.put(KEY_FECHA_NACIMIENTO, new SimpleDateFormat(DATE_FORMAT_PATTERN).format(u.getFechaNacimiento()));
+                        userMap.put(KEY_FECHA_NACIMIENTO, u.getFechaNacimiento());
                     }
                     if (u.getCuentaUsuario() != null) {
                         userMap.put(KEY_USERNAME_CUENTA, u.getCuentaUsuario().getUsername());
@@ -160,4 +164,20 @@ public class UsuarioController {
         System.out.println("[Controlador] Recibida petición de cerrar sesión.");
         return receta_FormatearRespuesta(STATUS_SUCCESS, "Sesión cerrada (simulado por controlador).", null, null);
     }
+
+
+
+    @PreAuthorize("hasRole('ENTRENADOR')")
+    @GetMapping("/usuarios/entrenador/dashboard")
+    public String entrenador_dashboard() {
+        return "entrenador_dashboard";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/usuarios/admin/dashboard")
+    public String admin_dashboard() {
+        return "administrador_dashboard";
+    }
+
+
 }

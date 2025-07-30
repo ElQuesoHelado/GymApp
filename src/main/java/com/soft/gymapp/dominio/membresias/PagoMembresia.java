@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 @Table(name = "pagos_membresia")
 public class PagoMembresia {
     @Id
-    private String idPago;
+    private String id;
 
     private float monto;
 
@@ -21,8 +21,8 @@ public class PagoMembresia {
     @Column(nullable = false)
     private MetodoPago MetodoPago;
 
-    public String getIdPago() {
-        return idPago;
+    public String getId() {
+        return id;
     }
 
     public float getMonto() {
@@ -45,8 +45,8 @@ public class PagoMembresia {
         return membresia;
     }
 
-    public void setIdPago(String idPago) {
-        this.idPago = idPago;
+    public void setId(String idPago) {
+        this.id = idPago;
     }
 
     public void setMonto(float monto) {

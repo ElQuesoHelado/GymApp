@@ -2,6 +2,7 @@ package com.soft.gymapp.dominio.usuarios;
 
 import com.soft.gymapp.dominio.membresias.Membresia;
 import com.soft.gymapp.dominio.planesentrenamiento.PlanEntrenamiento;
+import com.soft.gymapp.dominio.sesiones.Sesion;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -18,8 +19,8 @@ public class Cliente extends Usuario {
     @OneToOne
     private PlanEntrenamiento PlanEntrenamiento;
 
-    @ManyToMany
-    private List<Cliente> sesiones = new ArrayList<>();
+    @ManyToMany(mappedBy = "clientes")
+    private List<Sesion> sesiones = new ArrayList<>();
 
     public void verRutina() {
 

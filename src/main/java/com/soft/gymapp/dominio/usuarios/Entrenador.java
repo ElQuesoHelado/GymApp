@@ -12,7 +12,7 @@ public class Entrenador extends Usuario {
     private String especialidad;
     private String certificaciones;
 
-    @OneToMany
+    @OneToMany(mappedBy = "entrenador")
     private List<Sesion> sesiones = new ArrayList<>();
 
     @OneToMany(mappedBy = "entrenador")

@@ -11,4 +11,6 @@ public interface MembresiaRepositorio extends JpaRepository<Membresia, Integer> 
     List<Membresia> findByTipoPrecioLessThan(float precioMaximo);
 
     List<Membresia> findByTipoDuracionDiasGreaterThanEqual(int diasMinimos);
+
+    List<Membresia> findByEstado(EstadoMembresia estado);
 }

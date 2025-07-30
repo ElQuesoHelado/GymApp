@@ -12,7 +12,7 @@ public class Sala {
     private String nombre;
     private int capacidad;
 
-    @OneToMany
+    @OneToMany(mappedBy = "sala")
     private List<Sesion> sesiones = new ArrayList<>();
 
     public boolean verDisponibilidad(Date fecha) {
