@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Planes de Entrenador</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        a.button,
+        button {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        a.button:hover,
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        form {
+            margin-top: 30px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Planes de Entrenador</h1>
+
+    <!-- Lista de planes -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Duración (días)</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="plan : ${planes}">
+                <td th:text="${plan.nombre}">Plan X</td>
+                <td th:text="${plan.duracionDias}">30</td>
+                <td th:text="${plan.precio}">100.0</td>
+                <td>
+                    <a th:href="@{'/entrenador/plan/editar/' + ${plan.id}}" class="button">Editar</a>
+                    <a th:href="@{'/entrenador/plan/eliminar/' + ${plan.id}}" class="button">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Formulario para agregar nuevo plan -->
+    <h2>Nuevo Plan</h2>
+    <form th:action="@{/entrenador/plan/crear}" method="post">
+        <label>Nombre:</label>
+        <input type="text" name="nombre" required>
+
+        <label>Duración (días):</label>
+        <input type="number" name="duracionDias" required>
+
+        <label>Precio:</label>
+        <input type="number" step="0.01" name="precio" required>
+
+        <button type="submit">Crear Plan</button>
+    </form>
+
+</body>
+
+</html>

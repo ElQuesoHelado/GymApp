@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesiones de Entrenamiento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e9ecef;
+        }
+
+        a.button {
+            background-color: #17a2b8;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        a.button:hover {
+            background-color: #138496;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Sesiones Programadas</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Tipo de Sesión</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="sesion : ${sesiones}">
+                <td th:text="${sesion.clienteNombre}">Juan Pérez</td>
+                <td th:text="${sesion.fecha}">2025-08-01</td>
+                <td th:text="${sesion.hora}">10:00</td>
+                <td th:text="${sesion.tipo}">Cardio</td>
+                <td>
+                    <a href="#" class="button">Detalles</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>
