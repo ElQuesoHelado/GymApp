@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "ejercicio")
 public class Ejercicio {
+
     @Id
     private Integer id;
 
@@ -17,20 +18,29 @@ public class Ejercicio {
     private Rutina rutina;
 
     public Ejercicio() {
-        // Constructor requerido por JPA
+        // Constructor por defecto requerido por JPA
     }
 
+    /**
+     * Calcula una estimación de calorías quemadas en base a la duración del ejercicio.
+     * @param duracion duración del ejercicio en minutos
+     * @return calorías quemadas (estimadas)
+     */
     public float calcularCaloriasQuemadas(int duracion) {
+        // Por ahora se retorna la duración como valor de calorías para propósitos de ejemplo.
         return duracion;
     }
 
     // Getters y Setters
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        if (id != null && id > 0) {
+            this.id = id;
+        }
     }
 
     public String getNombre() {
@@ -38,7 +48,9 @@ public class Ejercicio {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            this.nombre = nombre.trim();
+        }
     }
 
     public String getDescripcion() {
@@ -46,7 +58,9 @@ public class Ejercicio {
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        if (descripcion != null && !descripcion.trim().isEmpty()) {
+            this.descripcion = descripcion.trim();
+        }
     }
 
     public int getRepeticiones() {
@@ -54,7 +68,9 @@ public class Ejercicio {
     }
 
     public void setRepeticiones(int repeticiones) {
-        this.repeticiones = repeticiones;
+        if (repeticiones >= 0) {
+            this.repeticiones = repeticiones;
+        }
     }
 
     public int getSeries() {
@@ -62,7 +78,9 @@ public class Ejercicio {
     }
 
     public void setSeries(int series) {
-        this.series = series;
+        if (series >= 0) {
+            this.series = series;
+        }
     }
 
     public Rutina getRutina() {
