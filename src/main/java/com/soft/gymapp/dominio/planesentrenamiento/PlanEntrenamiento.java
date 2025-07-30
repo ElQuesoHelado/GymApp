@@ -3,6 +3,8 @@ package com.soft.gymapp.dominio.planesentrenamiento;
 import com.soft.gymapp.dominio.usuarios.Cliente;
 import com.soft.gymapp.dominio.usuarios.Entrenador;
 import jakarta.persistence.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.List;
 @Entity
 @Table(name = "plan_entrenamiento")
 public class PlanEntrenamiento {
+
+    private static final Logger logger = LoggerFactory.getLogger(PlanEntrenamiento.class);
 
     @Id
     private int id;
@@ -47,13 +51,39 @@ public class PlanEntrenamiento {
 
     public void asignarRutina(Rutina rutina) {
         if (rutina == null) {
+            logger.error("No se puede asignar una rutina nula.");
             return;
         }
         rutinas.add(rutina);
+        logger.info("Rutina '{}' asignada al plan de entrenamiento con ID {}", rutina.getNombre(), this.id);
     }
 
     public void modificarRutina(Rutina rutina) {
-        // Método pendiente de implementación
+        if (rutina == null || rutina.getId() == 0) {
+            logger.error("Rutina inválida para modificación.");
+            return;
+        }
+
+        for (int i = 0; i < rutinas.size(); i++) {
+            if (rutinas.get(i).getId() == rutina.getId()) {
+                rutinas.set(i, rutina);
+                logger.info("Rutina con ID {} modificada exitosamente en el plan de entrenamiento con ID {}", rutina.getId(), this.id);
+                return;
+            }
+        }
+
+        logger.error("No se encontró la rutina con ID {} para modificar.", rutina.getId());
+    }
+
+    public void verRutinas() {
+        if (rutinas.isEmpty()) {
+            logger.info("Este plan no tiene rutinas asignadas.");
+        } else {
+            logger.info("Rutinas del plan de entrenamiento:");
+            for (Rutina rutina : rutinas) {
+                logger.info("- {}", rutina.getNombre());
+            }
+        }
     }
 
     // Getters y Setters
