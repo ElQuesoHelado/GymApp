@@ -1,11 +1,81 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Detalles Membresía</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .detalle {
+            margin-bottom: 10px;
+        }
+
+        .detalle span {
+            font-weight: bold;
+        }
+
+        .volver {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .volver a {
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 8px 16px;
+            border-radius: 5px;
+        }
+
+        .volver a:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
+
 <body>
-DETALLES MEMBRESIA CLIENTE
+    <h1>Detalles de la Membresía</h1>
+
+    <div class="card">
+        <div class="detalle">
+            <span>Nombre:</span> <span th:text="${cliente.membresia.nombre}">Nombre de la membresía</span>
+        </div>
+        <div class="detalle">
+            <span>Precio:</span> <span th:text="${cliente.membresia.precio}">0.00</span> soles
+        </div>
+        <div class="detalle">
+            <span>Duración:</span> <span th:text="${cliente.membresia.duracion}">0</span> días
+        </div>
+        <div class="detalle">
+            <span>Fecha de inicio:</span> <span th:text="${cliente.membresia.fechaInicio}">2025-01-01</span>
+        </div>
+        <div class="detalle">
+            <span>Fecha de fin:</span> <span th:text="${cliente.membresia.fechaFin}">2025-01-31</span>
+        </div>
+    </div>
+
+    <div class="volver">
+        <a th:href="@{/cliente/dashboard}">Volver al Dashboard</a>
+    </div>
+
 </body>
+
 </html>

@@ -1,12 +1,130 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
-</head>
-<body>
-DASHBOARD CLIENTE
+    <title>Dashboard del Cliente</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f8;
+            color: #333;
+        }
 
+        header {
+            background-color: #1f2937;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 1000px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            color: #1f2937;
+        }
+
+        .card {
+            background-color: #e5e7eb;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-size: 20px;
+            border-bottom: 2px solid #1f2937;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 30px;
+            color: #777;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #1f2937;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #374151;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Bienvenido, <span th:text="${cliente.nombre}">Cliente</span></h1>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Información Personal</h2>
+            <p><strong>Objetivo:</strong> <span th:text="${cliente.objetivo}">Perder peso</span></p>
+            <p><strong>Nivel:</strong> <span th:text="${cliente.nivel}">Intermedio</span></p>
+        </div>
+
+        <div class="card">
+            <h2>Plan de Entrenamiento</h2>
+            <p><strong>Nombre:</strong> <span th:text="${cliente.planEntrenamiento.nombre}">Fuerza 4 semanas</span></p>
+            <p><strong>Descripción:</strong> <span th:text="${cliente.planEntrenamiento.descripcion}">Descripción
+                    plan</span></p>
+            <a th:href="@{/cliente/plan}" class="btn">Ver detalles</a>
+        </div>
+
+        <div class="card">
+            <h2>Membresía</h2>
+            <p><strong>Tipo:</strong> <span th:text="${cliente.membresia.tipo}">Mensual</span></p>
+            <p><strong>Válido hasta:</strong> <span th:text="${cliente.membresia.fechaFin}">2025-12-31</span></p>
+            <a th:href="@{/cliente/membresia}" class="btn">Ver detalles</a>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">Sesiones Programadas</h2>
+            <ul>
+                <li th:each="sesion : ${cliente.sesiones}">
+                    <span th:text="${sesion.fecha}">2025-08-15</span> -
+                    <span th:text="${sesion.hora}">08:00</span> con
+                    <span th:text="${sesion.entrenador.nombre}">Carlos</span>
+                </li>
+                <li th:if="${#lists.isEmpty(cliente.sesiones)}">No tienes sesiones reservadas.</li>
+            </ul>
+            <a th:href="@{/cliente/sesiones}" class="btn">Ver todas las sesiones</a>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 GymApp. Todos los derechos reservados.</p>
+        </div>
+    </div>
 </body>
+
 </html>
