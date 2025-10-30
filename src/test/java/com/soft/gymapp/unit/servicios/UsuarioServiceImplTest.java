@@ -29,7 +29,7 @@ class UsuarioServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    // ✅ Caso 1: Registro exitoso
+    //  Caso 1: Registro exitoso
     @Test
     void registrarUsuario_DeberiaRegistrarUsuarioExitosamente() {
         // Datos simulados
@@ -51,7 +51,7 @@ class UsuarioServiceImplTest {
         verify(usuarioRepositorio, times(1)).save(any(Usuario.class));
     }
 
-    // ⚠️ Caso 2: Error por email ya registrado
+    //  Caso 2: Error por email ya registrado
     @Test
     void registrarUsuario_DeberiaFallarSiEmailYaExiste() {
         when(usuarioRepositorio.findByEmail("misael@test.com"))
@@ -65,7 +65,7 @@ class UsuarioServiceImplTest {
         assertTrue(((Map<?, ?>) result.get("errors")).containsKey("email"));
     }
 
-    // 🔐 Caso 3: Inicio de sesión exitoso
+    //  Caso 3: Inicio de sesión exitoso
     @Test
     void iniciarSesion_DeberiaPermitirInicioSesionConCredencialesValidas() {
         Usuario usuario = new Usuario();
@@ -85,7 +85,7 @@ class UsuarioServiceImplTest {
         assertEquals("Inicio de sesión exitoso desde el servicio.", result.get("message"));
     }
 
-    // 🚫 Caso 4: Inicio de sesión con credenciales incorrectas
+    //  Caso 4: Inicio de sesión con credenciales incorrectas
     @Test
     void iniciarSesion_DeberiaFallarSiContrasenaIncorrecta() {
         Usuario usuario = new Usuario();
@@ -101,7 +101,7 @@ class UsuarioServiceImplTest {
         assertEquals("Credenciales inválidas desde el servicio.", result.get("message"));
     }
 
-    // 📋 Caso 5: Listar usuarios
+    //  Caso 5: Listar usuarios
     @Test
     void listarTodosUsuarios_DeberiaRetornarListaUsuarios() {
         when(usuarioRepositorio.findAll()).thenReturn(List.of(new Usuario(), new Usuario()));
