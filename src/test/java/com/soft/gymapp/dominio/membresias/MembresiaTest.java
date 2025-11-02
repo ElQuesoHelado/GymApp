@@ -1,5 +1,5 @@
 // src/test/java/com/soft/gymapp/unit/dominio/membresias/MembresiaTest.java
-package com.soft.gymapp.unit.dominio.membresias;
+package com.soft.gymapp.dominio.membresias;
 
 import static org.junit.jupiter.api.Assertions.*;
 
