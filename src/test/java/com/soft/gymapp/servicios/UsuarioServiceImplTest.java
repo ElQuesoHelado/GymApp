@@ -6,7 +6,6 @@ import com.soft.gymapp.dominio.usuarios.Usuario;
 import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
