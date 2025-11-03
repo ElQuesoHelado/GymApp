@@ -12,8 +12,8 @@ public class Notificacion {
     @Id
     private int id;
     private String mensaje;
-    private LocalDateTime fecha;
-
+    private Date fechaEnvio;
+    private boolean leido;
 
     @ManyToOne
 //    @JoinColumn(name = "id_usuario")
