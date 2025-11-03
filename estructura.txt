@@ -1,0 +1,143 @@
+.
+├── assets
+│   ├── Dominio.png
+│   ├── Membresias.png
+│   ├── modelo_casos_uso.png
+│   ├── Notificaciones.png
+│   ├── PlanesEntrenamiento.png
+│   ├── Presentation.png
+│   ├── Repositorio.png
+│   ├── Servicios.png
+│   ├── Sesiones.png
+│   ├── SistermaGimnasio.pdf
+│   └── Usuarios.png
+├── estructura.txt
+├── .gitignore
+├── GymAppModel.mdj
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+├── README.md
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── soft
+│   │   │           └── gymapp
+│   │   │               ├── dominio
+│   │   │               │   ├── membresias
+│   │   │               │   │   ├── EstadoMembresia.java
+│   │   │               │   │   ├── Membresia.java
+│   │   │               │   │   ├── MembresiaRepositorio.java
+│   │   │               │   │   ├── MetodoPago.java
+│   │   │               │   │   ├── PagoMembresia.java
+│   │   │               │   │   └── TipoMembresia.java
+│   │   │               │   ├── notificaciones
+│   │   │               │   │   ├── Notificacion.java
+│   │   │               │   │   ├── NotificacionRepositorio.java
+│   │   │               │   │   └── TipoNotificacion.java
+│   │   │               │   ├── planesentrenamiento
+│   │   │               │   │   ├── Ejercicio.java
+│   │   │               │   │   ├── PlanEntrenamiento.java
+│   │   │               │   │   ├── PlanEntrenamientoRepositorio.java
+│   │   │               │   │   └── Rutina.java
+│   │   │               │   ├── sesiones
+│   │   │               │   │   ├── EstadoSesion.java
+│   │   │               │   │   ├── Horario.java
+│   │   │               │   │   ├── Sala.java
+│   │   │               │   │   ├── Sesion.java
+│   │   │               │   │   └── SesionRepositorio.java
+│   │   │               │   └── usuarios
+│   │   │               │       ├── Administrador.java
+│   │   │               │       ├── Cliente.java
+│   │   │               │       ├── CuentaUsuario.java
+│   │   │               │       ├── Entrenador.java
+│   │   │               │       ├── EstadoCuentaUsuario.java
+│   │   │               │       ├── Usuario.java
+│   │   │               │       └── UsuarioRepositorio.java
+│   │   │               ├── GymAppApplication.java
+│   │   │               ├── presentation
+│   │   │               │   └── controladores
+│   │   │               │       ├── AdminController.java
+│   │   │               │       ├── ClienteController.java
+│   │   │               │       ├── EntrenadorController.java
+│   │   │               │       ├── HomeController.java
+│   │   │               │       ├── LoginController.java
+│   │   │               │       ├── MembresiaController.java
+│   │   │               │       ├── NotificacionController.java
+│   │   │               │       ├── PlanEntrenamientoController.java
+│   │   │               │       ├── RedirectController.java
+│   │   │               │       ├── SesionController.java
+│   │   │               │       └── UsuarioController.java
+│   │   │               ├── repositorio
+│   │   │               │   ├── sqlite
+│   │   │               │   │   ├── MembresiaRepositorio.java
+│   │   │               │   │   ├── NotificacionRepositoriolmpl.java
+│   │   │               │   │   ├── PlanEntrenamientoRepositoriolmpl.java
+│   │   │               │   │   ├── SesionRepositoriolmpl.java
+│   │   │               │   │   └── UsuarioRepositoriolmpl.java
+│   │   │               │   └── UsuarioRepositorio.java
+│   │   │               ├── security
+│   │   │               │   ├── CustomUserDetailsService.java
+│   │   │               │   └── SecurityConfig.java
+│   │   │               └── servicios
+│   │   │                   ├── dto
+│   │   │                   │   ├── EjercicioDTO.java
+│   │   │                   │   ├── NotificacionDTO.java
+│   │   │                   │   ├── PlanEntrenamientoDTO.java
+│   │   │                   │   ├── RutinaDTO.java
+│   │   │                   │   ├── SesionDTO.java
+│   │   │                   │   └── UsuarioDTO.java
+│   │   │                   ├── MembresiaServiceImpl.java
+│   │   │                   ├── MembresiaService.java
+│   │   │                   ├── NotificacionServiceImpl.java
+│   │   │                   ├── NotificacionService.java
+│   │   │                   ├── PlanEntrenamientoServiceImpl.java
+│   │   │                   ├── PlanEntrenamientoService.java
+│   │   │                   ├── SesionServiceImpl.java
+│   │   │                   ├── SesionService.java
+│   │   │                   ├── UsuarioServiceImpl.java
+│   │   │                   └── UsuarioService.java
+│   │   └── resources
+│   │       ├── application.properties
+│   │       ├── import.sql
+│   │       └── templates
+│   │           ├── admin
+│   │           │   ├── crear_usuario.html
+│   │           │   ├── dashboard.html
+│   │           │   ├── reporte_ventas.html
+│   │           │   └── usuarios.html
+│   │           ├── cliente
+│   │           │   ├── dashboard.html
+│   │           │   ├── membresia.html
+│   │           │   ├── plan.html
+│   │           │   └── sesiones.html
+│   │           ├── entrenador
+│   │           │   ├── clientes.html
+│   │           │   ├── dashboard.html
+│   │           │   ├── planes.html
+│   │           │   ├── rutinas.html
+│   │           │   └── sesiones.html
+│   │           ├── home.html
+│   │           ├── login.html
+│   │           └── usuario
+│   │               ├── detalles_cuenta.html
+│   │               └── notificaciones.html
+│   └── test
+│       └── java
+│           └── com
+│               └── soft
+│                   └── gymapp
+│                       └── unit
+│                           ├── dominio
+│                           │   └── membresias
+│                           │       └── MembresiaTest.java
+│                           ├── infraestructure
+│                           │   └── persistence
+│                           │       └── UsuarioRepositoryTest.java
+│                           └── servicios
+│                               └── UsuarioServiceImplTest.java
+└── .vscode
+    └── settings.json
+
+39 directories, 102 files

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles de la Cuenta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f5f5f5;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .cuenta-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .cuenta-item {
+            margin-bottom: 1rem;
+        }
+
+        .cuenta-label {
+            font-weight: bold;
+            display: block;
+        }
+
+        .cuenta-value {
+            margin-top: 0.3rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cuenta-container">
+        <h2>Detalles de la Cuenta</h2>
+
+        <div class="cuenta-item">
+            <span class="cuenta-label">Nombre:</span>
+            <span class="cuenta-value" th:text="${usuario.nombre}">Juan Pérez</span>
+        </div>
+
+        <div class="cuenta-item">
+            <span class="cuenta-label">Correo Electrónico:</span>
+            <span class="cuenta-value" th:text="${usuario.email}">juan@example.com</span>
+        </div>
+
+        <div class="cuenta-item">
+            <span class="cuenta-label">Rol:</span>
+            <span class="cuenta-value" th:text="${usuario.rol}">CLIENTE</span>
+        </div>
+
+        <div class="cuenta-item">
+            <span class="cuenta-label">Fecha de Registro:</span>
+            <span class="cuenta-value" th:text="${usuario.fechaRegistro}">2024-01-01</span>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

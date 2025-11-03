@@ -1,11 +1,92 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Sesiones del Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .volver {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .volver a {
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 8px 16px;
+            border-radius: 5px;
+        }
+
+        .volver a:hover {
+            background-color: #0056b3;
+        }
+
+        .mensaje {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1.2em;
+            color: #777;
+        }
+    </style>
 </head>
+
 <body>
-SESIONES CLIENTE
+    <h1>Sesiones del Cliente</h1>
+
+    <div th:if="${#lists.isEmpty(cliente.sesiones)}">
+        <p class="mensaje">No tienes sesiones registradas.</p>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(cliente.sesiones)}">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Tipo de sesión</th>
+                <th>Duración</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="sesion : ${cliente.sesiones}">
+                <td th:text="${#dates.format(sesion.fecha, 'dd/MM/yyyy')}">01/01/2025</td>
+                <td th:text="${sesion.hora}">10:00</td>
+                <td th:text="${sesion.tipo}">Cardio</td>
+                <td th:text="${sesion.duracion}">60</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="volver">
+        <a th:href="@{/cliente/dashboard}">Volver al Dashboard</a>
+    </div>
+
 </body>
+
 </html>

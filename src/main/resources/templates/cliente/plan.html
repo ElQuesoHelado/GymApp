@@ -1,12 +1,98 @@
 <!doctype html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Plan de Entrenamiento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #3f51b5;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #3f51b5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #e3e7f1;
+        }
+
+        .no-plan {
+            color: red;
+            margin-top: 1rem;
+        }
+    </style>
 </head>
+
 <body>
-PLAN ENTRENAMIENTO CLIENTE
+
+    <header>
+        <h1>Plan de Entrenamiento del Cliente</h1>
+    </header>
+
+    <div class="container">
+        <div th:if="${cliente.planEntrenamiento != null}">
+            <h2 th:text="'Objetivo: ' + ${cliente.objetivo}"></h2>
+            <h3 th:text="'Nivel: ' + ${cliente.nivel}"></h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Día</th>
+                        <th>Ejercicio</th>
+                        <th>Series</th>
+                        <th>Repeticiones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="rutina : ${cliente.planEntrenamiento.rutinas}">
+                        <td th:text="${rutina.dia}">Lunes</td>
+                        <td th:text="${rutina.ejercicio}">Sentadillas</td>
+                        <td th:text="${rutina.series}">4</td>
+                        <td th:text="${rutina.repeticiones}">12</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="no-plan" th:if="${cliente.planEntrenamiento == null}">
+            <p>No tienes un plan de entrenamiento asignado actualmente.</p>
+        </div>
+    </div>
 
 </body>
+
 </html>
