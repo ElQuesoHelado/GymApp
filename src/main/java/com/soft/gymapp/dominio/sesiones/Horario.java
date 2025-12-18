@@ -13,6 +13,13 @@ public class Horario {
     private LocalDate fecha;
     private LocalTime horaInicio;
     private LocalTime horaFin;
+    public Horario() {} 
+
+    public Horario(LocalDate fecha, LocalTime horaInicio, LocalTime horaFin) {
+        this.fecha = fecha;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+    }
 
     public boolean esDisponible() {
         LocalDateTime ahora = LocalDateTime.now();

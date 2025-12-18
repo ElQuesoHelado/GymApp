@@ -1,9 +1,9 @@
 package com.soft.gymapp.dominio.sesiones;
 
-import com.soft.gymapp.dominio.notificaciones.Notificacion;
+//import com.soft.gymapp.dominio.notificaciones.Notificacion;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SesionRepositorio extends JpaRepository<Notificacion, Integer> {
+public interface SesionRepositorio extends JpaRepository<Sesion, Integer> {
 //
 //    void guardar(Sesion sesion);
 //

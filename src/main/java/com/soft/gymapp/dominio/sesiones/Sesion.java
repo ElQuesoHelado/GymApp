@@ -13,7 +13,7 @@ public class Sesion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -55,9 +55,15 @@ public class Sesion {
             cliente.agregarSesion(this); // relación bidireccional
         }
     }
+    public void setEntrenador(Entrenador entrenador) {
+    this.entrenador = entrenador;
+    }
+    public void setSala(Sala sala) {
+    this.sala = sala;
+    }
 
     // Getters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -79,5 +85,13 @@ public class Sesion {
 
     public Sala getSala() {
         return sala;
+    }
+    public Sesion() {
+        this.estado = EstadoSesion.SIN_EMPEZAR; 
+    }
+    public Sesion(EstadoSesion estadoInicial, Horario horario) {
+        this.estado = estadoInicial;
+        this.horario = horario;
+        
     }
 }
