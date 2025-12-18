@@ -3,7 +3,6 @@ package com.soft.gymapp.dominio.notificaciones;
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import jakarta.persistence.*;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -25,7 +24,7 @@ public class Notificacion {
 
     // Constructor por defecto (Cookbook)
     public Notificacion() {
-        this.fechaEnvio = Date.from(Instant.from(LocalDateTime.now()));
+        this.fechaEnvio = Date.from(LocalDateTime.now().atZone(java.time.ZoneId.systemDefault()).toInstant());
     }
 
     // Constructor con parámetros esenciales (Cookbook)
