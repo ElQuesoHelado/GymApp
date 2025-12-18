@@ -3,8 +3,9 @@ package com.soft.gymapp.servicios;
 import com.soft.gymapp.dominio.usuarios.CuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.EstadoCuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.Usuario;
-//import com.soft.gymapp.repositorio.UsuarioRepositorio;
 import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio;
+import org.slf4j.Logger; // CAMBIO: Importar Logger
+import org.slf4j.LoggerFactory; // CAMBIO: Importar LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,12 @@ import java.util.*;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
+    // CAMBIO: Añadir Logger en lugar de System.out
+    private static final Logger logger = LoggerFactory.getLogger(UsuarioServiceImpl.class);
+
     private final UsuarioRepositorio usuarioRepositorio;
 
-    // --- CONSTANTES PARA EVITAR CADENAS MÁGICAS (Solución de SonarLint) ---
-    // Estas constantes mejoran la legibilidad y mantenibilidad del código.
+    // --- CONSTANTES (ELIMINAR LAS NO USADAS) ---
     private static final String KEY_STATUS = "status";
     private static final String KEY_MESSAGE = "message";
     private static final String KEY_ERRORS = "errors";
@@ -29,13 +32,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_DNI = "DNI";
     private static final String KEY_ESTADO_CUENTA = "estadoCuenta";
-    private static final String KEY_DATA = "data"; // Para usos más genéricos
+
 
     private static final String STATUS_SUCCESS = "success";
     private static final String STATUS_ERROR = "error";
-    private static final String STATUS_INFO = "info"; // Usado en algunos mensajes
 
-    private static final String ACCOUNT_STATUS_ACTIVE = "ACTIVO";
     private static final String ACCOUNT_STATUS_BLOCKED = "BLOQUEADA";
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -45,29 +46,27 @@ public class UsuarioServiceImpl implements UsuarioService {
         this.usuarioRepositorio = usuarioRepositorio;
     }
 
-
-    // --- Métodos Auxiliares/Privados para el Estilo Cookbook ---
+    // --- Métodos Auxiliares Privados (REFACTORIZADOS) ---
 
     /**
-     * Receta 1: Hashear la Contraseña
-     * Una receta para transformar una contraseña en texto plano en un hash seguro.
+     * Hashear la Contraseña
      */
-    private String receta_HashearContrasena(String password) {
-        System.out.println("  [Servicio - Receta] Hasheando contraseña...");
-        // En producción: usaría BCryptPasswordEncoder.encode(password)
+    private String hashearContrasena(String password) { // CAMBIO: camelCase
+        logger.debug("Hasheando contraseña..."); // CAMBIO: Logger
         return "hashed_" + password + "_super_secure";
     }
 
     /**
-     * Receta 2: Validar Datos de Registro del Usuario
-     * Una receta para aplicar todas las reglas de validación de negocio.
+     * Validar Datos de Registro del Usuario
      */
-    private Map<String, String> receta_ValidarDatosRegistro(String nombre, String DNI, String email, String telefono, String fechaNacimiento, String password) {
-        System.out.println("  [Servicio - Receta] Validando datos de registro...");
+    private Map<String, String> validarDatosRegistro(String nombre, String dni, String email, 
+                                                     String fechaNacimiento, String password) { 
+                                                     // CAMBIO: 'dni' en minúscula, quitar 'telefono'
+        logger.debug("Validando datos de registro..."); // CAMBIO: Logger
         Map<String, String> errors = new HashMap<>();
 
         if (nombre == null || nombre.isBlank()) errors.put(KEY_NOMBRE, "El nombre es requerido.");
-        if (DNI == null || DNI.isBlank()) errors.put(KEY_DNI, "El DNI es requerido.");
+        if (dni == null || dni.isBlank()) errors.put(KEY_DNI, "El DNI es requerido."); // CAMBIO: 'dni'
         if (email == null || email.isBlank() || !email.contains("@")) errors.put(KEY_EMAIL, "El email es inválido.");
         if (password == null || password.length() < 6) errors.put("password", "La contraseña debe tener al menos 6 caracteres.");
         if (fechaNacimiento == null || fechaNacimiento.isBlank()) {
@@ -79,24 +78,23 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         // Usando el repositorio para verificar unicidad
         if (usuarioRepositorio.findByEmail(email).isPresent()) { errors.put(KEY_EMAIL, "El email ya está registrado."); }
-        if (usuarioRepositorio.findByDni(DNI).isPresent()) { errors.put(KEY_DNI, "El DNI ya está registrado."); }
+        if (usuarioRepositorio.findByDni(dni).isPresent()) { errors.put(KEY_DNI, "El DNI ya está registrado."); } // CAMBIO: 'dni'
 
         return errors;
     }
 
     /**
-     * Receta 3: Crear Entidad Usuario
-     * Una receta para construir el objeto Usuario con sus sub-objetos.
+     * Crear Entidad Usuario
      */
-    private Usuario receta_CrearEntidadUsuario(String nombre, String DNI, String email, String telefono, String fechaNacimientoStr, String hashedPassword) throws ParseException {
-        System.out.println("  [Servicio - Receta] Creando entidad Usuario y CuentaUsuario...");
+    private Usuario crearEntidadUsuario(String nombre, String dni, String email, // CAMBIO: 'dni'
+                                        String fechaNacimientoStr, String hashedPassword) throws ParseException {
+        logger.debug("Creando entidad Usuario y CuentaUsuario..."); // CAMBIO: Logger
         LocalDate fechaNacimientoParsed = LocalDate.parse(fechaNacimientoStr);
 
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombre(nombre);
-        nuevoUsuario.setDni(DNI);
+        nuevoUsuario.setDni(dni); // CAMBIO: 'dni'
         nuevoUsuario.setEmail(email);
-        nuevoUsuario.setTelefono(telefono);
         nuevoUsuario.setFechaNacimiento(fechaNacimientoParsed);
 
         CuentaUsuario cuentaUsuario = new CuentaUsuario(email, hashedPassword, EstadoCuentaUsuario.ACTIVA);
@@ -106,45 +104,46 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     /**
-     * Receta 4: Guardar Usuario
-     * Una receta para persistir el objeto Usuario usando el repositorio.
+     * Guardar Usuario
      */
-    private void receta_GuardarUsuario(Usuario usuario) {
-        System.out.println("  [Servicio - Receta] Guardando usuario en el repositorio...");
+    private void guardarUsuario(Usuario usuario) { // CAMBIO: camelCase
+        logger.debug("Guardando usuario en el repositorio..."); // CAMBIO: Logger
         usuarioRepositorio.save(usuario);
     }
 
-    // --- MÉTODO PRINCIPAL DE REGISTRO (LA "RECETA MAESTRA") ---
+    // --- MÉTODO PRINCIPAL DE REGISTRO ---
 
     @Override
-    public Map<String, Object> registrarUsuario(String nombre, String DNI, String email, String telefono, String fechaNacimiento, String password) {
-        System.out.println("\n[Servicio] Ejecutando Receta Maestra: Registrar Usuario.");
+    public Map<String, Object> registrarUsuario(String nombre, String dni, String email, // CAMBIO: 'dni'
+                                                String telefono, String fechaNacimiento, String password) {
+        logger.info("Ejecutando registro de usuario para: {}", email); // CAMBIO: Logger
 
-        // Paso 1 de la Receta Maestra: Validar los datos
-        Map<String, String> validationErrors = receta_ValidarDatosRegistro(nombre, DNI, email, telefono, fechaNacimiento, password);
+        // Paso 1: Validar los datos (llamada actualizada)
+        Map<String, String> validationErrors = validarDatosRegistro(nombre, dni, email, fechaNacimiento, password);
         if (!validationErrors.isEmpty()) {
             Map<String, Object> response = new HashMap<>();
             response.put(KEY_STATUS, STATUS_ERROR);
-            response.put(KEY_MESSAGE, "Errores de validación de la receta.");
+            response.put(KEY_MESSAGE, "Errores de validación.");
             response.put(KEY_ERRORS, validationErrors);
             return response;
         }
 
         try {
-            // Paso 2 de la Receta Maestra: Hashear la contraseña
-            String hashedPassword = receta_HashearContrasena(password);
+            // Paso 2: Hashear la contraseña
+            String hashedPassword = hashearContrasena(password);
 
-            // Paso 3 de la Receta Maestra: Crear la entidad Usuario
-            Usuario nuevoUsuario = receta_CrearEntidadUsuario(nombre, DNI, email, telefono, fechaNacimiento, hashedPassword);
+            // Paso 3: Crear la entidad Usuario (llamada actualizada)
+            Usuario nuevoUsuario = crearEntidadUsuario(nombre, dni, email, fechaNacimiento, hashedPassword);
+            nuevoUsuario.setTelefono(telefono); // Asignar teléfono aquí
 
-            // Paso 4 de la Receta Maestra: Guardar el usuario
-            receta_GuardarUsuario(nuevoUsuario);
+            // Paso 4: Guardar el usuario
+            guardarUsuario(nuevoUsuario);
 
-            System.out.println("[Servicio] Receta Maestra 'Registrar Usuario' completada exitosamente. ID: " + nuevoUsuario.getId());
+            logger.info("Usuario registrado exitosamente. ID: {}", nuevoUsuario.getId()); // CAMBIO: Logger
 
             Map<String, Object> response = new HashMap<>();
             response.put(KEY_STATUS, STATUS_SUCCESS);
-            response.put(KEY_MESSAGE, "Usuario registrado exitosamente siguiendo la receta.");
+            response.put(KEY_MESSAGE, "Usuario registrado exitosamente.");
             response.put(KEY_USER, Map.of(
                     KEY_ID, nuevoUsuario.getId(),
                     KEY_NOMBRE, nuevoUsuario.getNombre(),
@@ -154,25 +153,26 @@ public class UsuarioServiceImpl implements UsuarioService {
             ));
             return response;
 
-        } catch (ParseException e) {
+        } catch (ParseException ex) { // CAMBIO: 'ex' en lugar de 'e'
+            logger.error("Error al procesar fecha durante registro: {}", ex.getMessage(), ex); // CAMBIO: Logger
             Map<String, Object> response = new HashMap<>();
             response.put(KEY_STATUS, STATUS_ERROR);
-            response.put(KEY_MESSAGE, "Error interno de servicio al procesar fecha: " + e.getMessage());
+            response.put(KEY_MESSAGE, "Error interno de servicio al procesar fecha: " + ex.getMessage());
             return response;
         }
     }
 
-    // --- Otros métodos del Servicio (sin estilo Cookbook tan explícito por ahora) ---
+    // --- Otros métodos del Servicio ---
 
     @Override
     public List<Usuario> listarTodosUsuarios() {
-        System.out.println("[Servicio] Listando todos los usuarios...");
+        logger.debug("Listando todos los usuarios..."); // CAMBIO: Logger
         return usuarioRepositorio.findAll();
     }
 
     @Override
     public Map<String, Object> iniciarSesion(String emailOrUsername, String password) {
-        System.out.println("[Servicio] Iniciando sesión para: " + emailOrUsername);
+        logger.info("Iniciando sesión para: {}", emailOrUsername); // CAMBIO: Logger
 
         if (emailOrUsername == null || emailOrUsername.isBlank() || password == null || password.isBlank()) {
             Map<String, Object> response = new HashMap<>();
@@ -194,28 +194,28 @@ public class UsuarioServiceImpl implements UsuarioService {
                 return response;
             }
 
-            if (cuenta.getPassword().equals(receta_HashearContrasena(password))) { // Usamos la misma receta de hashing
+            if (cuenta.getPassword().equals(hashearContrasena(password))) {
                 Map<String, Object> response = new HashMap<>();
                 response.put(KEY_STATUS, STATUS_SUCCESS);
-                response.put(KEY_MESSAGE, "Inicio de sesión exitoso desde el servicio.");
-                response.put(KEY_USER, Map.of(KEY_ID, user.getId(), KEY_NOMBRE, user.getNombre(), KEY_EMAIL, user.getEmail(), KEY_ESTADO_CUENTA, cuenta.getEstado()));
+                response.put(KEY_MESSAGE, "Inicio de sesión exitoso.");
+                response.put(KEY_USER, Map.of(KEY_ID, user.getId(), KEY_NOMBRE, user.getNombre(), 
+                        KEY_EMAIL, user.getEmail(), KEY_ESTADO_CUENTA, cuenta.getEstado()));
                 return response;
             }
         }
         Map<String, Object> response = new HashMap<>();
         response.put(KEY_STATUS, STATUS_ERROR);
-        response.put(KEY_MESSAGE, "Credenciales inválidas desde el servicio.");
+        response.put(KEY_MESSAGE, "Credenciales inválidas.");
         return response;
     }
 
     @Override
     public Map<String, Object> editarPerfil(int userId, Map<String, Object> updates) {
-        System.out.println("[Servicio] Editando perfil para ID: " + userId);
+        logger.info("Editando perfil para ID: {}", userId); // CAMBIO: Logger
         // Lógica de negocio para editar perfil, validaciones adicionales, etc.
-        // Después, usaría usuarioRepositorio.actualizar(usuario);
         Map<String, Object> response = new HashMap<>();
-        response.put(KEY_STATUS, STATUS_INFO);
-        response.put(KEY_MESSAGE, "Funcionalidad de editar perfil en servicio en desarrollo.");
+        response.put(KEY_STATUS, STATUS_ERROR); // CAMBIO: Usar STATUS_ERROR ya que STATUS_INFO se eliminó
+        response.put(KEY_MESSAGE, "Funcionalidad de editar perfil en desarrollo.");
         return response;
     }
 }
