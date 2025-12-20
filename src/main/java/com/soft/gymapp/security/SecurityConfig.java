@@ -3,8 +3,8 @@ package com.soft.gymapp.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -12,12 +12,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        String log = "/login";
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
-                                "/login",
+                                log,
                                 "/register",
                                 "/css/**",
                                 "/js/**",
@@ -33,8 +34,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
+                        .loginPage(log)
+                        .loginProcessingUrl(log)
                         .defaultSuccessUrl("/redirect-por-rol",true)
                         .permitAll()
                 )
@@ -49,6 +50,6 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer ignoringCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/img/**", "/styles/**", "/scripts/**");
+        return web -> web.ignoring().requestMatchers("/img/**", "/styles/**", "/scripts/**");
     }
 }
