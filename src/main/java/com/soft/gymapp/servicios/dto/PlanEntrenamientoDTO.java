@@ -1,7 +1,6 @@
 package com.soft.gymapp.servicios.dto;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlanEntrenamientoDTO {
