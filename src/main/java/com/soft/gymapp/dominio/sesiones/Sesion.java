@@ -80,4 +80,20 @@ public class Sesion {
     public Sala getSala() {
         return sala;
     }
+
+    public void setSala(Sala sala) {
+        this.sala = sala;
+    }
+
+    public void setEstado(EstadoSesion estado) {
+        this.estado = estado;
+    }
+
+    public void setHorario(Horario horario) {
+        this.horario = horario;
+    }
+
+    public void setEntrenador(Entrenador entrenador) {
+        this.entrenador = entrenador;
+    }
 }

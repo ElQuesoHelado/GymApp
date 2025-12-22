@@ -29,4 +29,29 @@ public class Horario {
         return fecha.isAfter(fechaActual) ||
                 (fecha.equals(fechaActual) && horaFin.isAfter(horaActual));
     }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public LocalTime getHoraInicio() {
+        return horaInicio;
+    }
+
+    public LocalTime getHoraFin() {
+        return horaFin;
+    }
+
+    // Y setters si no los tienes:
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setHoraInicio(LocalTime horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public void setHoraFin(LocalTime horaFin) {
+        this.horaFin = horaFin;
+    }
 }
