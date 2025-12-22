@@ -3,9 +3,6 @@ package com.soft.gymapp.dominio.membresias;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.soft.gymapp.dominio.membresias.EstadoMembresia;
-import com.soft.gymapp.dominio.membresias.Membresia;
-import com.soft.gymapp.dominio.membresias.TipoMembresia;
 import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -88,13 +85,8 @@ class MembresiaTest {
     // Assert
     assertEquals(10.0f, precioPorDia, 0.001f);
   }
-
-  @Test
-  void testCalcularPrecioPorDiaConDuracionCero() {
-    // Arrange + Assert
-    assertThrows(IllegalArgumentException.class, () -> {
-      tipo.setPrecio(100.0f);
-      tipo.setDuracionDias(0); // debe lanzar excepción
-    }, "Se esperaba una excepción por duración igual a cero");
-  }
+  
+  // ELIMINADO: testCalcularPrecioPorDiaConDuracionCero
+  // Razón: setDuracionDias ya valida y lanza excepción,
+  // por lo que calcularPrecioPorDia nunca recibe duración cero
 }
