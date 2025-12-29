@@ -1,4 +1,3 @@
 package com.soft.gymapp.servicios.dto;
 
-public class UsuarioDTO {
-}
+public record UsuarioDTO(Integer id, String nombre, String email, String dni) {}

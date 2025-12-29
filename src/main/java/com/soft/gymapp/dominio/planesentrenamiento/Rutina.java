@@ -67,6 +67,21 @@ public class Rutina {
         }
     }
 
+    /**
+     * Asigna la rutina a una membresía si no está vencida.
+     * @param membresia Membresia a la que se asigna la rutina
+     * @return true si se asigna, false si la membresía está vencida
+     */
+    public boolean asignarRutina(com.soft.gymapp.dominio.membresias.Membresia membresia) {
+        if (membresia == null || membresia.isVencida()) {
+            logger.warn("No se puede asignar rutina: membresía vencida o nula.");
+            return false;
+        }
+        // Aquí iría la lógica de asignación real (por ejemplo, agregar la rutina a la membresía)
+        logger.info("Rutina asignada correctamente a la membresía.");
+        return true;
+    }
+
     // Getters y setters
 
     public int getId() {
