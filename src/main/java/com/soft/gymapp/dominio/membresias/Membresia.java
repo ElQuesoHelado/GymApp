@@ -80,5 +80,21 @@ public class Membresia {
     return this.fechaFin.before(new Date()) &&
         this.estado == EstadoMembresia.ACTIVADA;
   }
-  
+
+  public boolean isVencida() {
+    return estaVencida();
+  }
+
+  /**
+   * Método para pruebas: fuerza el estado de vencida de la membresía.
+   */
+  public void setVencida(boolean vencida) {
+    if (vencida) {
+      this.fechaFin = new Date(System.currentTimeMillis() - 1000); // fecha pasada
+      this.estado = EstadoMembresia.ACTIVADA;
+    } else {
+      this.fechaFin = new Date(System.currentTimeMillis() + 100000000); // fecha futura
+      this.estado = EstadoMembresia.ACTIVADA;
+    }
+  }
 }
