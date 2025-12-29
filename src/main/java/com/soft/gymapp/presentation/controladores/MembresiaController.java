@@ -24,7 +24,8 @@ public class MembresiaController {
     if (estado != null) {
       return membresiaService.buscarPorEstado(estado);
     }
-    return membresiaService.buscarPorEstado(EstadoMembresia.ACTIVA);
+
+    return membresiaService.buscarPorEstado(EstadoMembresia.ACTIVADA);
   }
 
   @PutMapping("/{id}/cancelar")

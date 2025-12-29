@@ -109,14 +109,3 @@ public class PlanEntrenamientoController {
                                     "actualizaciones", updates));
   }
 }
-
-@Controller
-@RequestMapping("/cliente")
-public class PlanEntrenamientoViewController {
-
-  @PreAuthorize("hasRole('CLIENTE')")
-  @GetMapping("/planes-entrenamiento")
-  public String vistaPlanes() {
-    return "planes_entrenamiento";
-  }
-}
