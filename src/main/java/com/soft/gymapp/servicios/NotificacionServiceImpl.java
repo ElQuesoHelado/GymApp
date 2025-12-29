@@ -1,8 +1,6 @@
 package com.soft.gymapp.servicios;
 
 import com.soft.gymapp.servicios.NotificacionService;
-//import com.soft.gymapp.servicios.exceptions.RecursoNoEncontradoException;
-//import com.soft.gymapp.servicios.exceptions.UsuarioNoEncontradoException; // Importar si no estaba
 import com.soft.gymapp.dominio.notificaciones.Notificacion;
 import com.soft.gymapp.dominio.notificaciones.NotificacionRepositorio;
 import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio; // Necesario para validar que el destinatario existe
@@ -74,7 +72,6 @@ public class NotificacionServiceImpl implements NotificacionService {
         usuarioRepositorio.findById(usuarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario destinatario no encontrado con ID: " + usuarioId));
 
-//        List<Notificacion> res = new List<Notificacion>();
         return Collections.emptyList();
 //        return notificacionRepositorio.findByUsuario_Id(usuarioId); // Método personalizado con int ID
     }

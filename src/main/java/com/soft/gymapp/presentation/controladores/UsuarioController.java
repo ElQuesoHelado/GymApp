@@ -2,182 +2,127 @@ package com.soft.gymapp.presentation.controladores;
 
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import com.soft.gymapp.servicios.UsuarioService;
-import java.util.*;
-import org.slf4j.Logger;        // CAMBIO: Importar Logger
-import org.slf4j.LoggerFactory; // CAMBIO: Importar LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
-  // CAMBIO: Añadir Logger
   private static final Logger logger =
       LoggerFactory.getLogger(UsuarioController.class);
 
   private final UsuarioService usuarioService;
 
-  // --- CONSTANTES (Solo las que SE USAN) ---
-  private static final String KEY_STATUS = "status";
-  private static final String KEY_MESSAGE = "message";
-  private static final String KEY_ERRORS = "errors";
-  private static final String KEY_DATA = "data";
-  private static final String KEY_USER = "usuario";
-
-  private static final String KEY_ID = "id";
-  private static final String KEY_NOMBRE = "nombre";
-  private static final String KEY_EMAIL = "email";
-  private static final String KEY_DNI = "DNI";
-  private static final String KEY_TELEFONO = "telefono";
-  private static final String KEY_FECHA_NACIMIENTO = "fechaNacimiento";
-  private static final String KEY_USERNAME_CUENTA = "usernameCuenta";
-  private static final String KEY_ESTADO_CUENTA = "estadoCuenta";
-  private static final String KEY_USUARIOS_LIST = "usuarios";
-
-  private static final String STATUS_SUCCESS = "success";
-
-  @Autowired
   public UsuarioController(UsuarioService usuarioService) {
     this.usuarioService = usuarioService;
   }
 
-  // Clase DTO para el registro de usuario
-  record RegistroUsuarioRequest(String nombre,
-                                String DNI, // Se queda así porque es parte del
-                                            // record (no es variable local)
-                                String email, String telefono,
-                                String fechaNacimiento, String password) {}
+  // =======================
+  // DTOs
+  // =======================
 
-  // --- Método para formatear respuesta (REFACTORIZADO) ---
-  private Map<String, Object> formatearRespuesta(String status, String message,
-                                                 Map<String, Object> data,
-                                                 Map<String, String> errors) {
-    // CAMBIO: Cambiar nombre a camelCase
+  public record RegistroUsuarioRequest(String nombre, String DNI, String email,
+                                       String telefono, String fechaNacimiento,
+                                       String password) {}
+
+  // =======================
+  // Métodos auxiliares
+  // =======================
+
+  private Map<String, Object> respuesta(String status, String message,
+                                        Map<String, Object> data,
+                                        Map<String, String> errors) {
     Map<String, Object> response = new HashMap<>();
-    response.put(KEY_STATUS, status);
-    response.put(KEY_MESSAGE, message);
+    response.put("status", status);
+    response.put("message", message);
+
     if (data != null) {
-      response.put(KEY_DATA, data);
+      response.put("data", data);
     }
     if (errors != null && !errors.isEmpty()) {
-      response.put(KEY_ERRORS, errors);
+      response.put("errors", errors);
     }
     return response;
   }
 
-  // --- Métodos del Controlador ---
+  // =======================
+  // Endpoints REST
+  // =======================
 
-  @PostMapping("/usuarios/registrar")
-  @ResponseBody
+  /**
+   * Registrar usuario
+   */
+  @PostMapping("/registrar")
   public Map<String, Object>
   registrarUsuario(@RequestBody RegistroUsuarioRequest request) {
-    // CAMBIO: Reemplazar System.out por Logger
-    logger.info("Recibida petición de registro para email: {}",
-                request.email());
+    logger.info("Registro de usuario: {}", request.email());
 
     Map<String, Object> serviceResult = usuarioService.registrarUsuario(
-        request.nombre(),
-        request.DNI(), // Aquí usa el campo DNI del record (con mayúscula)
-        request.email(), request.telefono(), request.fechaNacimiento(),
-        request.password());
+        request.nombre(), request.DNI(), request.email(), request.telefono(),
+        request.fechaNacimiento(), request.password());
 
-    String status = (String)serviceResult.get(KEY_STATUS);
-    String message = (String)serviceResult.get(KEY_MESSAGE);
-    Map<String, Object> usuarioData =
-        (Map<String, Object>)serviceResult.get(KEY_USER);
-    Map<String, String> errors =
-        (Map<String, String>)serviceResult.get(KEY_ERRORS);
-
-    return formatearRespuesta(status, message, usuarioData, errors);
+    return respuesta((String)serviceResult.get("status"),
+                     (String)serviceResult.get("message"),
+                     (Map<String, Object>)serviceResult.get("usuario"),
+                     (Map<String, String>)serviceResult.get("errors"));
   }
 
-  @GetMapping("/usuarios")
-  @ResponseBody
+  /**
+   * Listar usuarios
+   */
+  @GetMapping
   public Map<String, Object> listarUsuarios() {
-    // CAMBIO: Reemplazar System.out por Logger
-    logger.info("Recibida petición para listar usuarios");
+    logger.info("Listando usuarios");
 
     List<Usuario> usuarios = usuarioService.listarTodosUsuarios();
 
-    List<Map<String, Object>> usuariosDto =
-        usuarios.stream()
-            .map(u -> {
-              Map<String, Object> userMap = new HashMap<>();
-              userMap.put(KEY_ID, u.getId());
-              userMap.put(KEY_NOMBRE, u.getNombre());
-              userMap.put(KEY_EMAIL, u.getEmail());
-              userMap.put(KEY_DNI, u.getDni());
-              userMap.put(KEY_TELEFONO, u.getTelefono());
-              if (u.getFechaNacimiento() != null) {
-                userMap.put(KEY_FECHA_NACIMIENTO, u.getFechaNacimiento());
-              }
-              if (u.getCuentaUsuario() != null) {
-                userMap.put(KEY_USERNAME_CUENTA,
-                            u.getCuentaUsuario().getUsername());
-                userMap.put(KEY_ESTADO_CUENTA,
-                            u.getCuentaUsuario().getEstado());
-              }
-              return userMap;
-            })
-            .toList();
-
-    return formatearRespuesta(STATUS_SUCCESS, "Usuarios encontrados.",
-                              Map.of(KEY_USUARIOS_LIST, usuariosDto), null);
+    return respuesta("success", "Usuarios encontrados",
+                     Map.of("usuarios", usuarios), null);
   }
 
-  @PostMapping("/usuarios/iniciarSesion")
-  @ResponseBody
+  /**
+   * Iniciar sesión
+   */
+  @PostMapping("/iniciarSesion")
   public Map<String, Object>
   iniciarSesion(@RequestBody Map<String, String> loginRequest) {
-    // CAMBIO: Reemplazar System.out por Logger
-    String emailOrUsername = loginRequest.get("username");
-    logger.info("Recibida petición de inicio de sesión para: {}",
-                emailOrUsername);
+    logger.info("Inicio de sesión para: {}", loginRequest.get("username"));
 
-    String password = loginRequest.get("password");
-
-    Map<String, Object> serviceResult =
-        usuarioService.iniciarSesion(emailOrUsername, password);
-
-    String status = (String)serviceResult.get(KEY_STATUS);
-    String message = (String)serviceResult.get(KEY_MESSAGE);
-    Map<String, Object> usuarioData =
-        (Map<String, Object>)serviceResult.get(KEY_USER);
-    Map<String, String> errors =
-        (Map<String, String>)serviceResult.get(KEY_ERRORS);
-
-    return formatearRespuesta(status, message, usuarioData, errors);
+    return usuarioService.iniciarSesion(loginRequest.get("username"),
+                                        loginRequest.get("password"));
   }
 
-  @PostMapping("/usuarios/editarPerfil")
-  @ResponseBody
+  /**
+   * Editar perfil
+   */
+  @PutMapping("/editarPerfil")
   public Map<String, Object>
   editarPerfil(@RequestBody Map<String, Object> updateRequest) {
-    // CAMBIO: Reemplazar System.out por Logger
-    int userId = (Integer)updateRequest.get(KEY_ID);
-    logger.info("Recibida petición para editar perfil del usuario ID: {}",
-                userId);
+    int userId = (Integer)updateRequest.get("id");
+
+    logger.info("Editar perfil del usuario ID: {}", userId);
 
     Map<String, Object> serviceResult =
         usuarioService.editarPerfil(userId, updateRequest);
 
-    String status = (String)serviceResult.get(KEY_STATUS);
-    String message = (String)serviceResult.get(KEY_MESSAGE);
-    Map<String, Object> data = (Map<String, Object>)serviceResult.get(KEY_DATA);
-    Map<String, String> errors =
-        (Map<String, String>)serviceResult.get(KEY_ERRORS);
-
-    return formatearRespuesta(status, message, data, errors);
+    return respuesta((String)serviceResult.get("status"),
+                     (String)serviceResult.get("message"),
+                     (Map<String, Object>)serviceResult.get("data"),
+                     (Map<String, String>)serviceResult.get("errors"));
   }
 
-  @PostMapping("/usuarios/cerrarSesion")
-  @ResponseBody
+  /**
+   * Cerrar sesión (simulado)
+   */
+  @PostMapping("/cerrarSesion")
   public Map<String, Object> cerrarSesion() {
-    // CAMBIO: Reemplazar System.out por Logger
-    logger.info("Recibida petición para cerrar sesión");
-    return formatearRespuesta(STATUS_SUCCESS,
-                              "Sesión cerrada (simulado por controlador).",
-                              null, null);
+    logger.info("Cerrar sesión");
+
+    return respuesta("success", "Sesión cerrada correctamente", null, null);
   }
 }

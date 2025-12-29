@@ -1,19 +1,33 @@
 package com.soft.gymapp.presentation.controladores;
 
-import org.springframework.stereotype.Controller;
+import com.soft.gymapp.dominio.sesiones.Sesion;
+import com.soft.gymapp.servicios.SesionService;
+import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/sesiones")
 public class SesionController {
 
-    public void programarSesion() {
+  private final SesionService sesionService;
 
-    }
+  public SesionController(SesionService sesionService) {
+    this.sesionService = sesionService;
+  }
 
-    public void cancelarSesion() {
+  @PostMapping
+  public Sesion programarSesion(@RequestBody Sesion sesion) {
+    return sesionService.programarSesion(sesion);
+  }
 
-    }
+  @PutMapping("/{id}/cancelar")
+  public void cancelarSesion(@PathVariable int id) {
+    sesionService.cancelarSesion(id);
+  }
 
-    public void listarSesionesPorUsuario() {
+  @GetMapping("/usuario/{usuarioId}")
+  public List<Sesion> listarSesionesPorUsuario(@PathVariable int usuarioId) {
 
-    }
+    return sesionService.listarSesionesPorUsuario(usuarioId);
+  }
 }
