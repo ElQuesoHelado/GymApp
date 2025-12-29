@@ -38,6 +38,9 @@ public class MembresiaController {
                                       @RequestBody Map<String, Double> body) {
 
     Double monto = body.get("monto");
+    if (monto == null || monto < 0) {
+      throw new IllegalArgumentException("El monto debe ser un valor válido y positivo");
+    }
     return membresiaService.marcarComoAdeudada(id, monto);
   }
 }

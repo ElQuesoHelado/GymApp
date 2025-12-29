@@ -23,6 +23,15 @@ public class Membresia {
 
   @OneToOne private Cliente cliente;
 
+  private Double deuda;
+    public void setDeuda(Double deuda) {
+        this.deuda = deuda;
+    }
+
+    public Double getDeuda() {
+        return deuda;
+    }
+
   public void activar() { estado = EstadoMembresia.ACTIVADA; }
 
   public void cancelar() { estado = EstadoMembresia.CANCELADA; }
@@ -63,6 +72,7 @@ public class Membresia {
   public boolean estaActiva() {
     return this.estado == EstadoMembresia.ACTIVADA;
   }
+  
 
   public boolean estaVencida() {
     if (this.fechaFin == null)
@@ -70,4 +80,5 @@ public class Membresia {
     return this.fechaFin.before(new Date()) &&
         this.estado == EstadoMembresia.ACTIVADA;
   }
+  
 }

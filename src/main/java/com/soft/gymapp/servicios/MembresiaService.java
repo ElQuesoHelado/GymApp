@@ -24,6 +24,9 @@ public class MembresiaService {
         Membresia membresia = membresiaRepositorio.findById(membresiaId)
                 .orElseThrow(() -> new RuntimeException("Membresía no encontrada"));
 
+        membresia.setEstado(EstadoMembresia.ADEUDADA);
+        membresia.setDeuda(montoDeuda);
+
         return membresiaRepositorio.save(membresia);
     }
 
