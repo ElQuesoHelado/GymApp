@@ -13,6 +13,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import com.soft.gymapp.servicios.dto.UsuarioDTO;
+import com.soft.gymapp.dominio.usuarios.*;
+import org.springframework.security.core.Authentication;
+
+
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -162,6 +167,32 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    @Override
+    public UsuarioDTO obtenerUsuarioLogueado(Authentication authentication) {
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("No autenticado");
+        }
+
+        String email = authentication.getName(); // username/email
+
+        Usuario usuario = usuarioRepositorio.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        String tipo;
+        if (usuario instanceof Administrador) tipo = "ADMIN";
+        else if (usuario instanceof Entrenador) tipo = "ENTRENADOR";
+        else if (usuario instanceof Cliente) tipo = "CLIENTE";
+        else tipo = "DESCONOCIDO";
+
+        return new UsuarioDTO(
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getEmail(),
+                usuario.getDni(),
+                tipo
+        );
+    }
     // --- Otros métodos del Servicio ---
 
     @Override

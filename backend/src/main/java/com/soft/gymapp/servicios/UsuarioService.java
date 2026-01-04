@@ -3,8 +3,11 @@ package com.soft.gymapp.servicios;
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import java.util.List;
 import java.util.Map;
+import com.soft.gymapp.servicios.dto.UsuarioDTO;
+import org.springframework.security.core.Authentication;
 
 public interface UsuarioService {
+  UsuarioDTO obtenerUsuarioLogueado(Authentication authentication);
 
   /**
    * Registra un nuevo usuario en el sistema.
