@@ -18,9 +18,8 @@ public class AuthController {
   }
 
   @GetMapping("/me")
-  public ResponseEntity<UsuarioDTO> me(Authentication authentication) {
-    return ResponseEntity.ok(
-        usuarioService.obtenerUsuarioLogueado(authentication));
+  public UsuarioDTO me(Authentication authentication) {
+    return usuarioService.obtenerUsuarioLogueado(authentication);
   }
 
   @PostMapping("/logout")
@@ -28,3 +27,4 @@ public class AuthController {
     return ResponseEntity.ok().build();
   }
 }
+

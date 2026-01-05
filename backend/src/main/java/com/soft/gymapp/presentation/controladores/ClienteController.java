@@ -1,18 +1,28 @@
 package com.soft.gymapp.presentation.controladores;
 
+import com.soft.gymapp.servicios.UsuarioService;
+import com.soft.gymapp.servicios.dto.UsuarioDTO;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/cliente")
+@RestController
+@RequestMapping("/api/cliente")
 @PreAuthorize("hasRole('CLIENTE')")
 public class ClienteController {
 
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "cliente/dashboard";
+    private final UsuarioService usuarioService;
+
+    public ClienteController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    @GetMapping("/home")
+    public UsuarioDTO home(Authentication auth) {
+        return usuarioService.obtenerUsuarioLogueado(auth);
     }
 
     @GetMapping("/plan")

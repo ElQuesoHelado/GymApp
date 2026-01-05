@@ -1,43 +1,19 @@
-const BASE_URL = "http://localhost:8080/api/auth";
+import axiosInstance from "./axiosConfig";
 
-/**
- * @param {string} username
- * @param {string} password
- */
-export async function login(username, password) {
-  const response = await fetch(`${BASE_URL}/login`, {
-    method: "POST",
+export const login = (username, password) => {
+  const formData = new URLSearchParams();
+  formData.append("username", username);
+  formData.append("password", password);
+
+  return axiosInstance.post("/auth/login", formData, {
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-    credentials: "include", // MUY IMPORTANTE para sesiones
-    body: JSON.stringify({ username, password }),
   });
+};
 
-  if (!response.ok) {
-    throw new Error("Credenciales incorrectas");
-  }
+export const me = () =>
+  axiosInstance.get("/auth/me");
 
-  return response.json(); // devuelve UsuarioDTO
-}
-
-
-export async function me() {
-  const response = await fetch(`${BASE_URL}/me`, {
-    credentials: "include",
-  });
-
-  if (!response.ok) {
-    throw new Error("No autenticado");
-  }
-
-  return response.json();
-}
-
-
-export async function logout() {
-  await fetch(`${BASE_URL}/logout`, {
-    method: "POST",
-    credentials: "include",
-  });
-}
+export const logout = () =>
+  axiosInstance.post("/auth/logout");

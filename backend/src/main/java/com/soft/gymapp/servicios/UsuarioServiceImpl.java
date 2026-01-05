@@ -174,16 +174,17 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new RuntimeException("No autenticado");
         }
 
-        String email = authentication.getName(); // username/email
+        String nombre = authentication.getName(); // username/email
 
-        Usuario usuario = usuarioRepositorio.findByEmail(email)
+        Usuario usuario = usuarioRepositorio.findByCuentaUsuarioUsername(nombre)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        String tipo;
-        if (usuario instanceof Administrador) tipo = "ADMIN";
-        else if (usuario instanceof Entrenador) tipo = "ENTRENADOR";
-        else if (usuario instanceof Cliente) tipo = "CLIENTE";
-        else tipo = "DESCONOCIDO";
+        String tipo = switch (usuario) {
+            case Administrador administrador -> "ADMIN";
+            case Entrenador entrenador -> "ENTRENADOR";
+            case Cliente cliente -> "CLIENTE";
+            case null, default -> "DESCONOCIDO";
+        };
 
         return new UsuarioDTO(
                 usuario.getId(),
