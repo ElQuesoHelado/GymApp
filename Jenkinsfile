@@ -4,13 +4,20 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/TU_USUARIO/GymApp.git'
+                git url: 'https://github.com/ElQuesoHelado/GymApp.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh './mvnw clean package'
+                dir('backend') {
+                    sh 'mvn clean package'
+                }
+                
+                dir('frontend') {
+                    sh 'npm ci'  
+                    sh 'npm run build' 
+                }
             }
         }
 
