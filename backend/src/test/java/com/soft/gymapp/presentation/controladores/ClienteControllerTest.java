@@ -14,6 +14,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@SuppressWarnings("deprecation") // Evita que Sonar marque @MockBean como deprecated
 @WebMvcTest(ClienteController.class)
 class ClienteControllerTest {
 
@@ -21,14 +22,14 @@ class ClienteControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UsuarioService usuarioService;
+    private UsuarioService usuarioService; // Necesario para que WebMvcTest inyecte el mock
 
     // 🔐 Endpoint protegido por ROLE_CLIENTE
     @Test
     @WithMockUser(username = "cliente@test.com", roles = {"CLIENTE"})
     void home_DeberiaRetornarUsuarioDTO() throws Exception {
 
-        // Crear UsuarioDTO usando el constructor del record
+        // Crear UsuarioDTO usando record
         UsuarioDTO dto = new UsuarioDTO(1, "Misael", "misael@test.com", "password123", "CLIENTE");
 
         when(usuarioService.obtenerUsuarioLogueado(any()))
