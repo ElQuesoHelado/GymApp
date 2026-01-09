@@ -32,5 +32,13 @@ pipeline {
             }
         }
 
+        stage('Unit Tests') {
+            steps {
+                dir('backend') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
     }
 }
