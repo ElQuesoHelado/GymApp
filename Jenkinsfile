@@ -40,5 +40,17 @@ pipeline {
             }
         }
 
+        stage('Functional Tests') {
+            steps {
+                echo 'Ejecutando pruebas funcionales (controllers)...'
+                dir('backend') {
+                    sh '''
+                        mvn test \
+                        -Dtest=*ControllerTest \
+                        -DfailIfNoTests=false
+                    '''
+                }
+            }
+        }
     }
 }
