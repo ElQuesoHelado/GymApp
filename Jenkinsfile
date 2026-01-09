@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir('backend') {
-                    sh 'mvn clean package'
+                    sh 'mvn clean compile'
                 }
                 
                 dir('frontend') {
