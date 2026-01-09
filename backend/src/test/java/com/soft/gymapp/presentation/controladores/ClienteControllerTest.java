@@ -10,6 +10,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -27,9 +28,8 @@ class ClienteControllerTest {
     @WithMockUser(username = "cliente@test.com", roles = {"CLIENTE"})
     void home_DeberiaRetornarUsuarioDTO() throws Exception {
 
-        UsuarioDTO dto = new UsuarioDTO();
-        dto.setNombre("Misael");
-        dto.setEmail("misael@test.com");
+        // Crear UsuarioDTO usando el constructor del record
+        UsuarioDTO dto = new UsuarioDTO(1, "Misael", "misael@test.com", "password123", "CLIENTE");
 
         when(usuarioService.obtenerUsuarioLogueado(any()))
                 .thenReturn(dto);
