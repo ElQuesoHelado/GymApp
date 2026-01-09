@@ -24,10 +24,13 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh './mvnw sonar:sonar'
+                withSonarQubeEnv('SonarQube') {
+                    dir('backend') {
+                        sh 'mvn sonar:sonar'
+                    }
                 }
             }
         }
+
     }
 }
