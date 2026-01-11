@@ -110,6 +110,11 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+            </plugin>
+
             <!-- Plugin de cobertura de código con JaCoCo -->
             <plugin>
                 <groupId>org.jacoco</groupId>

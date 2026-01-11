@@ -34,15 +34,12 @@ pipeline {
         }
 
         stage('Frontend Build') {
-            agent {
-                docker {
-                    image 'node:20'
-                    reuseNode true
-                }
-            }
             steps {
                 dir('frontend') {
                     sh '''
+                        curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+                        apt-get install -y nodejs
+
                         npm ci
                         npm run build
                     '''
