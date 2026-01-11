@@ -81,6 +81,17 @@ pipeline {
                 }
             }
         }
+        stage('Empaquetamiento y Despliegue') {
+            steps {
+                echo 'Empaquetando aplicación con Docker y desplegando con docker-compose...'
+                sh '''
+                    docker-compose down
+                    docker-compose build
+                    docker-compose up -d
+                '''
+            }
+        }
+
 
     }
 }
