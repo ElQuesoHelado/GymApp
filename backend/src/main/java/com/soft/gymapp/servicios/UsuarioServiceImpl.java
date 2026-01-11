@@ -179,12 +179,18 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = usuarioRepositorio.findByCuentaUsuarioUsername(nombre)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        String tipo = switch (usuario) {
-            case Administrador administrador -> "ADMIN";
-            case Entrenador entrenador -> "ENTRENADOR";
-            case Cliente cliente -> "CLIENTE";
-            case null, default -> "DESCONOCIDO";
-        };
+
+        String tipo;
+
+        if (usuario instanceof Administrador) {
+            tipo = "ADMIN";
+        } else if (usuario instanceof Entrenador) {
+            tipo = "ENTRENADOR";
+        } else if (usuario instanceof Cliente) {
+            tipo = "CLIENTE";
+        } else {
+            tipo = "DESCONOCIDO";
+        }
 
         return new UsuarioDTO(
                 usuario.getId(),
