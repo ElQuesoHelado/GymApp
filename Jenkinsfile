@@ -52,5 +52,17 @@ pipeline {
                 }
             }
         }
+        stage('Performance Tests') {
+            steps {
+                dir('backend/performance-tests') {
+                    sh '''
+                    jmeter -n \
+                    -t gymapp_test.jmx \
+                    -l results.jtl
+                    '''
+                }
+            }
+        }
+
     }
 }
