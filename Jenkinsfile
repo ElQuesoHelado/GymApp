@@ -63,6 +63,24 @@ pipeline {
                 }
             }
         }
+        stage('Security Tests') {
+            parallel {
+                stage('Backend - OWASP') {
+                    steps {
+                        dir('backend') {
+                            sh 'mvn org.owasp:dependency-check-maven:check'
+                        }
+                    }
+                }
+                stage('Frontend - npm audit') {
+                    steps {
+                        dir('frontend') {
+                            sh 'npm audit --audit-level=high'
+                        }
+                    }
+                }
+            }
+        }
 
     }
 }
