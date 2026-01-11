@@ -1,25 +1,29 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.9-eclipse-temurin-17'
+            args '-v $HOME/.m2:/root/.m2'
+            reuseNode true
+        }
+    }
 
     environment {
         SONAR_PROJECT_KEY = "gymapp"
     }
 
-    stages {
+    options {
+        skipDefaultCheckout(true)
+        disableConcurrentBuilds()
+    }
 
-        stage('Checkout') {
+    stages {
+        stage('Clean & Checkout') {
             steps {
-                checkout scm
+                git url: 'https://github.com/ElQuesoHelado/GymApp.git', branch: 'master'
             }
         }
 
         stage('Backend Build & Tests') {
-            agent {
-                docker {
-                    image 'maven:3.9-eclipse-temurin-17'
-                    args '-v $HOME/.m2:/root/.m2'
-                }
-            }
             steps {
                 dir('backend') {
                     sh '''
@@ -33,6 +37,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:20'
+                    reuseNode true
                 }
             }
             steps {
@@ -46,12 +51,6 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            agent {
-                docker {
-                    image 'maven:3.9-eclipse-temurin-17'
-                    args '-v $HOME/.m2:/root/.m2'
-                }
-            }
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir('backend') {
@@ -67,11 +66,6 @@ pipeline {
         stage('Security Checks') {
             parallel {
                 stage('Backend OWASP') {
-                    agent {
-                        docker {
-                            image 'maven:3.9-eclipse-temurin-17'
-                        }
-                    }
                     steps {
                         dir('backend') {
                             sh 'mvn org.owasp:dependency-check-maven:check'
@@ -83,6 +77,7 @@ pipeline {
                     agent {
                         docker {
                             image 'node:20'
+                            reuseNode true
                         }
                     }
                     steps {
