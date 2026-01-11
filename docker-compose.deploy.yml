@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  backend:
+    image: gymapp-backend:latest
+    container_name: gymapp-backend
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+
+  frontend:
+    image: gymapp-frontend:latest
+    container_name: gymapp-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+

@@ -19,7 +19,7 @@
     <description>Proyecto de aplicación relacionada a gimnasio</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
         <jacoco.version>0.8.10</jacoco.version>
     </properties>
 

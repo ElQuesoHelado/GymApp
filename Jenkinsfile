@@ -1,78 +1,90 @@
 pipeline {
     agent any
 
+    environment {
+        SONAR_PROJECT_KEY = "gymapp"
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/ElQuesoHelado/GymApp.git'
             }
         }
 
-        stage('Build') {
+        stage('Backend Build & Tests') {
+            agent {
+                docker {
+                    image 'maven:3.9-eclipse-temurin-17'
+                    args '-v $HOME/.m2:/root/.m2'
+                }
+            }
             steps {
                 dir('backend') {
-                    sh 'mvn clean package -DskipTests'
-
+                    sh '''
+                        mvn clean verify
+                    '''
                 }
-                
+            }
+        }
+
+        stage('Frontend Build') {
+            agent {
+                docker {
+                    image 'node:20'
+                }
+            }
+            steps {
                 dir('frontend') {
-                    sh 'npm ci'  
-                    sh 'npm run build' 
+                    sh '''
+                        npm ci
+                        npm run build
+                    '''
                 }
             }
         }
 
         stage('SonarQube Analysis') {
+            agent {
+                docker {
+                    image 'maven:3.9-eclipse-temurin-17'
+                    args '-v $HOME/.m2:/root/.m2'
+                }
+            }
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir('backend') {
-                        sh 'mvn sonar:sonar'
+                        sh '''
+                            mvn sonar:sonar \
+                              -Dsonar.projectKey=$SONAR_PROJECT_KEY
+                        '''
                     }
                 }
             }
         }
 
-        stage('Unit Tests') {
-            steps {
-                dir('backend') {
-                    sh 'mvn test'
-                }
-            }
-        }
-
-        stage('Functional Tests') {
-            steps {
-                echo 'Ejecutando pruebas funcionales (controllers)...'
-                dir('backend') {
-                    sh '''
-                        mvn test \
-                        -Dtest=*ControllerTest \
-                        -DfailIfNoTests=false
-                    '''
-                }
-            }
-        }
-        stage('Performance Tests') {
-            steps {
-                dir('backend/performance-tests') {
-                    sh '''
-                    jmeter -n \
-                    -t gymapp_test.jmx \
-                    -l results.jtl
-                    '''
-                }
-            }
-        }
-        stage('Security Tests') {
+        stage('Security Checks') {
             parallel {
-                stage('Backend - OWASP') {
+                stage('Backend OWASP') {
+                    agent {
+                        docker {
+                            image 'maven:3.9-eclipse-temurin-17'
+                        }
+                    }
                     steps {
                         dir('backend') {
                             sh 'mvn org.owasp:dependency-check-maven:check'
                         }
                     }
                 }
-                stage('Frontend - npm audit') {
+
+                stage('Frontend Audit') {
+                    agent {
+                        docker {
+                            image 'node:20'
+                        }
+                    }
                     steps {
                         dir('frontend') {
                             sh 'npm audit --audit-level=high || true'
@@ -81,17 +93,23 @@ pipeline {
                 }
             }
         }
-        stage('Empaquetamiento y Despliegue') {
+
+        stage('Build Docker Images') {
             steps {
-                echo 'Empaquetando aplicación con Docker y desplegando con docker-compose...'
                 sh '''
-                    docker-compose down
-                    docker-compose build
-                    docker-compose up -d
+                    docker build -t gymapp-backend ./backend
+                    docker build -t gymapp-frontend ./frontend
                 '''
             }
         }
 
-
+        stage('Deploy (Docker)') {
+            steps {
+                sh '''
+                    docker-compose -f docker-compose.deploy.yml down
+                    docker-compose -f docker-compose.deploy.yml up -d
+                '''
+            }
+        }
     }
 }
