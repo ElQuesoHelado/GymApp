@@ -1,8 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.9-eclipse-temurin-17'
-            args '-v $HOME/.m2:/root/.m2'
+            image 'docker:latest'
+            args '--privileged --network=host -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/root/.m2'
             reuseNode true
         }
     }
@@ -19,6 +19,9 @@ pipeline {
     stages {
         stage('Clean & Checkout') {
             steps {
+                sh '''
+                    apk add --no-cache bash curl openjdk17 maven nodejs npm git
+                '''
                 git url: 'https://github.com/ElQuesoHelado/GymApp.git', branch: 'master'
             }
         }
@@ -37,9 +40,6 @@ pipeline {
             steps {
                 dir('frontend') {
                     sh '''
-                        curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-                        apt-get install -y nodejs
-
                         npm ci
                         npm run build
                     '''
@@ -53,7 +53,8 @@ pipeline {
                     dir('backend') {
                         sh '''
                             mvn sonar:sonar \
-                              -Dsonar.projectKey=$SONAR_PROJECT_KEY
+                              -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+                              -Dsonar.host.url=http://localhost:9000 \
                         '''
                     }
                 }
@@ -65,18 +66,16 @@ pipeline {
                 stage('Backend OWASP') {
                     steps {
                         dir('backend') {
-                            sh 'mvn org.owasp:dependency-check-maven:check'
+                            sh '''
+                                mvn org.owasp:dependency-check-maven:check \
+                                  -DnvdApiKey=6bb8156e-45fb-4200-8ea7-f03e806fb6cc \
+                                  -DnvdApiDelay=2000
+                                '''
                         }
                     }
                 }
 
                 stage('Frontend Audit') {
-                    agent {
-                        docker {
-                            image 'node:20'
-                            reuseNode true
-                        }
-                    }
                     steps {
                         dir('frontend') {
                             sh 'npm audit --audit-level=high || true'
@@ -87,12 +86,12 @@ pipeline {
         }
 
         stage('Build Docker Images') {
-            steps {
-                sh '''
-                    docker build -t gymapp-backend ./backend
-                    docker build -t gymapp-frontend ./frontend
-                '''
-            }
+              steps {
+                    sh '''
+                        docker build -t gymapp-backend ./backend
+                        docker build -t gymapp-frontend ./frontend
+                    '''
+              }
         }
 
         stage('Deploy (Docker)') {
