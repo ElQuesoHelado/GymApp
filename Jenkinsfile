@@ -89,7 +89,9 @@ pipeline {
               steps {
                     sh '''
                         docker build -t gymapp-backend ./backend
-                        docker build -t gymapp-frontend ./frontend
+                        docker build \
+                          --build-arg REACT_APP_API_URL=http://backend:8080/api \
+                          -t gymapp-frontend ./frontend
                     '''
               }
         }
