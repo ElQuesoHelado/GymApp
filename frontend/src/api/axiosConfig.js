@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://backend:8080/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://backend:8080/api';
 
-console.log("API_URL:", process.env.REACT_APP_API_URL);
+console.log("API_URL:", import.meta.env.VITE_API_URL);
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
