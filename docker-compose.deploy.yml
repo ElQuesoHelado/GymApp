@@ -16,6 +16,3 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
-    environment:
-      - REACT_APP_API_URL=http://backend:8080/api
-
