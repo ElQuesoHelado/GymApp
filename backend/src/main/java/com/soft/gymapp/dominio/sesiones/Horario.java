@@ -2,11 +2,9 @@ package com.soft.gymapp.dominio.sesiones;
 
 import jakarta.persistence.Embeddable;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
 
 @Embeddable
 public class Horario {
