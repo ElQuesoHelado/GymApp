@@ -5,6 +5,7 @@ import com.soft.gymapp.dominio.usuarios.Usuario;
 import java.util.List;
 import java.util.Map;
 
+import com.soft.gymapp.servicios.dto.MembresiaDTO;
 import com.soft.gymapp.servicios.dto.NotificacionDTO;
 import com.soft.gymapp.servicios.dto.SesionDTO;
 import com.soft.gymapp.servicios.dto.UsuarioDTO;
@@ -50,13 +51,10 @@ public interface UsuarioService {
    */
   Map<String, Object> editarPerfil(int userId, Map<String, Object> updates);
 
-  //TODO: Esta funcion es usada para todo tipo de usuario
-  List<NotificacionDTO> obtenerNotificaciones();
-
   /*
    * Tando Cliente como Entrenador tiene lista de sesiones 
    */
   List<SesionDTO> listarSesiones();
 
-  Membresia obtenerMembresia();
+  MembresiaDTO obtenerMembresia();
 }

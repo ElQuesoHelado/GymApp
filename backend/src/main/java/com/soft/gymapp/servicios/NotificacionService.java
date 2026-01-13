@@ -1,6 +1,7 @@
 package com.soft.gymapp.servicios;
 
 import com.soft.gymapp.dominio.notificaciones.Notificacion;
+import com.soft.gymapp.servicios.dto.NotificacionDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +18,9 @@ public interface NotificacionService {
     Notificacion crearNotificacion(Notificacion notificacion);
 
     void marcarComoLeida(int notificacionId);
-    Optional<Notificacion> obtenerNotificacionPorId(int id);
-    List<Notificacion> listarNotificacionesPorUsuario(int usuarioId);
-    List<Notificacion> listarNotificacionesNoLeidasPorUsuario(int usuarioId);
+    Optional<NotificacionDTO> obtenerNotificacionPorId(int id);
+    List<NotificacionDTO> listarNotificacionesPorUsuario();
+    List<NotificacionDTO> listarNotificacionesNoLeidasPorUsuario();
 
     // Otros métodos que podrían ser útiles:
     // List<Notificacion> listarTodasLasNotificaciones(); // Para administración

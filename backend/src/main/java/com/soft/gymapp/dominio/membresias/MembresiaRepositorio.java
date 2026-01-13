@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface MembresiaRepositorio extends JpaRepository<Membresia, Integer> {
 
+    List<Membresia> findByClienteId(Integer clienteId);
+
     List<Membresia> findByTipoNombreContainingIgnoreCase(String nombre);
 
     List<Membresia> findByTipoPrecioLessThan(float precioMaximo);

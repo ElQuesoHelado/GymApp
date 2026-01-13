@@ -3,6 +3,7 @@ package com.soft.gymapp.servicios;
 import com.soft.gymapp.dominio.notificaciones.*;
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio;
+import com.soft.gymapp.servicios.dto.NotificacionDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.*;
@@ -46,7 +47,7 @@ class NotificacionServiceTest {
         Notificacion n = new Notificacion("Mensaje de prueba", usuario, TipoNotificacion.MENSAJE);
         when(notificacionRepositorio.findById(1)).thenReturn(Optional.of(n));
 
-        Optional<Notificacion> resultado = notificacionService.obtenerNotificacionPorId(1);
+        Optional<NotificacionDTO> resultado = notificacionService.obtenerNotificacionPorId(1);
         assertTrue(resultado.isPresent());
         verify(notificacionRepositorio).findById(1);
     }

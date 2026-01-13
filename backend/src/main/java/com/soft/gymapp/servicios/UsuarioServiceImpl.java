@@ -5,6 +5,7 @@ import com.soft.gymapp.dominio.usuarios.CuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.EstadoCuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio;
+import com.soft.gymapp.servicios.dto.MembresiaDTO;
 import com.soft.gymapp.servicios.dto.NotificacionDTO;
 import com.soft.gymapp.servicios.dto.SesionDTO;
 import org.slf4j.Logger; // CAMBIO: Importar Logger
@@ -264,14 +265,10 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<NotificacionDTO> obtenerNotificaciones() {
+    public MembresiaDTO obtenerMembresia() {
+        UsuarioDTO usuarioDTO = obtenerUsuarioLogueado();
 
-        return List.of();
-    }
 
-    @Override
-    public Membresia obtenerMembresia() {
-        UsuarioDTO usuario = obtenerUsuarioLogueado();
         return null;
     }
 

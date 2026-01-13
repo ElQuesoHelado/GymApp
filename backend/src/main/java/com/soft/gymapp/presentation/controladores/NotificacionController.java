@@ -4,10 +4,14 @@ import com.soft.gymapp.dominio.notificaciones.Notificacion;
 import com.soft.gymapp.servicios.NotificacionService;
 import java.util.List;
 import java.util.Map;
+
+import com.soft.gymapp.servicios.dto.NotificacionDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/notificaciones")
+@PreAuthorize("isAuthenticated()")
 public class NotificacionController {
 
   private final NotificacionService notificacionService;
@@ -22,18 +26,14 @@ public class NotificacionController {
     return notificacionService.crearNotificacion(notificacion);
   }
 
-  @GetMapping("/usuario/{usuarioId}")
-  public List<Notificacion>
-  listarNotificacionesUsuario(@PathVariable int usuarioId) {
-
-    return notificacionService.listarNotificacionesPorUsuario(usuarioId);
+  @GetMapping
+  public List<NotificacionDTO> listar() {
+    return notificacionService.listarNotificacionesPorUsuario();
   }
 
-  @GetMapping("/usuario/{usuarioId}/no-leidas")
-  public List<Notificacion> listarNoLeidas(@PathVariable int usuarioId) {
-
-    return notificacionService.listarNotificacionesNoLeidasPorUsuario(
-        usuarioId);
+  @GetMapping("/no-leidas")
+  public List<NotificacionDTO> listarNoLeidas() {
+    return notificacionService.listarNotificacionesNoLeidasPorUsuario();
   }
 
   @PutMapping("/{id}/leer")

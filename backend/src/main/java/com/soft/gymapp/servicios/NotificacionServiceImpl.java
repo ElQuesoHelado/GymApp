@@ -5,8 +5,11 @@ import com.soft.gymapp.dominio.notificaciones.Notificacion;
 import com.soft.gymapp.dominio.notificaciones.NotificacionRepositorio;
 import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio; // Necesario para validar que el destinatario existe
 
+import com.soft.gymapp.servicios.dto.NotificacionDTO;
+import com.soft.gymapp.servicios.dto.UsuarioDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.soft.gymapp.servicios.dto.UsuarioDTO;
 
 import java.util.Collections;
 import java.util.Date;
@@ -18,11 +21,22 @@ import java.util.Optional;
 public class NotificacionServiceImpl implements NotificacionService {
 
     private final NotificacionRepositorio notificacionRepositorio;
-    private final UsuarioRepositorio usuarioRepositorio;
+    private final UsuarioService usuarioService;
 
-    public NotificacionServiceImpl(NotificacionRepositorio notificacionRepositorio, UsuarioRepositorio usuarioRepositorio) {
+    public NotificacionServiceImpl(NotificacionRepositorio notificacionRepositorio,
+                                   UsuarioService usuarioService) {
         this.notificacionRepositorio = notificacionRepositorio;
-        this.usuarioRepositorio = usuarioRepositorio;
+        this.usuarioService = usuarioService;
+    }
+
+    private NotificacionDTO toDTO(Notificacion n) {
+        return new NotificacionDTO(
+                n.getId(),
+                n.getMensaje(),
+                n.isLeido(),
+                n.getFechaEnvio(),
+                n.getTipo()
+        );
     }
 
     @Override
@@ -36,9 +50,10 @@ public class NotificacionServiceImpl implements NotificacionService {
             throw new IllegalArgumentException("La notificación debe tener un usuario destinatario válido.");
         }
 
-        // Verificar que el usuario destinatario existe en la base de datos
-        usuarioRepositorio.findById(notificacion.getUsuario().getId())
-                .orElseThrow(() -> new IllegalArgumentException("El usuario destinatario de la notificación no existe."));
+        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioLogueado();
+        if(usuarioDTO.id() != notificacion.getUsuario().getId()){
+            throw new IllegalArgumentException("La notificación debe tener un usuario destinatario válido.");
+        }
 
         // Asegurarse de que la fecha de envío y el estado inicial sean correctos
         if (notificacion.getFechaEnvio() == null) {
@@ -61,30 +76,26 @@ public class NotificacionServiceImpl implements NotificacionService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Notificacion> obtenerNotificacionPorId(int id) {
-        return notificacionRepositorio.findById(id);
+    public Optional<NotificacionDTO> obtenerNotificacionPorId(int id) {
+        return notificacionRepositorio.findById(id)
+                .map(this::toDTO);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Notificacion> listarNotificacionesPorUsuario(int usuarioId) {
-        // verificar que el usuario exista
-        usuarioRepositorio.findById(usuarioId)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario destinatario no encontrado con ID: " + usuarioId));
+    public List<NotificacionDTO> listarNotificacionesPorUsuario() {
+        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioLogueado();
 
-        return Collections.emptyList();
-//        return notificacionRepositorio.findByUsuario_Id(usuarioId); // Método personalizado con int ID
+        return notificacionRepositorio.findByUsuarioId(usuarioDTO.id())
+                .stream().map(this::toDTO).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Notificacion> listarNotificacionesNoLeidasPorUsuario(int usuarioId) {
-        // verificar que el usuario exista
-        usuarioRepositorio.findById(usuarioId)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario destinatario no encontrado con ID: " + usuarioId));
+    public List<NotificacionDTO> listarNotificacionesNoLeidasPorUsuario() {
+        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioLogueado();
 
-
-        return Collections.emptyList();
-//        return notificacionRepositorio.findByUsuario_IdAndLeidoFalse(usuarioId); // Método personalizado con int ID
+        return notificacionRepositorio.findByUsuarioIdAndLeidoFalse(usuarioDTO.id())
+                .stream().map(this::toDTO).toList();
     }
 }
