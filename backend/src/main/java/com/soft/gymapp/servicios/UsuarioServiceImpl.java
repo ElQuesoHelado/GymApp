@@ -18,10 +18,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+
 import com.soft.gymapp.servicios.dto.UsuarioDTO;
 import com.soft.gymapp.dominio.usuarios.*;
 import org.springframework.security.core.Authentication;
-
 
 
 @Service
@@ -69,26 +69,34 @@ public class UsuarioServiceImpl implements UsuarioService {
     /**
      * Validar Datos de Registro del Usuario
      */
-    private Map<String, String> validarDatosRegistro(String nombre, String dni, String email, 
-                                                     String fechaNacimiento, String password) { 
-                                                     // CAMBIO: 'dni' en minúscula, quitar 'telefono'
+    private Map<String, String> validarDatosRegistro(String nombre, String dni, String email,
+                                                     String fechaNacimiento, String password) {
+        // CAMBIO: 'dni' en minúscula, quitar 'telefono'
         logger.debug("Validando datos de registro..."); // CAMBIO: Logger
         Map<String, String> errors = new HashMap<>();
 
         if (nombre == null || nombre.isBlank()) errors.put(KEY_NOMBRE, "El nombre es requerido.");
         if (dni == null || dni.isBlank()) errors.put(KEY_DNI, "El DNI es requerido."); // CAMBIO: 'dni'
         if (email == null || email.isBlank() || !email.contains("@")) errors.put(KEY_EMAIL, "El email es inválido.");
-        if (password == null || password.length() < 6) errors.put("password", "La contraseña debe tener al menos 6 caracteres.");
+        if (password == null || password.length() < 6)
+            errors.put("password", "La contraseña debe tener al menos 6 caracteres.");
         if (fechaNacimiento == null || fechaNacimiento.isBlank()) {
             errors.put("fechaNacimiento", "La fecha de nacimiento es requerida.");
         } else {
-            try { new SimpleDateFormat(DATE_FORMAT).parse(fechaNacimiento); }
-            catch (ParseException e) { errors.put("fechaNacimiento", "Formato de fecha de nacimiento inválido (esperado YYYY-MM-DD)."); }
+            try {
+                new SimpleDateFormat(DATE_FORMAT).parse(fechaNacimiento);
+            } catch (ParseException e) {
+                errors.put("fechaNacimiento", "Formato de fecha de nacimiento inválido (esperado YYYY-MM-DD).");
+            }
         }
 
         // Usando el repositorio para verificar unicidad
-        if (usuarioRepositorio.findByEmail(email).isPresent()) { errors.put(KEY_EMAIL, "El email ya está registrado."); }
-        if (usuarioRepositorio.findByDni(dni).isPresent()) { errors.put(KEY_DNI, "El DNI ya está registrado."); } // CAMBIO: 'dni'
+        if (usuarioRepositorio.findByEmail(email).isPresent()) {
+            errors.put(KEY_EMAIL, "El email ya está registrado.");
+        }
+        if (usuarioRepositorio.findByDni(dni).isPresent()) {
+            errors.put(KEY_DNI, "El DNI ya está registrado.");
+        } // CAMBIO: 'dni'
 
         return errors;
     }
@@ -207,6 +215,34 @@ public class UsuarioServiceImpl implements UsuarioService {
                 tipo
         );
     }
+
+    @Override
+    public UsuarioDTO obtenerClienteLogueado() {
+        UsuarioDTO usuarioDTO = obtenerUsuarioLogueado();
+        if (!Objects.equals(usuarioDTO.tipo(), "CLIENTE")) {
+            throw new RuntimeException("Usuario no es cliente");
+        }
+        return usuarioDTO;
+    }
+
+    @Override
+    public UsuarioDTO obtenerEntrenadorLogueado() {
+        UsuarioDTO usuarioDTO = obtenerUsuarioLogueado();
+        if (!Objects.equals(usuarioDTO.tipo(), "ENTRENADOR")) {
+            throw new RuntimeException("Usuario no es entrenador");
+        }
+        return usuarioDTO;
+    }
+
+    @Override
+    public UsuarioDTO obtenerAdminLogueado() {
+        UsuarioDTO usuarioDTO = obtenerUsuarioLogueado();
+        if (!Objects.equals(usuarioDTO.tipo(), "ADMIN")) {
+            throw new RuntimeException("Usuario no es admin");
+        }
+        return usuarioDTO;
+    }
+
     // --- Otros métodos del Servicio ---
 
     @Override
@@ -243,7 +279,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 Map<String, Object> response = new HashMap<>();
                 response.put(KEY_STATUS, STATUS_SUCCESS);
                 response.put(KEY_MESSAGE, "Inicio de sesión exitoso.");
-                response.put(KEY_USER, Map.of(KEY_ID, user.getId(), KEY_NOMBRE, user.getNombre(), 
+                response.put(KEY_USER, Map.of(KEY_ID, user.getId(), KEY_NOMBRE, user.getNombre(),
                         KEY_EMAIL, user.getEmail(), KEY_ESTADO_CUENTA, cuenta.getEstado()));
                 return response;
             }

@@ -13,6 +13,9 @@ import org.springframework.security.core.Authentication;
 
 public interface UsuarioService {
   UsuarioDTO obtenerUsuarioLogueado();
+  UsuarioDTO obtenerClienteLogueado();
+  UsuarioDTO obtenerEntrenadorLogueado();
+  UsuarioDTO obtenerAdminLogueado();
 
   /**
    * Registra un nuevo usuario en el sistema.

@@ -35,7 +35,7 @@ public class PlanEntrenamientoController {
   obtenerPlanPorCliente(@PathVariable Integer clienteId) {
 
     PlanEntrenamientoDTO plan =
-        planEntrenamientoService.getPlanEntrenamientoPorClienteId(clienteId);
+        planEntrenamientoService.getPlanEntrenamientoPorClienteId();
 
     if (plan == null) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND)

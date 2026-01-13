@@ -3,10 +3,11 @@ package com.soft.gymapp.dominio.membresias;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MembresiaRepositorio extends JpaRepository<Membresia, Integer> {
 
-    List<Membresia> findByClienteId(Integer clienteId);
+    Optional<Membresia> findByClienteId(Integer clienteId);
 
     List<Membresia> findByTipoNombreContainingIgnoreCase(String nombre);
 
