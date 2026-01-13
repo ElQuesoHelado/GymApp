@@ -2,17 +2,18 @@ import { NavLink, Outlet } from "react-router-dom";
 
 export default function ClienteLayout() {
   return (
-    <div style={{ display: "flex" }}>
-      <aside style={{ width: 200 }}>
-        <NavLink to="">Inicio</NavLink><br />
-        <NavLink to="membresia">Membresía</NavLink><br />
-        <NavLink to="planes">Planes</NavLink><br />
-        <NavLink to="notificaciones">Notificaciones</NavLink>
+    <div style={{ display: "flex", minHeight: "100vh" }}>
+      <aside style={{ width: 200, padding: 20 }}>
+        <NavLink to="/dashboard/cliente" end>Inicio</NavLink><br />
+        <NavLink to="/dashboard/cliente/membresia">Membresía</NavLink><br />
+        <NavLink to="/dashboard/cliente/planes">Planes</NavLink><br />
+        <NavLink to="/dashboard/cliente/notificaciones">Notificaciones</NavLink>
       </aside>
 
-      <main style={{ padding: 20 }}>
+      <main style={{ flex: 1, padding: 20 }}>
         <Outlet />
       </main>
     </div>
   );
 }
+

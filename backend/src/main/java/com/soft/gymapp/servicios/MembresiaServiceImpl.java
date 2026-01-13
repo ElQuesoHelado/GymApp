@@ -7,22 +7,21 @@ import com.soft.gymapp.servicios.dto.MembresiaDTO;
 import com.soft.gymapp.servicios.dto.PagoMembresiaDTO;
 import com.soft.gymapp.servicios.dto.TipoMembresiaDTO;
 import com.soft.gymapp.servicios.dto.UsuarioDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class MembresiaServiceImpl implements MembresiaService {
 
     private final MembresiaRepositorio membresiaRepositorio;
-    private final UsuarioService usuarioService;
 
-    public MembresiaServiceImpl(MembresiaRepositorio membresiaRepositorio, UsuarioService usuarioService) {
+    @Autowired
+    public MembresiaServiceImpl(MembresiaRepositorio membresiaRepositorio) {
         this.membresiaRepositorio = membresiaRepositorio;
-        this.usuarioService = usuarioService;
     }
 
     private MembresiaDTO toDTO(Membresia m) {
@@ -85,10 +84,8 @@ public class MembresiaServiceImpl implements MembresiaService {
     }
 
     @Override
-    public Optional<MembresiaDTO> obtenerPorCliente() {
-        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioLogueado();
-
-        return membresiaRepositorio.findByClienteId(usuarioDTO.id())
+    public Optional<MembresiaDTO> obtenerPorCliente(Integer idCliente) {
+           return membresiaRepositorio.findByClienteId(idCliente)
                 .map(this::toDTO);
     }
 }

@@ -16,7 +16,6 @@ export default function ClienteHome() {
 
   return (
     <div>
-      {/* {data} */}
       <h3>Bienvenido {data.nombre}</h3>
       <h4>Id {data.id}</h4>
       <h4>Email {data.email}</h4>

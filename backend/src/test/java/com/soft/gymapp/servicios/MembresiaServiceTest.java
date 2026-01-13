@@ -3,6 +3,7 @@ package com.soft.gymapp.servicios;
 import com.soft.gymapp.dominio.membresias.EstadoMembresia;
 import com.soft.gymapp.dominio.membresias.Membresia;
 import com.soft.gymapp.dominio.membresias.MembresiaRepositorio;
+import com.soft.gymapp.servicios.dto.MembresiaDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -109,7 +110,7 @@ class MembresiaServiceTest {
         when(membresiaRepositorio.findByEstado(estado))
                 .thenReturn(membresiasEsperadas);
 
-        List<Membresia> resultado = membresiaService.buscarPorEstado(estado);
+        List<MembresiaDTO> resultado = membresiaService.buscarPorEstado(estado);
 
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
@@ -124,7 +125,7 @@ class MembresiaServiceTest {
         when(membresiaRepositorio.findByEstado(estado))
                 .thenReturn(Arrays.asList());
 
-        List<Membresia> resultado = membresiaService.buscarPorEstado(estado);
+        List<MembresiaDTO> resultado = membresiaService.buscarPorEstado(estado);
 
         assertNotNull(resultado);
         assertTrue(resultado.isEmpty());
@@ -136,7 +137,7 @@ class MembresiaServiceTest {
         when(membresiaRepositorio.findByEstado(null))
                 .thenReturn(Arrays.asList());
 
-        List<Membresia> resultado = membresiaService.buscarPorEstado(null);
+        List<MembresiaDTO> resultado = membresiaService.buscarPorEstado(null);
 
         assertNotNull(resultado);
         assertTrue(resultado.isEmpty());
