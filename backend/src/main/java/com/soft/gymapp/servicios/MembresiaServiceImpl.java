@@ -6,18 +6,23 @@ import com.soft.gymapp.dominio.membresias.MembresiaRepositorio;
 import com.soft.gymapp.servicios.dto.MembresiaDTO;
 import com.soft.gymapp.servicios.dto.PagoMembresiaDTO;
 import com.soft.gymapp.servicios.dto.TipoMembresiaDTO;
+import com.soft.gymapp.servicios.dto.UsuarioDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MembresiaServiceImpl implements MembresiaService {
 
     private final MembresiaRepositorio membresiaRepositorio;
+    private final UsuarioService usuarioService;
 
-    public MembresiaServiceImpl(MembresiaRepositorio membresiaRepositorio) {
+    public MembresiaServiceImpl(MembresiaRepositorio membresiaRepositorio, UsuarioService usuarioService) {
         this.membresiaRepositorio = membresiaRepositorio;
+        this.usuarioService = usuarioService;
     }
 
     private MembresiaDTO toDTO(Membresia m) {
@@ -66,8 +71,24 @@ public class MembresiaServiceImpl implements MembresiaService {
         return membresiaRepositorio.save(membresia);
     }
 
-    public List<Membresia> buscarPorEstado(EstadoMembresia estado) {
+    public List<MembresiaDTO> buscarPorEstado(EstadoMembresia estado) {
 
-        return membresiaRepositorio.findByEstado(estado);
+        return membresiaRepositorio.findByEstado(estado)
+                .stream()
+                .map(this::toDTO)
+                .toList();
+    }
+
+    @Override
+    public Optional<MembresiaDTO> obtenerPorId(Integer idMembresia) {
+        return membresiaRepositorio.findById(idMembresia).map(this::toDTO);
+    }
+
+    @Override
+    public Optional<MembresiaDTO> obtenerPorCliente() {
+        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioLogueado();
+
+        return membresiaRepositorio.findByClienteId(usuarioDTO.id())
+                .map(this::toDTO);
     }
 }

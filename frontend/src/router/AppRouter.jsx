@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -10,6 +11,13 @@ import EntrenadorHome from '../pages/entrenador/EntrenadorHome';
 import PlanesPage from '../pages/entrenador/PlanesPage';
 import RutinasPage from '../pages/entrenador/RutinasPage';
 import SesionesPage from '../pages/entrenador/SesionesPage';
+=======
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "../pages/LoginPage";
+import AdminLayout from "../layouts/AdminLayout";
+import ClienteLayout from "../layouts/ClienteLayout";
+import EntrenadorLayout from "../layouts/EntrenadorLayout";
+>>>>>>> 23ba67be8cee103948b6a2a9a2e3ffd2312ff8ef
 
 export default function AppRouter() {
   return (

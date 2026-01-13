@@ -5,7 +5,7 @@ import com.soft.gymapp.servicios.dto.PlanEntrenamientoDTO;
 import java.util.List;
 
 public interface PlanEntrenamientoService {
-    public PlanEntrenamientoDTO getPlanEntrenamientoPorClienteId(Integer cliente_id);
+    public PlanEntrenamientoDTO getPlanEntrenamientoPorClienteId();
 
-
+    public List<PlanEntrenamientoDTO> getPlanEntrenamientoPorEntrenadorId();
 }
