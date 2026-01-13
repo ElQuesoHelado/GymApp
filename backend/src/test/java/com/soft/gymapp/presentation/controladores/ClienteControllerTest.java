@@ -36,7 +36,7 @@ class ClienteControllerTest {
     // =========================
     @Test
     @WithMockUser(roles = {"CLIENTE"})
-    void home_deberiaRetornarUsuarioDTO() throws Exception {
+    void homedeberiaRetornarUsuarioDTO() throws Exception {
 
         UsuarioDTO usuarioDTO = new UsuarioDTO(
                 1,
@@ -59,7 +59,7 @@ class ClienteControllerTest {
 
     @Test
     @WithMockUser(roles = {"CLIENTE"})
-    void plan_deberiaRetornarPlanEntrenamientoDTO() throws Exception {
+    void plandeberiaRetornarPlanEntrenamientoDTO() throws Exception {
 
         PlanEntrenamientoDTO planDTO = new PlanEntrenamientoDTO(
                 1,
@@ -82,7 +82,7 @@ class ClienteControllerTest {
 
     @Test
     @WithMockUser(roles = {"CLIENTE"})
-    void membresia_deberiaRetornarMembresiaDTO() throws Exception {
+    void membresiadeberiaRetornarMembresiaDTO() throws Exception {
 
         MembresiaDTO membresiaDTO = new MembresiaDTO(
                 1,
@@ -110,7 +110,7 @@ class ClienteControllerTest {
 
     @Test
     @WithMockUser(roles = {"CLIENTE"})
-    void sesiones_deberiaRetornarString() throws Exception {
+    void sesionesdeberiaRetornarString() throws Exception {
 
         mockMvc.perform(get("/api/cliente/sesiones"))
                 .andExpect(status().isOk())

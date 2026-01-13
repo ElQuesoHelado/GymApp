@@ -56,7 +56,7 @@ class MembresiaServiceTest {
     }
 
     @Test
-    void marcarComoAdeudada_membresiaExiste_actualizaEstadoYDeuda() {
+    void marcarComoAdeudadamembresiaExisteactualizaEstadoYDeuda() {
 
         when(membresiaRepositorio.findById(1))
                 .thenReturn(Optional.of(membresia));
@@ -71,7 +71,7 @@ class MembresiaServiceTest {
     }
 
     @Test
-    void marcarComoAdeudada_membresiaNoExiste_lanzaExcepcion() {
+    void marcarComoAdeudadamembresiaNoExistelanzaExcepcion() {
 
         when(membresiaRepositorio.findById(99))
                 .thenReturn(Optional.empty());
@@ -83,7 +83,7 @@ class MembresiaServiceTest {
     }
 
     @Test
-    void cancelarMembresia_membresiaExiste_cambiaEstado() {
+    void cancelarMembresiamembresiaExistecambiaEstado() {
 
         when(membresiaRepositorio.findById(1))
                 .thenReturn(Optional.of(membresia));
@@ -97,7 +97,7 @@ class MembresiaServiceTest {
     }
 
     @Test
-    void buscarPorEstado_conResultados_retornaDTOs() {
+    void buscarPorEstadoconResultadosretornaDTOs() {
 
         when(membresiaRepositorio.findByEstado(EstadoMembresia.ACTIVADA))
                 .thenReturn(List.of(membresia));

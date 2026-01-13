@@ -44,7 +44,7 @@ class NotificacionServiceTest {
   // crearNotificacion
   // ============================
   @Test
-  void crearNotificacion_datosValidos_seGuardaCorrectamente() {
+  void crearNotificaciondatosValidosseGuardaCorrectamente() {
 
     when(usuarioService.obtenerUsuarioLogueado()).thenReturn(usuarioDTO);
 
@@ -65,7 +65,7 @@ class NotificacionServiceTest {
   }
 
   @Test
-  void crearNotificacion_usuarioNoCoincide_lanzaExcepcion() {
+  void crearNotificacionusuarioNoCoincidelanzaExcepcion() {
 
     when(usuarioService.obtenerUsuarioLogueado())
         .thenReturn(
@@ -89,7 +89,7 @@ class NotificacionServiceTest {
   // ============================
   @Test
 
-  void obtenerNotificacionPorId_existe_retornaDTO() {
+  void obtenerNotificacionPorIdexisteretornaDTO() {
 
     Notificacion notificacion =
         new Notificacion("Mensaje", usuario, TipoNotificacion.MENSAJE);
@@ -111,7 +111,7 @@ class NotificacionServiceTest {
   // marcarComoLeida
   // ============================
   @Test
-  void marcarComoLeida_notificacionExiste_seMarcaYGuarda() {
+  void marcarComoLeidanotificacionExisteseMarcaYGuarda() {
 
     Notificacion notificacion =
         new Notificacion("Mensaje", usuario, TipoNotificacion.MENSAJE);
@@ -130,7 +130,7 @@ class NotificacionServiceTest {
   // listarNotificacionesPorUsuario
   // ============================
   @Test
-  void listarNotificacionesPorUsuario_retornaListaDTOs() {
+  void listarNotificacionesPorUsuarioretornaListaDTOs() {
 
     when(usuarioService.obtenerUsuarioLogueado()).thenReturn(usuarioDTO);
 
@@ -150,7 +150,7 @@ class NotificacionServiceTest {
   // listarNotificacionesNoLeidasPorUsuario
   // ============================
   @Test
-  void listarNotificacionesNoLeidasPorUsuario_retornaSoloNoLeidas() {
+  void listarNotificacionesNoLeidasPorUsuarioretornaSoloNoLeidas() {
 
     when(usuarioService.obtenerUsuarioLogueado()).thenReturn(usuarioDTO);
 
