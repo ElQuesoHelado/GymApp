@@ -1,7 +1,9 @@
 package com.soft.gymapp.presentation.controladores;
 
+import com.soft.gymapp.dominio.membresias.EstadoMembresia;
+import com.soft.gymapp.servicios.PlanEntrenamientoService;
 import com.soft.gymapp.servicios.UsuarioService;
-import com.soft.gymapp.servicios.dto.UsuarioDTO;
+import com.soft.gymapp.servicios.dto.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -9,12 +11,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SuppressWarnings("deprecation") // Evita que Sonar marque @MockBean como deprecated
 @WebMvcTest(ClienteController.class)
 class ClienteControllerTest {
 
@@ -22,44 +26,92 @@ class ClienteControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UsuarioService usuarioService; // Necesario para que WebMvcTest inyecte el mock
+    private UsuarioService usuarioService;
 
-    // 🔐 Endpoint protegido por ROLE_CLIENTE
+    @MockBean
+    private PlanEntrenamientoService planEntrenamientoService;
+
+    // =========================
+    // /api/cliente/home
+    // =========================
     @Test
-    @WithMockUser(username = "cliente@test.com", roles = {"CLIENTE"})
-    void home_DeberiaRetornarUsuarioDTO() throws Exception {
+    @WithMockUser(roles = {"CLIENTE"})
+    void home_deberiaRetornarUsuarioDTO() throws Exception {
 
-        // Crear UsuarioDTO usando record
-        UsuarioDTO dto = new UsuarioDTO(1, "Misael", "misael@test.com", "password123", "CLIENTE");
+        UsuarioDTO usuarioDTO = new UsuarioDTO(
+                1,
+                "Misael",
+                "misael@test.com",
+                "12345678",
+                "CLIENTE"
+        );
 
         when(usuarioService.obtenerUsuarioLogueado())
-                .thenReturn(dto);
+                .thenReturn(usuarioDTO);
 
         mockMvc.perform(get("/api/cliente/home"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Misael"))
-                .andExpect(jsonPath("$.email").value("misael@test.com"));
+                .andExpect(jsonPath("$.email").value("misael@test.com"))
+                .andExpect(jsonPath("$.tipo").value("CLIENTE"));
     }
+
 
     @Test
     @WithMockUser(roles = {"CLIENTE"})
-    void plan_DeberiaRetornarVistaPlan() throws Exception {
+    void plan_deberiaRetornarPlanEntrenamientoDTO() throws Exception {
+
+        PlanEntrenamientoDTO planDTO = new PlanEntrenamientoDTO(
+                1,
+                LocalDate.of(2025, 1, 1),
+                12,
+                1,
+                2,
+                List.of()
+        );
+
+        when(planEntrenamientoService.getPlanEntrenamientoPorClienteId())
+                .thenReturn(planDTO);
+
         mockMvc.perform(get("/api/cliente/plan"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("cliente/plan"));
+                .andExpect(jsonPath("$.duracionSemanas").value(12))
+                .andExpect(jsonPath("$.clienteId").value(1))
+                .andExpect(jsonPath("$.rutinas").isArray());
     }
 
     @Test
     @WithMockUser(roles = {"CLIENTE"})
-    void membresia_DeberiaRetornarVistaMembresia() throws Exception {
+    void membresia_deberiaRetornarMembresiaDTO() throws Exception {
+
+        MembresiaDTO membresiaDTO = new MembresiaDTO(
+                1,
+                new Date(),
+                new Date(),
+                EstadoMembresia.ACTIVADA,
+                0.0,
+                true,
+                false,
+                null,
+                List.of(),
+                1
+        );
+
+        when(usuarioService.obtenerMembresia())
+                .thenReturn(membresiaDTO);
+
         mockMvc.perform(get("/api/cliente/membresia"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("cliente/membresia"));
+                .andExpect(jsonPath("$.activa").value(true))
+                .andExpect(jsonPath("$.vencida").value(false))
+                .andExpect(jsonPath("$.deuda").value(0.0));
     }
+
 
     @Test
     @WithMockUser(roles = {"CLIENTE"})
-    void sesiones_DeberiaRetornarVistaSesiones() throws Exception {
+    void sesiones_deberiaRetornarString() throws Exception {
+
         mockMvc.perform(get("/api/cliente/sesiones"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("cliente/sesiones"));
