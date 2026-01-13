@@ -47,6 +47,31 @@ public class PlanEntrenamientoController {
   }
 
   /**
+   * Listar todas las rutinas (simulado)
+   */
+  @GetMapping("/rutinas")
+  @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
+  public ResponseEntity<Map<String, Object>> listarRutinas() {
+      Map<String, Object> response = new HashMap<>();
+      response.put("status", "success");
+      response.put("data", java.util.Collections.emptyList());
+      
+      return ResponseEntity.ok(response);
+  }
+
+  /**
+   * Listar todos los planes de entrenamiento (simulado)
+   */
+  @GetMapping
+  @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
+  public ResponseEntity<Map<String, Object>> listarPlanes() {
+      Map<String, Object> response = new HashMap<>();
+      response.put("status", "success");
+      response.put("data", java.util.Collections.emptyList()); // Lista vacía por ahora
+      return ResponseEntity.ok(response);
+  }
+
+  /**
    * Crear rutina (simulado)
    */
   @PostMapping("/rutinas")

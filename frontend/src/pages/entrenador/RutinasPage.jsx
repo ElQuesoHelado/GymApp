@@ -12,7 +12,7 @@ export default function RutinasPage() {
   const cargarRutinas = async () => {
     try {
       const res = await listarRutinas();
-      setRutinas(res.data);
+      setRutinas(res.data.data || []);
     } catch (err) {
       alert('Error al cargar rutinas');
     }

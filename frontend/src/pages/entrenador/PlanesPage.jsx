@@ -12,7 +12,7 @@ export default function PlanesPage() {
   const cargarPlanes = async () => {
     try {
       const res = await listarPlanes();
-      setPlanes(res.data);
+      setPlanes(res.data.data || []);
     } catch (err) {
       alert('Error al cargar planes');
     }

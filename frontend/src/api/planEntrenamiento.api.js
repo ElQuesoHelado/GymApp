@@ -1,8 +1,8 @@
 import axios from './axiosConfig';
 
-const PLANES_API = 'http://localhost:8081/api/planes-entrenamiento';
-const RUTINAS_API = 'http://localhost:8081/api/rutinas';
-const EJERCICIOS_API = 'http://localhost:8081/api/ejercicios';
+const PLANES_API = 'http://localhost:8080/api/planes-entrenamiento';
+const RUTINAS_API = 'http://localhost:8080/api/planes-entrenamiento/rutinas';
+const EJERCICIOS_API = 'http://localhost:8080/api/ejercicios';
 
 // Planes de Entrenamiento
 export const listarPlanes = () => axios.get(PLANES_API);
