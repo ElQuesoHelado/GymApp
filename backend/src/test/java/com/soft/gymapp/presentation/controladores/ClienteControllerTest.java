@@ -32,7 +32,7 @@ class ClienteControllerTest {
         // Crear UsuarioDTO usando record
         UsuarioDTO dto = new UsuarioDTO(1, "Misael", "misael@test.com", "password123", "CLIENTE");
 
-        when(usuarioService.obtenerUsuarioLogueado(any()))
+        when(usuarioService.obtenerUsuarioLogueado())
                 .thenReturn(dto);
 
         mockMvc.perform(get("/api/cliente/home"))

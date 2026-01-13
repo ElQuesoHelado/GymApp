@@ -1,12 +1,16 @@
 package com.soft.gymapp.servicios;
 
+import com.soft.gymapp.dominio.membresias.Membresia;
 import com.soft.gymapp.dominio.usuarios.CuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.EstadoCuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio;
+import com.soft.gymapp.servicios.dto.NotificacionDTO;
+import com.soft.gymapp.servicios.dto.SesionDTO;
 import org.slf4j.Logger; // CAMBIO: Importar Logger
 import org.slf4j.LoggerFactory; // CAMBIO: Importar LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -168,17 +172,19 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDTO obtenerUsuarioLogueado(Authentication authentication) {
+    public UsuarioDTO obtenerUsuarioLogueado() {
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new RuntimeException("No autenticado");
         }
 
-        String nombre = authentication.getName(); // username/email
+        String username = authentication.getName();
 
-        Usuario usuario = usuarioRepositorio.findByCuentaUsuarioUsername(nombre)
+        Usuario usuario = usuarioRepositorio.findByCuentaUsuarioUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
 
         String tipo;
 
@@ -255,5 +261,22 @@ public class UsuarioServiceImpl implements UsuarioService {
         response.put(KEY_STATUS, STATUS_ERROR); // CAMBIO: Usar STATUS_ERROR ya que STATUS_INFO se eliminó
         response.put(KEY_MESSAGE, "Funcionalidad de editar perfil en desarrollo.");
         return response;
+    }
+
+    @Override
+    public List<NotificacionDTO> obtenerNotificaciones() {
+
+        return List.of();
+    }
+
+    @Override
+    public Membresia obtenerMembresia() {
+        UsuarioDTO usuario = obtenerUsuarioLogueado();
+        return null;
+    }
+
+    @Override
+    public List<SesionDTO> listarSesiones() {
+        return List.of();
     }
 }

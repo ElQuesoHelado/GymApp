@@ -21,8 +21,8 @@ public class ClienteController {
     }
 
     @GetMapping("/home")
-    public UsuarioDTO home(Authentication auth) {
-        return usuarioService.obtenerUsuarioLogueado(auth);
+    public UsuarioDTO home() {
+        return usuarioService.obtenerUsuarioLogueado();
     }
 
     @GetMapping("/plan")

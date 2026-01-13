@@ -18,8 +18,8 @@ public class AuthController {
   }
 
   @GetMapping("/me")
-  public UsuarioDTO me(Authentication authentication) {
-    return usuarioService.obtenerUsuarioLogueado(authentication);
+  public UsuarioDTO me() {
+    return usuarioService.obtenerUsuarioLogueado();
   }
 
   @PostMapping("/logout")
