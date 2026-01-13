@@ -19,10 +19,9 @@ public class RutinaRestController {
     @PostMapping
     public ResponseEntity<RutinaDTO> crearRutina(@RequestBody RutinaDTO dto) {
         // Lógica de negocio
-        Rutina nuevaRutina = new Rutina(dto.getNombre(), dto.getObjetivo());
+        Rutina nuevaRutina = new Rutina(dto.nombre(), dto.objetivo());
         memoriaTemporal.add(nuevaRutina);
-        
-        dto.setId(memoriaTemporal.size());
+//        dto.id(memoriaTemporal.size()); TODO:
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 

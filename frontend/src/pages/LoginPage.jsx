@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { login, me } from "../api/auth.api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { loginUser } = useAuth();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,19 +20,9 @@ export default function LoginPage() {
 
       const { data: usuario } = await me();
 
-      switch (usuario.tipo) {
-        case "ADMIN":
-          navigate("/admin");
-          break;
-        case "CLIENTE":
-          navigate("/cliente");
-          break;
-        case "ENTRENADOR":
-          navigate("/entrenador");
-          break;
-        default:
-          setError("Rol desconocido");
-      }
+      loginUser(usuario);
+      navigate("/dashboard");
+
     } catch (err) {
       if (err.response?.status === 401) {
         setError("Usuario o contraseña incorrectos");

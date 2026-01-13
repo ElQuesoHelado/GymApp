@@ -1,20 +1,18 @@
-import { Routes, Route, Outlet } from "react-router-dom";
-import ClienteHome from "../pages/cliente/ClienteHome";
-import MiPlan from "../pages/cliente/MiPlan";
-import MisSesiones from "../pages/cliente/MisSesiones";
-import Notificaciones from "../pages/cliente/Notificaciones";
+import { NavLink, Outlet } from "react-router-dom";
 
 export default function ClienteLayout() {
   return (
-    <div>
-      <h2>Zona Cliente</h2>
+    <div style={{ display: "flex" }}>
+      <aside style={{ width: 200 }}>
+        <NavLink to="">Inicio</NavLink><br />
+        <NavLink to="membresia">Membresía</NavLink><br />
+        <NavLink to="planes">Planes</NavLink><br />
+        <NavLink to="notificaciones">Notificaciones</NavLink>
+      </aside>
 
-      <Routes>
-        <Route index element={<ClienteHome />} />
-        <Route path="plan" element={<MiPlan />} />
-        <Route path="sesiones" element={<MisSesiones />} />
-        <Route path="notificaciones" element={<Notificaciones />} />
-      </Routes>
+      <main style={{ padding: 20 }}>
+        <Outlet />
+      </main>
     </div>
   );
 }
