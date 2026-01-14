@@ -643,3 +643,144 @@ El pipeline CI/CD garantiza que **GymApp** mantenga altos estándares de calidad
 | Pruebas funcionales | ✔️ | Build + REST |
 | Pruebas de seguridad | ✔️ | OWASP, npm audit |
 | Despliegue automático | ✔️ | Docker Compose |
+
+## Pruebas del Sistema
+
+El proyecto **GymApp** incorpora distintos tipos de pruebas con el objetivo de garantizar la calidad, seguridad y correcto funcionamiento del sistema. A continuación, se describen las pruebas realizadas, junto con ejemplos reales del backend.
+
+---
+
+### Pruebas Unitarias
+
+Las pruebas unitarias validan el comportamiento de componentes individuales del sistema, como métodos y repositorios, de manera aislada.
+
+**Herramientas utilizadas:**
+- JUnit 5
+- Spring Boot Test
+- DataJpaTest
+
+**Ejemplo real (Backend):**
+Ruta del archivo:
+
+backend/src/test/java/com/soft/gymapp/dominio/membresias/MembresiaRepositorioTest.java
+
+**Tipo de prueba:**  
+Prueba Unitaria / Prueba de Repositorio
+
+**Descripción:**  
+Se valida el correcto funcionamiento de los métodos del repositorio `MembresiaRepositorio`, verificando filtros por estado, precio, duración y tipo de membresía.
+
+**Ejemplo de código:**
+```java
+@Test
+void findByEstado_EstadoActiva_RetornaMembresiasActivas() {
+    List<Membresia> resultado = membresiaRepositorio.findByEstado(EstadoMembresia.ACTIVADA);
+
+    assertEquals(1, resultado.size());
+    assertEquals(EstadoMembresia.ACTIVADA, resultado.get(0).getEstado());
+}
+```
+
+### Pruebas Funcionales
+
+Las pruebas funcionales verifican que las funcionalidades completas del sistema se comporten correctamente desde el punto de vista del usuario, evaluando flujos completos a través de los servicios REST.
+
+**Herramientas utilizadas:**
+- Spring Boot
+- Swagger UI
+- Postman
+
+**Ejemplo real (Backend):**  
+Controlador:
+
+backend/src/main/java/com/soft/gymapp/presentation/controladores/AuthController.java
+
+
+**Tipo de prueba:**  
+Prueba Funcional (API REST)
+
+**Caso de prueba:**  
+Autenticación de usuario mediante el endpoint de inicio de sesión.
+
+**Ejemplo de solicitud:**
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+```
+
+**Resultados esperados:**
+
+- 200 OK si las credenciales son válidas.
+- 401 Unauthorized si las credenciales son incorrectas.
+
+Estas pruebas permiten validar el flujo completo de autenticación, control de acceso por roles y la correcta comunicación entre frontend y backend.
+
+### Pruebas de Seguridad
+
+Las pruebas de seguridad tienen como objetivo identificar vulnerabilidades conocidas en las dependencias y librerías utilizadas por el sistema, así como analizar posibles riesgos en el código fuente.
+
+**Herramientas utilizadas:**
+- OWASP Dependency-Check (Backend)
+- npm audit (Frontend)
+- SonarQube
+
+**Ejemplo real (Backend):**  
+Configuración definida en el archivo `Jenkinsfile`:
+
+```bash
+mvn org.owasp:dependency-check-maven:check
+```
+
+**Tipo de prueba:**
+
+Prueba de Seguridad Estática (SAST)
+
+Descripción:
+Se analizan las dependencias del proyecto en busca de vulnerabilidades (CVEs), librerías obsoletas y riesgos de seguridad conocidos. El análisis se ejecuta automáticamente durante el pipeline CI/CD.
+
+**Ejemplo adicional (Frontend):**
+
+```bash
+npm audit --audit-level=high
+```
+
+### Pruebas de Performance
+
+Las pruebas de performance evalúan el comportamiento del sistema en términos de tiempo de respuesta, estabilidad y uso de recursos frente a múltiples solicitudes.
+
+**Estrategia utilizada:**
+- Consumo de servicios REST mediante pruebas exploratorias
+- Evaluación manual de tiempos de respuesta
+- Ejecución del sistema en contenedores Docker
+
+**Tipo de prueba:**  
+Prueba de Performance Básica / Exploratoria
+
+**Ejemplo real del sistema:**  
+Endpoint evaluado:
+
+GET /api/membresias
+
+**Descripción:**  
+Durante las pruebas se realizaron múltiples solicitudes consecutivas al endpoint, observando el tiempo de respuesta del servicio y el correcto funcionamiento del sistema sin degradación notable del rendimiento.
+
+**Métricas observadas:**
+- Tiempo de respuesta del servicio
+- Estabilidad de la aplicación
+- Comportamiento del sistema en ejecución dentro de contenedores Docker
+
+No se utilizaron herramientas especializadas como JMeter o Gatling, dado que el enfoque del proyecto es académico y funcional.
+
+### Resumen de Pruebas
+
+| Tipo de Prueba | Herramienta / Técnica | Ejemplo |
+|---------------|----------------------|--------|
+| Unitaria | JUnit 5 / Spring Boot Test | `MembresiaRepositorioTest` |
+| Funcional | REST / Swagger / Postman | Login y flujos de usuario |
+| Seguridad | OWASP Dependency-Check / npm audit / SonarQube | Análisis de dependencias |
+| Performance | REST / Docker | Evaluación de endpoints |
