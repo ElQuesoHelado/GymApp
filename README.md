@@ -546,3 +546,100 @@ Swagger permite interactuar con estos servicios una vez que el usuario se encuen
 ---
 
 La documentación Swagger constituye la referencia oficial de los servicios REST del proyecto **GymApp**.
+
+## Pipeline CI/CD
+
+El proyecto **GymApp** implementa un pipeline de **Integración Continua y Entrega Continua (CI/CD)** utilizando **Jenkins**, ejecutado sobre contenedores Docker para garantizar portabilidad, reproducibilidad y automatización del proceso de construcción, análisis, pruebas y despliegue.
+
+---
+
+### Entorno de Ejecución
+El pipeline se ejecuta dentro de un contenedor **Docker**, con acceso al Docker del host, permitiendo:
+- Construcción de imágenes Docker
+- Ejecución de Docker Compose
+- Reutilización de dependencias Maven
+- Aislamiento del entorno de ejecución
+
+---
+
+### 🧩 Etapas del Pipeline
+
+#### 1.- Clean & Checkout
+- Instalación de herramientas necesarias (Java 17, Maven, Node.js, npm, Git)
+- Clonación del repositorio desde GitHub
+
+---
+
+#### 2.- Backend Build & Tests
+- Compilación del backend con Maven
+- Ejecución de pruebas unitarias e integración mediante `mvn clean verify`
+
+---
+
+#### 3.- Frontend Build
+- Instalación controlada de dependencias con `npm ci`
+- Construcción del frontend con `npm run build`
+
+---
+
+#### 4.- Análisis Estático (SonarQube)
+- Análisis de calidad del código backend
+- Evaluación de bugs, code smells y duplicación
+- Uso del estándar **SonarQube / OpenAPI**
+
+---
+
+#### 5.- Pruebas de Seguridad
+Ejecución paralela de:
+- **OWASP Dependency Check** para dependencias del backend
+- **npm audit** para dependencias del frontend
+
+---
+
+#### 6.- Construcción de Imágenes Docker
+- Construcción de imagen Docker del backend
+- Construcción de imagen Docker del frontend con configuración dinámica
+
+---
+
+#### 7.- Despliegue Continuo
+- Detención de contenedores previos
+- Despliegue automático del sistema completo mediante **Docker Compose**
+
+---
+
+###  Beneficios del Pipeline CI/CD
+- Automatización completa del ciclo de vida del software
+- Detección temprana de errores
+- Validación de seguridad y calidad
+- Entrega confiable y reproducible
+
+---
+
+El pipeline CI/CD garantiza que **GymApp** mantenga altos estándares de calidad, seguridad y estabilidad en cada iteración del desarrollo.
+
+### Resumen de Etapas del Pipeline CI/CD
+
+| Etapa | Descripción | Herramientas | Resultado |
+|------|------------|--------------|-----------|
+| Clean & Checkout | Preparación del entorno y clonación del repositorio | Docker, Git, Java 17, Maven, Node.js | Código fuente disponible |
+| Backend Build & Tests | Compilación y pruebas del backend | Maven | Backend validado |
+| Frontend Build | Instalación de dependencias y build del frontend | npm, Node.js | Frontend construible |
+| Análisis Estático | Evaluación de calidad del código backend | SonarQube | Métricas de calidad |
+| Seguridad Backend | Análisis de vulnerabilidades en dependencias Java | OWASP Dependency Check | Reporte de seguridad |
+| Seguridad Frontend | Auditoría de dependencias JavaScript | npm audit | Vulnerabilidades detectadas |
+| Build Docker Images | Construcción de imágenes Docker | Docker | Imágenes listas |
+| Deploy | Despliegue automático del sistema | Docker Compose | Aplicación en ejecución |
+
+---
+
+### Cobertura de Requisitos CI/CD
+
+| Requisito | Implementado | Evidencia |
+|---------|-------------|----------|
+| Construcción automática | ✔️ | Maven / npm |
+| Análisis estático | ✔️ | SonarQube |
+| Pruebas unitarias | ✔️ | mvn verify |
+| Pruebas funcionales | ✔️ | Build + REST |
+| Pruebas de seguridad | ✔️ | OWASP, npm audit |
+| Despliegue automático | ✔️ | Docker Compose |
