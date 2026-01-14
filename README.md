@@ -12,8 +12,9 @@
 ## Proposito
 
 Ayudar a tanto usuarios de gimnasios, entrenadores, y administradores de gimnasios a lograr una experiencia de entrenamiento
-más fluida y personalizada, maximizando la eficiencia en el uso de
-recursos del gimnasio.
+más fluida y personalizada, maximizando la eficiencia en el uso de recursos del gimnasio. Ademas que esta app 
+demuestre eficiencia entre los tipos de usuario y el funcionamiento, sin exponer datos personales, convservando los cambios
+necesarios para los planes de entrenamiento y también aplicando practicas de codificación correctas.
 
 ## Users relevantes
 ### Entrenadores
