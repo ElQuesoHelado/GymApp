@@ -8,7 +8,7 @@ export default function ClienteLayout() {
   const handleLogout = () => {
     // Aquí iría la lógica de logout
     console.log("Cerrando sesión...");
-    navigate("/login");
+    navigate("/");
   };
 
   const menuItems = [
