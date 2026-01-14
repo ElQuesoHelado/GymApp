@@ -4,16 +4,13 @@ import com.soft.gymapp.dominio.planesentrenamiento.Ejercicio;
 import com.soft.gymapp.dominio.planesentrenamiento.PlanEntrenamiento;
 import com.soft.gymapp.dominio.planesentrenamiento.PlanEntrenamientoRepositorio;
 import com.soft.gymapp.dominio.planesentrenamiento.Rutina;
-import com.soft.gymapp.servicios.dto.EjercicioDTO;
-import com.soft.gymapp.servicios.dto.PlanEntrenamientoDTO;
-import com.soft.gymapp.servicios.dto.RutinaDTO;
+import com.soft.gymapp.servicios.dto.*;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.soft.gymapp.servicios.dto.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,9 +64,9 @@ public class PlanEntrenamientoServiceImpl implements PlanEntrenamientoService {
     @Override
     public PlanEntrenamientoDTO
     getPlanEntrenamientoPorClienteId() {
-        UsuarioDTO usuarioDTO = usuarioService.obtenerClienteLogueado();
+        ClienteDTO clienteDTO = usuarioService.obtenerClienteLogueado();
 
-        return planEntrenamientoRepositorio.findByClienteId(usuarioDTO.id())
+        return planEntrenamientoRepositorio.findByClienteId(clienteDTO.id())
                 .map(this::toDTO)
                 .orElse(null);
     }

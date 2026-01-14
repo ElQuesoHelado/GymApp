@@ -5,15 +5,12 @@ import com.soft.gymapp.dominio.usuarios.Usuario;
 import java.util.List;
 import java.util.Map;
 
-import com.soft.gymapp.servicios.dto.MembresiaDTO;
-import com.soft.gymapp.servicios.dto.NotificacionDTO;
-import com.soft.gymapp.servicios.dto.SesionDTO;
-import com.soft.gymapp.servicios.dto.UsuarioDTO;
+import com.soft.gymapp.servicios.dto.*;
 import org.springframework.security.core.Authentication;
 
 public interface UsuarioService {
   UsuarioDTO obtenerUsuarioLogueado();
-  UsuarioDTO obtenerClienteLogueado();
+  ClienteDTO obtenerClienteLogueado();
   UsuarioDTO obtenerEntrenadorLogueado();
   UsuarioDTO obtenerAdminLogueado();
 

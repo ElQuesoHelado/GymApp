@@ -4,6 +4,7 @@ import com.soft.gymapp.dominio.usuarios.CuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.EstadoCuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio;
+import com.soft.gymapp.servicios.dto.ClienteDTO;
 import com.soft.gymapp.servicios.dto.MembresiaDTO;
 import com.soft.gymapp.servicios.dto.SesionDTO;
 import org.slf4j.Logger; // CAMBIO: Importar Logger
@@ -49,12 +50,27 @@ public class UsuarioServiceImpl implements UsuarioService {
     private static final String ACCOUNT_STATUS_BLOCKED = "BLOQUEADA";
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private final ClienteRepositorio clienteRepositorio;
 
 
     @Autowired
-    public UsuarioServiceImpl(UsuarioRepositorio usuarioRepositorio, MembresiaService membresiaService) {
+    public UsuarioServiceImpl(UsuarioRepositorio usuarioRepositorio, MembresiaService membresiaService, ClienteRepositorio clienteRepositorio) {
         this.usuarioRepositorio = usuarioRepositorio;
         this.membresiaService = membresiaService;
+        this.clienteRepositorio = clienteRepositorio;
+    }
+
+    public ClienteDTO toDTO(Cliente cliente) {
+        return new ClienteDTO(
+                cliente.getId(),
+                cliente.getNombre(),
+                cliente.getDni(),
+                cliente.getEmail(),
+                cliente.getTelefono(),
+                cliente.getFechaNacimiento(),
+                cliente.getObjetivo(),
+                cliente.getNivel()
+        );
     }
 
     // --- Métodos Auxiliares Privados (REFACTORIZADOS) ---
@@ -218,12 +234,21 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDTO obtenerClienteLogueado() {
-        UsuarioDTO usuarioDTO = obtenerUsuarioLogueado();
-        if (!Objects.equals(usuarioDTO.tipo(), "CLIENTE")) {
-            throw new RuntimeException("Usuario no es cliente");
+    public ClienteDTO obtenerClienteLogueado() {
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("No autenticado");
         }
-        return usuarioDTO;
+
+        String username = authentication.getName();
+
+        Cliente cliente = clienteRepositorio.findByCuentaUsuarioUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        return toDTO(cliente);
     }
 
     @Override

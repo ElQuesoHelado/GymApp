@@ -2,6 +2,7 @@ package com.soft.gymapp.presentation.controladores;
 
 import com.soft.gymapp.servicios.PlanEntrenamientoService;
 import com.soft.gymapp.servicios.UsuarioService;
+import com.soft.gymapp.servicios.dto.ClienteDTO;
 import com.soft.gymapp.servicios.dto.MembresiaDTO;
 import com.soft.gymapp.servicios.dto.PlanEntrenamientoDTO;
 import com.soft.gymapp.servicios.dto.UsuarioDTO;
@@ -26,8 +27,8 @@ public class ClienteController {
     }
 
     @GetMapping("/home")
-    public UsuarioDTO home() {
-        return usuarioService.obtenerUsuarioLogueado();
+    public ClienteDTO home() {
+        return usuarioService.obtenerClienteLogueado();
     }
 
     @GetMapping("/plan")
