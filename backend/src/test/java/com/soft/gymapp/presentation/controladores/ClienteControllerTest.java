@@ -30,7 +30,7 @@ class ClienteControllerTest {
 
   @MockBean private PlanEntrenamientoService planEntrenamientoService;
 
-  @MockBean private SesionService sesionService; // 🔥 OBLIGATORIO
+  @MockBean private SesionService sesionService; 
 
   // =========================
   // /api/cliente/home
