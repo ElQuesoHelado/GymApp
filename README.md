@@ -562,7 +562,7 @@ El pipeline se ejecuta dentro de un contenedor **Docker**, con acceso al Docker 
 
 ---
 
-### 🧩 Etapas del Pipeline
+### Etapas del Pipeline
 
 #### 1.- Clean & Checkout
 - Instalación de herramientas necesarias (Java 17, Maven, Node.js, npm, Git)
@@ -784,3 +784,34 @@ No se utilizaron herramientas especializadas como JMeter o Gatling, dado que el 
 | Funcional | REST / Swagger / Postman | Login y flujos de usuario |
 | Seguridad | OWASP Dependency-Check / npm audit / SonarQube | Análisis de dependencias |
 | Performance | REST / Docker | Evaluación de endpoints |
+
+## Gestión de Tareas
+
+La gestión de tareas del proyecto **GymApp** se realizó utilizando el sistema de **GitHub Issues**, el cual permitió organizar, asignar y dar seguimiento a las actividades de desarrollo.
+
+### Estrategia Utilizada
+
+- Cada funcionalidad, mejora o corrección fue registrada como un *Issue*.
+- Los issues permitieron:
+  - Identificar errores (bugs)
+  - Proponer nuevas funcionalidades
+  - Registrar mejoras técnicas
+- Los commits realizados hacen referencia directa a los cambios implementados en relación con las tareas definidas.
+
+### Flujo de Trabajo
+
+1. Creación del issue describiendo la tarea o problema.
+2. Desarrollo de la solución en una rama correspondiente.
+3. Commit del código con mensajes descriptivos.
+4. Cierre del issue una vez validada la solución.
+
+### Beneficios
+
+- Seguimiento claro del avance del proyecto.
+- Organización de las tareas de desarrollo.
+- Historial completo de decisiones y cambios realizados.
+
+El uso de GitHub Issues permitió una gestión efectiva de las tareas sin necesidad de herramientas externas adicionales.
+
+Repositorio de Issues: https://github.com/ElQuesoHelado/GymApp/issues
+
