@@ -483,3 +483,66 @@ Los servicios siguen una arquitectura REST y son documentables mediante **Swagge
 | PUT | `/notificaciones/{id}/leida` | id | Marcar notificación como leída |
 
 **Modelos clave:** Notificacion, Usuario
+
+##  Documentación de Servicios REST – Swagger / OpenAPI
+
+El proyecto **GymApp** expone y documenta sus servicios REST utilizando el estándar **OpenAPI 3.0**, a través de la herramienta **Swagger**.  
+Esta documentación permite visualizar, explorar y probar los endpoints disponibles del backend de forma interactiva.
+
+---
+
+###  Herramienta utilizada
+- **Swagger UI**
+- **OpenAPI 3.0**
+- Integración con **Spring Boot**
+
+---
+
+###  Acceso a la documentación
+Una vez levantado el backend, la documentación Swagger se encuentra disponible en:
+
+http://localhost:8080/swagger-ui.html
+o
+http://localhost:8080/swagger-ui/index.html
+
+
+---
+
+###  Contenido documentado
+La interfaz Swagger documenta automáticamente:
+
+- Módulos y controladores REST
+- Endpoints disponibles (GET, POST, PUT, DELETE)
+- Parámetros de entrada
+- Cuerpos de solicitud (Request Body)
+- Respuestas HTTP
+- Modelos de datos (DTOs y entidades)
+- Códigos de estado HTTP
+
+---
+
+###  Pruebas desde Swagger
+Swagger permite ejecutar pruebas directas sobre los servicios REST:
+
+- Envío de peticiones HTTP
+- Visualización de respuestas en tiempo real
+- Validación de contratos de entrada y salida
+- Pruebas con distintos roles de usuario (según autenticación)
+
+---
+
+###  Seguridad y autenticación
+Los endpoints protegidos requieren autenticación previa.  
+Swagger permite interactuar con estos servicios una vez que el usuario se encuentra autenticado en el sistema.
+
+---
+
+###  Beneficios del uso de OpenAPI
+- Documentación centralizada y actualizada
+- Facilita la integración frontend–backend
+- Reduce errores de comunicación entre capas
+- Mejora el mantenimiento y escalabilidad del sistema
+
+---
+
+La documentación Swagger constituye la referencia oficial de los servicios REST del proyecto **GymApp**.
