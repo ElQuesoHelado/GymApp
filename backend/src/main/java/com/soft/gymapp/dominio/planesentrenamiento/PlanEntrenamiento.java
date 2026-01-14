@@ -18,6 +18,7 @@ public class PlanEntrenamiento {
     private static final Logger logger = LoggerFactory.getLogger(PlanEntrenamiento.class);
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private LocalDate fechaInicio;
@@ -120,7 +121,7 @@ public class PlanEntrenamiento {
     }
 
     public List<Rutina> getRutinas() {
-        return Collections.unmodifiableList(rutinas);
+        return this.rutinas;
     }
 
     public void setRutinas(List<Rutina> rutinas) {

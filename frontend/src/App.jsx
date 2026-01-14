@@ -49,7 +49,7 @@ export default function App() {
 
         <Route path="planes" element={<PlanesEntrenador />} />
         <Route path="rutinas" element={<RutinasPage />} />
-        <Route path="sesiones" element={<SesionesPage />} />
+        <Route path="sesiones" element={<Sesiones />} />
 
         <Route path="clientes" element={<ClientesAsignados />} />
         <Route path="notificaciones" element={<Notificaciones />} />

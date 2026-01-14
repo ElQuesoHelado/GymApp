@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class Ejercicio {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String nombre;

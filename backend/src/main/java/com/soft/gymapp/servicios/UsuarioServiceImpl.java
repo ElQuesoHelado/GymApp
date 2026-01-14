@@ -364,4 +364,19 @@ public class UsuarioServiceImpl implements UsuarioService {
             ))
             .collect(Collectors.toList());
     }
+
+    @Override
+    public List<UsuarioDTO> listarTodosLosClientes() {
+        return usuarioRepositorio.findAll().stream()
+                .filter(u -> u instanceof Cliente) 
+                .map(u -> new UsuarioDTO(
+                    u.getId(),
+                    u.getNombre(),
+                    "",
+                    u.getEmail(),
+                    "CLIENTE"
+                ))
+                .toList();
+    }
+
 }

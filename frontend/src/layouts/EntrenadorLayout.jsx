@@ -1,28 +1,76 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, Link } from "react-router-dom";
 
 export default function EntrenadorLayout() {
-  return (
-    <div style={{ display: "flex", minHeight: '100vh', background: '#1a1a1a', color: 'white' }}>
+  
+  const navLinkClass = ({ isActive }) =>
+    `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium text-sm ${
+      isActive
+        ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30"
+        : "text-gray-400 hover:bg-white/5 hover:text-white"
+    }`;
 
-      <aside style={{ width: 200, padding: '20px', background: '#111', borderRight: '1px solid #333' }}>
-        <h3 style={{ marginTop: 0 }}>Menu</h3>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <NavLink to="/entrenador" style={({isActive}) => ({ color: isActive ? '#007bff' : 'white', textDecoration: 'none' })}>Inicio</NavLink>
-            <NavLink to="clientes" style={({isActive}) => ({ color: isActive ? '#007bff' : 'white', textDecoration: 'none' })}>Clientes</NavLink>
-            <NavLink to="planes" style={({isActive}) => ({ color: isActive ? '#007bff' : 'white', textDecoration: 'none' })}>Planes</NavLink>
-            <NavLink to="rutinas" style={({isActive}) => ({ color: isActive ? '#007bff' : 'white', textDecoration: 'none' })}>Rutinas</NavLink>
-            <NavLink to="sesiones" style={({isActive}) => ({ color: isActive ? '#007bff' : 'white', textDecoration: 'none' })}>Sesiones</NavLink>
-            <NavLink to="notificaciones" style={({isActive}) => ({ color: isActive ? '#007bff' : 'white', textDecoration: 'none' })}>Notificaciones</NavLink>
+  return (
+    <div className="flex min-h-screen bg-gray-900 text-white font-sans">
+      
+      <aside className="w-64 bg-[#111827] border-r border-gray-800 flex flex-col fixed h-full z-10 top-0 left-0">
+        
+        {/* Header del Menú */}
+        <div className="p-6 border-b border-gray-800">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+            GymApp
+          </h2>
+          <p className="text-xs text-gray-500 mt-1">Panel de Entrenador</p>
+        </div>
+
+        {/* Navegación */}
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+          
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 px-4 mt-4">Principal</p>
+          
+          
+          <NavLink to="/dashboard/entrenador" end className={navLinkClass}>
+            <span></span> Inicio
+          </NavLink>
+          
+          <NavLink to="/dashboard/entrenador/clientes" className={navLinkClass}>
+            <span></span> Mis Alumnos
+          </NavLink>
+
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 px-4 mt-6">Gestión</p>
+
+          <NavLink to="/dashboard/entrenador/planes" className={navLinkClass}>
+            <span></span> Planes
+          </NavLink>
+          
+          <NavLink to="/dashboard/entrenador/rutinas" className={navLinkClass}>
+            <span></span> Rutinas
+          </NavLink>
+          
+          <NavLink to="/dashboard/entrenador/sesiones" className={navLinkClass}>
+            <span></span> Sesiones
+          </NavLink>
+
+          <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 px-4 mt-6">Cuenta</p>
+
+          <NavLink to="/dashboard/entrenador/notificaciones" className={navLinkClass}>
+            <span></span> Notificaciones
+          </NavLink>
         </nav>
+
+        <div className="p-4 border-t border-gray-800">
+          <Link to="/" className="flex items-center gap-2 text-red-400 hover:text-red-300 transition-colors text-sm px-4">
+            <span></span> Cerrar Sesión
+          </Link>
+        </div>
       </aside>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <main style={{ padding: 20, flex: 1 }}>
+      <div className="flex-1 flex flex-col ml-64 bg-gray-50 min-h-screen">
+        <main className="flex-1">
           <Outlet />
         </main>
-
-        <footer style={{ background: '#111', padding: '10px', textAlign: 'center', color: '#888', borderTop: '1px solid #333' }}>
-          <p style={{ margin: 0, fontSize: '0.9rem' }}>Sistema GymApp © 2026</p>
+        
+        <footer className="bg-white border-t border-gray-200 py-4 text-center text-gray-500 text-xs">
+          <p>© 2026 GymApp - Sistema de Gestión Deportiva</p>
         </footer>
       </div>
     </div>

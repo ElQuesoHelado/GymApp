@@ -61,4 +61,5 @@ public interface UsuarioService {
   EntrenadorDTO obtenerPerfilEntrenador();
 
   List<ClienteAsignadoDTO> listarClientesAsignados();
+  List<UsuarioDTO> listarTodosLosClientes();
 }

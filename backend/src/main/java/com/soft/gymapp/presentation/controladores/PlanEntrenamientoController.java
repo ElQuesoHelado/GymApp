@@ -2,135 +2,88 @@ package com.soft.gymapp.presentation.controladores;
 
 import com.soft.gymapp.servicios.PlanEntrenamientoService;
 import com.soft.gymapp.servicios.dto.PlanEntrenamientoDTO;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import com.soft.gymapp.servicios.dto.RutinaDTO;
+import com.soft.gymapp.servicios.dto.UsuarioDTO;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/planes-entrenamiento")
+@CrossOrigin(origins = "http://localhost:5173", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
 public class PlanEntrenamientoController {
 
-  private final PlanEntrenamientoService planEntrenamientoService;
+    private final PlanEntrenamientoService planEntrenamientoService;
 
-  public PlanEntrenamientoController(
-      PlanEntrenamientoService planEntrenamientoService) {
-    this.planEntrenamientoService = planEntrenamientoService;
-  }
-
-  private static final String STATUS = "status";
-  private static final String MESSAGE = "message";
-  private static final String SUCCESS = "success";
-  private static final String ERROR = "error";
-
-  /**
-   * Obtener plan de entrenamiento por cliente
-   */
-  @GetMapping("/cliente/{clienteId}")
-  @PreAuthorize("hasRole('CLIENTE') or hasRole('ENTRENADOR')")
-  public ResponseEntity<?>
-  obtenerPlanPorCliente(@PathVariable Integer clienteId) {
-
-    PlanEntrenamientoDTO plan =
-        planEntrenamientoService.getPlanEntrenamientoPorClienteId();
-
-    if (plan == null) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND)
-          .body(Map.of(STATUS, ERROR, MESSAGE,
-                       "No se encontró plan de entrenamiento"));
+    public PlanEntrenamientoController(PlanEntrenamientoService planEntrenamientoService) {
+        this.planEntrenamientoService = planEntrenamientoService;
     }
 
-    return ResponseEntity.ok(plan);
-  }
-
-  /**
-   * Listar todas las rutinas (simulado)
-   */
-  @GetMapping("/rutinas")
-  @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
-  public ResponseEntity<Map<String, Object>> listarRutinas() {
-      Map<String, Object> response = new HashMap<>();
-      response.put("status", "success");
-      response.put("data", java.util.Collections.emptyList());
-      
-      return ResponseEntity.ok(response);
-  }
-
-  /**
-   * Listar todos los planes de entrenamiento (simulado)
-   */
-  @GetMapping
-  @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
-  public ResponseEntity<Map<String, Object>> listarPlanes() {
-      Map<String, Object> response = new HashMap<>();
-      response.put("status", "success");
-      response.put("data", java.util.Collections.emptyList()); // Lista vacía por ahora
-      return ResponseEntity.ok(response);
-  }
-
-  /**
-   * Crear rutina (simulado)
-   */
-  @PostMapping("/rutinas")
-  @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
-  public ResponseEntity<Map<String, Object>>
-  crearRutina(@RequestBody Map<String, Object> rutinaRequest) {
-
-    if (!rutinaRequest.containsKey("nombre") ||
-        !rutinaRequest.containsKey("objetivo")) {
-
-      return ResponseEntity.badRequest().body(
-          Map.of(STATUS, ERROR, MESSAGE, "Nombre y objetivo son requeridos"));
+    @GetMapping
+    @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
+    public ResponseEntity<List<PlanEntrenamientoDTO>> listarTodosLosPlanes() {
+        return ResponseEntity.ok(planEntrenamientoService.listarTodosLosPlanes()); 
     }
 
-    Map<String, Object> response = new HashMap<>();
-    response.put(STATUS, SUCCESS);
-    response.put(MESSAGE, "Rutina creada correctamente");
-    response.put("rutina",
-                 Map.of("id", 1, "nombre", rutinaRequest.get("nombre"),
-                        "objetivo", rutinaRequest.get("objetivo"),
-                        "fechaCreacion", LocalDate.now().toString()));
-
-    return ResponseEntity.status(HttpStatus.CREATED).body(response);
-  }
-
-  /**
-   * Asignar rutina a cliente (simulado)
-   */
-  @PostMapping("/rutinas/asignar")
-  @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
-  public ResponseEntity<Map<String, Object>>
-  asignarRutina(@RequestBody Map<String, Object> request) {
-
-    if (!request.containsKey("rutinaId") || !request.containsKey("clienteId")) {
-
-      return ResponseEntity.badRequest().body(Map.of(
-          STATUS, ERROR, MESSAGE, "rutinaId y clienteId son requeridos"));
+    @GetMapping("/cliente/{clienteId}")
+    @PreAuthorize("hasRole('CLIENTE') or hasRole('ENTRENADOR')")
+    public ResponseEntity<?> obtenerPlanPorCliente(@PathVariable Integer clienteId) {
+        PlanEntrenamientoDTO plan = planEntrenamientoService.getPlanEntrenamientoPorClienteId(); 
+        if (plan == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", "Este cliente aún no tiene un plan asignado"));
+        }
+        return ResponseEntity.ok(plan);
     }
 
-    return ResponseEntity.ok(
-        Map.of(STATUS, SUCCESS, MESSAGE, "Rutina asignada correctamente"));
-  }
-
-  /**
-   * Modificar rutina (simulado)
-   */
-  @PutMapping("/rutinas/{id}")
-  @PreAuthorize("hasRole('ENTRENADOR') or hasRole('ADMIN')")
-  public ResponseEntity<Map<String, Object>>
-  modificarRutina(@PathVariable Integer id,
-                  @RequestBody Map<String, Object> updates) {
-
-    if (id <= 0) {
-      return ResponseEntity.badRequest().body(
-          Map.of(STATUS, ERROR, MESSAGE, "ID inválido"));
+    @PostMapping
+    @PreAuthorize("hasRole('ENTRENADOR')")
+    public @ResponseBody ResponseEntity<PlanEntrenamientoDTO> crearPlan(@RequestBody PlanEntrenamientoDTO dto) {
+        System.out.println("Intentando crear plan: " + dto);
+        try {
+            PlanEntrenamientoDTO nuevoPlan = planEntrenamientoService.crearNuevoPlan(dto);
+            return new ResponseEntity<>(nuevoPlan, HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.err.println("Error en el servidor: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    return ResponseEntity.ok(Map.of(STATUS, SUCCESS, MESSAGE,
-                                    "Rutina modificada", "id", id,
-                                    "actualizaciones", updates));
-  }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ENTRENADOR')")
+    public ResponseEntity<Void> eliminarPlan(@PathVariable int id) {
+        planEntrenamientoService.eliminarPlan(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{planId}/rutinas/{rutinaId}")
+    @PreAuthorize("hasRole('ENTRENADOR')")
+    public ResponseEntity<PlanEntrenamientoDTO> asignarRutina(
+            @PathVariable int planId, 
+            @PathVariable int rutinaId) {
+        return ResponseEntity.ok(planEntrenamientoService.asignarRutinaAPlan(planId, rutinaId));
+    }
+
+    @GetMapping("/rutinas")
+    @PreAuthorize("hasRole('ENTRENADOR')")
+    public ResponseEntity<List<RutinaDTO>> listarRutinasParaAsignar() {
+        return ResponseEntity.ok(planEntrenamientoService.listarTodasLasRutinas()); 
+    }
+
+    @DeleteMapping("/{planId}/rutinas/{rutinaId}")
+    @PreAuthorize("hasRole('ENTRENADOR')")
+    public ResponseEntity<Void> removerRutina(@PathVariable int planId, @PathVariable int rutinaId) {
+        planEntrenamientoService.removerRutinaDePlan(planId, rutinaId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/clientes")
+    @PreAuthorize("hasRole('ENTRENADOR')")
+    public ResponseEntity<List<UsuarioDTO>> listarClientes() {
+        return ResponseEntity.ok(planEntrenamientoService.listarClientesParaAsignar());
+    }
 }

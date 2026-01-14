@@ -1,131 +1,160 @@
 import React, { useState, useEffect } from 'react';
-// import { getClientesEntrenador } from "../../api/entrenador.api"; // Lo activaremos luego
+import axios from '../../api/axiosConfig';
+import { useNavigate } from 'react-router-dom';
 
 export default function ClientesAsignados() {
   const [clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [busqueda, setBusqueda] = useState("");
-
-  // --- DATOS FALSOS PARA VER EL DISEÑO (Mientras conectamos el Backend) ---
-  const datosSimulados = [
-    { id: 1, nombre: "Carlos Mendoza", objetivo: "Ganar Masa Muscular", nivel: "Intermedio", estado: "Activo", ultimaAsistencia: "Hoy" },
-    { id: 2, nombre: "Lucía Fernández", objetivo: "Pérdida de Peso", nivel: "Principiante", estado: "Pendiente", ultimaAsistencia: "Hace 3 días" },
-    { id: 3, nombre: "Marcos Jiménez", objetivo: "Envejecimiento Activo", nivel: "Principiante", estado: "Activo", ultimaAsistencia: "Ayer" },
-    { id: 4, nombre: "Sofía Rojas", objetivo: "Tonificación", nivel: "Avanzado", estado: "Inactivo", ultimaAsistencia: "Hace 1 semana" },
-    { id: 5, nombre: "Jorge Torres", objetivo: "Fuerza Potencia", nivel: "Intermedio", estado: "Activo", ultimaAsistencia: "Hoy" },
-  ];
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulamos una carga de API
-    setTimeout(() => {
-      setClientes(datosSimulados);
-      setLoading(false);
-    }, 800);
+    cargarDatosIntegrados();
   }, []);
 
-  // Filtro de búsqueda
-  const clientesFiltrados = clientes.filter(cliente =>
-    cliente.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  const cargarDatosIntegrados = async () => {
+    try {
+      const [resPlanes, resClientes] = await Promise.all([
+        axios.get('/planes-entrenamiento'),
+        axios.get('/planes-entrenamiento/clientes')
+      ]);
+
+      const listaPlanes = Array.isArray(resPlanes.data) ? resPlanes.data : resPlanes.data.data || [];
+      const listaClientes = Array.isArray(resClientes.data) ? resClientes.data : resClientes.data.data || [];
+
+      const alumnosConInfoReal = listaClientes.map(cliente => {
+        const planEncontrado = listaPlanes.find(p => p.clienteId === cliente.id);
+        
+        return {
+          ...cliente,
+          plan: planEncontrado || null,
+          estado: planEncontrado ? "Activo" : "Sin Plan" 
+        };
+      });
+
+      setClientes(alumnosConInfoReal);
+    } catch (error) {
+      console.error("Error al sincronizar datos de alumnos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const clientesFiltrados = clientes.filter(c =>
+    c.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+    (c.apellido && c.apellido.toLowerCase().includes(busqueda.toLowerCase()))
   );
 
   if (loading) return (
-    <div className="flex justify-center items-center h-screen bg-gray-50">
-      <p className="text-blue-600 animate-pulse font-bold text-lg">Cargando tus alumnos...</p>
+    <div className="flex flex-col justify-center items-center h-screen bg-gray-50">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-indigo-600 mb-4"></div>
+      <p className="text-indigo-600 font-bold animate-pulse">Cargando comunidad...</p>
     </div>
   );
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
       
-      {/* 1. HEADER (Estilo consistente con el Home) */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 shadow-lg text-white mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      {/* HEADER */}
+      <div className="bg-gradient-to-r from-blue-700 to-indigo-600 rounded-[2rem] p-10 shadow-2xl text-white mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
-          <h1 className="text-3xl font-bold">Mis Alumnos</h1>
-          <p className="text-blue-100 opacity-90">Gestión y seguimiento de progreso</p>
+          <h1 className="text-4xl font-black italic tracking-tight">Mis Alumnos</h1>
+          <p className="text-blue-100 opacity-80 mt-2 font-medium">Gestión y seguimiento de planes maestros</p>
         </div>
         
-        {/* Contador rápido */}
-        <div className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-lg text-center">
-          <span className="block text-2xl font-bold">{clientes.length}</span>
-          <span className="text-xs uppercase tracking-wide opacity-80">Asignados</span>
+        <div className="bg-white/10 backdrop-blur-md px-10 py-5 rounded-[1.5rem] text-center border border-white/20">
+          <span className="block text-4xl font-black">{clientes.length}</span>
+          <span className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-70">Asignados</span>
         </div>
       </div>
 
-      {/* 2. BARRA DE HERRAMIENTAS */}
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <div className="relative flex-1">
-          <span className="absolute left-3 top-3 text-gray-400">🔍</span>
+      {/* BARRA DE BÚSQUEDA */}
+      <div className="mb-10 flex gap-4">
+        <div className="relative flex-1 max-w-2xl">
+          <span className="absolute left-5 top-4 text-gray-400">🔍</span>
           <input 
             type="text"
-            placeholder="Buscar por nombre..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+            placeholder="Buscar alumno por nombre..."
+            className="w-full pl-14 pr-6 py-4 rounded-2xl border-none shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
           />
         </div>
-        {/* Aquí podrías poner filtros extra (Activos, Inactivos, etc.) */}
       </div>
 
-      {/* 3. GRILLA DE CLIENTES */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {clientesFiltrados.map((cliente) => (
-          <div key={cliente.id} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 border border-gray-100 flex flex-col">
+      {/* GRILLA DE TARJETAS (Estilo bosquejo) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {clientesFiltrados.map((alumno) => (
+          <div key={alumno.id} className="bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all p-8 border border-gray-100 flex flex-col relative overflow-hidden group">
             
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                {/* Avatar con iniciales */}
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg ${
-                  cliente.estado === 'Activo' ? 'bg-blue-500' : 'bg-gray-400'
+            <div className={`absolute top-0 left-0 w-full h-2 ${alumno.plan ? 'bg-blue-500' : 'bg-gray-200'}`}></div>
+
+            <div className="flex items-start justify-between mb-8">
+              <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg ${
+                  alumno.plan ? 'bg-blue-600 shadow-blue-100' : 'bg-gray-400'
                 }`}>
-                  {cliente.nombre.charAt(0)}
+                  {alumno.nombre.charAt(0)}
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-800">{cliente.nombre}</h3>
-                  <span className="text-xs text-gray-500">{cliente.nivel}</span>
+                  <h3 className="font-bold text-gray-900 text-lg leading-tight">{alumno.nombre} {alumno.apellido}</h3>
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-1">
+                    {alumno.plan ? 'Nivel Asignado' : 'Sin Categoría'}
+                  </p>
                 </div>
               </div>
               
-              {/* Badge de Estado */}
-              <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                cliente.estado === 'Activo' ? 'bg-green-100 text-green-700' : 
-                cliente.estado === 'Pendiente' ? 'bg-yellow-100 text-yellow-700' : 
-                'bg-red-100 text-red-700'
+              <span className={`text-[10px] px-3 py-1 rounded-full font-black uppercase tracking-tighter ${
+                alumno.plan ? 'bg-green-100 text-green-700' : 'bg-red-50 text-red-400'
               }`}>
-                {cliente.estado}
+                {alumno.estado}
               </span>
             </div>
 
-            <div className="space-y-2 mb-6 flex-1">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Objetivo:</span>
-                <span className="font-medium text-gray-700">{cliente.objetivo}</span>
+            {/* INFORMACIÓN DEL PLAN REAL */}
+            <div className="space-y-4 mb-8 bg-gray-50 p-6 rounded-[1.5rem] flex-1 border border-gray-100">
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] font-black text-gray-400 uppercase">Plan Maestro</span>
+                <span className="text-xs font-bold text-gray-700">
+                  {alumno.plan ? `ID #${alumno.plan.id}` : 'No Asignado'}
+                </span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Última vez:</span>
-                <span className="font-medium text-gray-700">{cliente.ultimaAsistencia}</span>
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] font-black text-gray-400 uppercase">Rutinas</span>
+                <span className={`text-xs font-bold ${alumno.plan?.rutinas?.length > 0 ? 'text-blue-600' : 'text-gray-400'}`}>
+                  {alumno.plan?.rutinas?.length || 0} cargadas
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] font-black text-gray-400 uppercase">Inicio</span>
+                <span className="text-xs font-bold text-gray-600">
+                  {alumno.plan?.fechaInicio || 'Pendiente'}
+                </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 mt-auto">
-              <button className="px-4 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm font-semibold hover:bg-blue-100 transition-colors">
+            {/* BOTONES DE ACCIÓN */}
+            <div className="grid grid-cols-2 gap-4">
+              <button 
+                onClick={() => navigate('/planes')}
+                className="px-4 py-3 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition-all active:scale-95 shadow-md shadow-blue-100"
+              >
                 Ver Plan
               </button>
-              <button className="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors">
+              <button className="px-4 py-3 border border-gray-100 text-gray-400 rounded-xl text-xs font-bold hover:bg-gray-50 hover:text-gray-600 transition-all">
                 Detalles
               </button>
             </div>
-
           </div>
         ))}
       </div>
-      
-      {/* Mensaje si no hay resultados */}
+
+      {/* FOOTER VACÍO */}
       {clientesFiltrados.length === 0 && (
-        <div className="text-center py-12 text-gray-500">
-          <p>No se encontraron alumnos con ese nombre.</p>
+        <div className="text-center py-24">
+          <p className="text-gray-400 italic font-medium">No se encontraron alumnos bajo tu supervisión.</p>
         </div>
       )}
-
     </div>
   );
 }

@@ -6,7 +6,6 @@ export default function EntrenadorHome() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Datos de respaldo (FALSOS) que se muestran si falla la conexión
   const fallbackData = {
     nombre: "Entrenador",
     apellido: "Demo",
