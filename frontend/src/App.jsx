@@ -5,7 +5,11 @@ import RequireRole from "./auth/RequireRole";
 import ClienteLayout from "./layouts/ClienteLayout";
 import EntrenadorLayout from "./layouts/EntrenadorLayout";
 import ClienteHome from "./pages/cliente/Home";
-import EntrenadorHome from "./pages/entrenador/Home";
+import EntrenadorHome from "./pages/entrenador/EntrenadorHome";
+
+import PlanesPage from "./pages/entrenador/PlanesPage";
+import RutinasPage from "./pages/entrenador/RutinasPage";
+import SesionesPage from "./pages/entrenador/SesionesPage";
 
 export default function App() {
   return (
@@ -33,6 +37,10 @@ export default function App() {
         }
       >
         <Route index element={<EntrenadorHome />} />
+
+        <Route path="planes" element={<PlanesPage />} />
+        <Route path="rutinas" element={<RutinasPage />} />
+        <Route path="sesiones" element={<SesionesPage />} />
       </Route>
     </Routes>
   );
