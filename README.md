@@ -1,5 +1,14 @@
 # Gimnasio App
 
+## Integrantes:
+
+- Alva Cornejo, Jose Javier
+- Chavez Medina, Fernando Jesús
+- Palomino Rivadeneyra, Misael Jesús
+- Rivera Cruz, Diego Benjamín
+- Supo Molina, Gerald Steve
+- Zapana Pariapaza, Gonzalo Rodrigo
+
 ## Proposito
 
 Ayudar a tanto usuarios de gimnasios, entrenadores, y administradores de gimnasios a lograr una experiencia de entrenamiento
