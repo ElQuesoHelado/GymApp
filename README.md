@@ -345,4 +345,141 @@ constructor (o @Autowired en este caso).
 @Autowired
 private UsuarioRepositorio usuarioRepositorio; // Depende de la interfaz, no de la implementación específica
 ```
-### Test
+##  Módulos y Principales Servicios REST
+
+Esta sección describe los principales servicios REST expuestos por el backend del sistema **GymApp**, organizados por módulos funcionales.  
+Los servicios siguen una arquitectura REST y son documentables mediante **Swagger / OpenAPI**.
+
+---
+
+###  Módulo: Autenticación (`AuthController`)
+**Propósito:** Gestionar la autenticación y la sesión de los usuarios del sistema.
+
+| Método | Endpoint | Parámetros | Descripción |
+|------|--------|-----------|------------|
+| POST | `/auth/login` | username, password | Autenticación de usuario |
+| POST | `/auth/logout` | — | Cierre de sesión |
+| GET | `/auth/me` | — | Obtiene el usuario autenticado |
+
+**Modelos clave:** Usuario
+
+---
+
+###  Módulo: Usuarios (`UsuarioController`)
+**Propósito:** Gestión y consulta de información de usuarios.
+
+| Método | Endpoint | Parámetros | Descripción |
+|------|--------|-----------|------------|
+| GET | `/usuarios/me` | — | Obtener perfil del usuario |
+| PUT | `/usuarios/me` | UsuarioDTO | Actualizar información personal |
+| GET | `/usuarios` | — | Listar usuarios |
+
+**Modelos clave:** Usuario, Rol
+
+---
+
+###  Módulo: Administración (`AdminController`)
+**Propósito:** Funcionalidades exclusivas para el rol administrador.
+
+| Método | Endpoint | Parámetros | Descripción |
+|------|--------|-----------|------------|
+| GET | `/admin/dashboard` | — | Resumen general administrativo |
+| GET | `/admin/usuarios` | — | Gestión de usuarios |
+| POST | `/admin/usuarios` | UsuarioDTO | Crear usuario |
+
+**Modelos clave:** Usuario, Rol
+
+---
+
+###  Módulo: Clientes (`ClienteController`)
+**Propósito:** Servicios disponibles para clientes del gimnasio.
+
+| Método | Endpoint | Parámetros | Descripción |
+|------|--------|-----------|------------|
+| GET | `/cliente/membresia` | — | Consultar membresía activa |
+| GET | `/cliente/sesiones` | — | Historial de sesiones |
+| GET | `/cliente/planes` | — | Planes de entrenamiento asignados |
+
+**Modelos clave:** Cliente, Membresia, Sesion, PlanEntrenamiento
+
+---
+
+###  Módulo: Entrenadores (`EntrenadorController`)
+**Propósito:** Gestión de entrenadores y clientes asignados.
+
+| Método | Endpoint | Parámetros | Descripción |
+|------|--------|-----------|------------|
+| GET | `/entrenador/clientes` | — | Clientes asignados |
+| POST | `/entrenador/sesiones` | SesionDTO | Registrar sesión |
+| GET | `/entrenador/planes` | — | Planes creados |
+
+**Modelos clave:** Entrenador, Cliente, Sesion, PlanEntrenamiento
+
+---
+
+###  Módulo: Membresías (`MembresiaController`)
+**Propósito:** Gestión de membresías del gimnasio.
+
+| Método | Endpoint | Parámetros | Descripción |
+|------|--------|-----------|------------|
+| GET | `/membresias` | — | Listar membresías |
+| POST | `/membresias` | MembresiaDTO | Crear membresía |
+| PUT | `/membresias/{id}` | MembresiaDTO | Actualizar membresía |
+| DELETE | `/membresias/{id}` | id | Eliminar membresía |
+
+**Modelos clave:** Membresia, TipoMembresia, EstadoMembresia
+
+---
+
+###  Módulo: Sesiones (`SesionController`)
+**Propósito:** Gestión de sesiones de entrenamiento.
+
+| Método | Endpoint | Parámetros | Descripción |
+|------|--------|-----------|------------|
+| GET | `/sesiones` | — | Listar sesiones |
+| POST | `/sesiones` | SesionDTO | Crear sesión |
+| PUT | `/sesiones/{id}` | SesionDTO | Modificar sesión |
+| DELETE | `/sesiones/{id}` | id | Cancelar sesión |
+
+**Modelos clave:** Sesion, Horario, Usuario
+
+---
+
+###  Módulo: Planes de Entrenamiento (`PlanEntrenamientoController`)
+**Propósito:** Administración de planes de entrenamiento.
+
+| Método | Endpoint | Parámetros | Descripción |
+|------|--------|-----------|------------|
+| GET | `/planes-entrenamiento` | — | Listar planes |
+| POST | `/planes-entrenamiento` | PlanDTO | Crear plan |
+| PUT | `/planes-entrenamiento/{id}` | PlanDTO | Actualizar plan |
+| DELETE | `/planes-entrenamiento/{id}` | id | Eliminar plan |
+
+**Modelos clave:** PlanEntrenamiento, Rutina
+
+---
+
+###  Módulo: Rutinas (`RutinaRestController`)
+**Propósito:** Gestión de rutinas de entrenamiento.
+
+| Método | Endpoint | Parámetros | Descripción |
+|------|--------|-----------|------------|
+| GET | `/rutinas` | — | Listar rutinas |
+| POST | `/rutinas` | RutinaDTO | Crear rutina |
+| PUT | `/rutinas/{id}` | RutinaDTO | Actualizar rutina |
+| DELETE | `/rutinas/{id}` | id | Eliminar rutina |
+
+**Modelos clave:** Rutina, Ejercicio
+
+---
+
+###  Módulo: Notificaciones (`NotificacionController`)
+**Propósito:** Gestión de notificaciones del sistema.
+
+| Método | Endpoint | Parámetros | Descripción |
+|------|--------|-----------|------------|
+| GET | `/notificaciones` | — | Listar notificaciones |
+| POST | `/notificaciones` | NotificacionDTO | Crear notificación |
+| PUT | `/notificaciones/{id}/leida` | id | Marcar notificación como leída |
+
+**Modelos clave:** Notificacion, Usuario
