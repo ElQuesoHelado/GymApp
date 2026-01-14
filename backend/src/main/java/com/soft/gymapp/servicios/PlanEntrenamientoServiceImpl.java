@@ -71,7 +71,7 @@ public class PlanEntrenamientoServiceImpl implements PlanEntrenamientoService {
                     r.getId(), 
                     r.getNombre(), 
                     r.getObjetivo(),
-                    null
+                    r.getEjercicios().stream().map(this::toDTO).toList()
                 ))
                 .toList();
         }
