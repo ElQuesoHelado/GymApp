@@ -24,7 +24,8 @@ public class MembresiaController {
 
     @GetMapping
     public MembresiaDTO listar() {
-        return membresiaService.obtenerPorCliente().orElse(null);
+//        return membresiaService.obtenerPorCliente().orElse(null);
+        return null;
     }
 
     @PutMapping("/{id}/cancelar")

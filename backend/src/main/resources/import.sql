@@ -361,6 +361,84 @@ VALUES (1, 'Bienvenido a FitClub! Tu membresía ha sido activada.', '2023-05-10 
 
        (95, 'Campaña de vergano: 15% aumento en registros esta semana', '2023-05-16 11:20:00', true, 55, 'IMPORTANTE');
 
+INSERT INTO Notificacion (id, mensaje, fecha_envio, leido, usuario_id, tipo)
+-- Completando usuarios faltantes (continuando desde ID 96)
+VALUES 
+-- Usuario 36
+(96, 'Tu membresía ha sido renovada exitosamente por 6 meses más.', '2023-05-10 14:30:00', true, 36, 'IMPORTANTE'),
+(97, 'Clase de spinning programada para mañana a las 18:00.', '2023-05-17 16:45:00', false, 36, 'SESIONINMINENTE'),
+(98, 'Consejo del entrenador: Mantén una hidratación constante durante el ejercicio.', '2023-05-15 11:20:00', true, 36, 'MENSAJE'),
+
+-- Usuario 37
+(99, '¡Nuevo logro desbloqueado: 50 sesiones completadas!', '2023-04-28 19:15:00', true, 37, 'IMPORTANTE'),
+(100, 'Recordatorio: Evaluación de progreso hoy a las 17:30.', '2023-05-11 09:00:00', false, 37, 'SESIONINMINENTE'),
+(101, 'Artículo recomendado: "Alimentación pre y post entrenamiento".', '2023-05-13 13:45:00', true, 37, 'MENSAJE'),
+
+-- Usuario 38
+(102, 'Cambio en tu horario de entrenamiento semanal.', '2023-05-08 10:30:00', true, 38, 'IMPORTANTE'),
+(103, 'Taller de técnica de respiración hoy a las 19:00.', '2023-05-14 08:15:00', false, 38, 'SESIONINMINENTE'),
+(104, '¡Felicidades! Has bajado un 5% de grasa corporal este mes.', '2023-05-10 18:30:00', true, 38, 'MENSAJE'),
+
+-- Usuario 39
+(105, 'Documentación médica aprobada. Puedes usar todas las instalaciones.', '2023-04-20 12:00:00', true, 39, 'IMPORTANTE'),
+(106, 'Sesión de yoga terapéutico reprogramada para el jueves.', '2023-05-16 14:20:00', true, 39, 'SESIONINMINENTE'),
+(107, 'Mensaje de tu entrenador: "Tu postura ha mejorado notablemente."', '2023-05-12 17:45:00', false, 39, 'MENSAJE'),
+
+-- Usuario 40
+(108, 'Promoción especial: 20% de descuento en entrenamientos personales.', '2023-05-05 11:00:00', true, 40, 'IMPORTANTE'),
+(109, 'Clase de TRX cancelada por mantenimiento de equipos.', '2023-05-13 15:30:00', true, 40, 'SESIONINMINENTE'),
+(110, 'Nuevo video disponible: "Ejercicios para espalda sana".', '2023-05-17 10:15:00', false, 40, 'MENSAJE'),
+
+-- Usuario 41
+(111, '¡Bienvenido de nuevo! Tu membresía ha sido reactivada.', '2023-05-02 09:30:00', true, 41, 'IMPORTANTE'),
+(112, 'Sesión de evaluación inicial mañana a las 10:00.', '2023-05-03 16:45:00', true, 41, 'SESIONINMINENTE'),
+(113, 'Consejo: Comienza con rutinas básicas para readaptarte.', '2023-05-04 14:20:00', false, 41, 'MENSAJE'),
+
+-- Usuario 42
+(114, 'Alerta: Zona de peso libre cerrada temporalmente por mantenimiento.', '2023-05-09 08:00:00', true, 42, 'IMPORTANTE'),
+(115, 'Clase de boxeo fitness hoy a las 20:00.', '2023-05-15 18:30:00', false, 42, 'SESIONINMINENTE'),
+(116, '¡Récord personal! Has aumentado tu resistencia en 15%.', '2023-05-08 19:45:00', true, 42, 'MENSAJE'),
+
+-- Usuario 43
+(117, 'Renovación automática de membresía programada para 5 días.', '2023-05-14 10:00:00', true, 43, 'IMPORTANTE'),
+(118, 'Sesión con fisioterapeuta mañana a las 11:30.', '2023-05-12 09:15:00', false, 43, 'SESIONINMINENTE'),
+(119, 'Artículo: "Recuperación activa vs. descanso total".', '2023-05-16 13:00:00', false, 43, 'MENSAJE'),
+
+-- Usuario 44
+(120, 'Nueva máquina de cardio instalada en la zona principal.', '2023-05-06 15:45:00', true, 44, 'IMPORTANTE'),
+(121, 'Taller de nutrición deportiva cancelado por indisponibilidad del instructor.', '2023-05-10 17:20:00', true, 44, 'SESIONINMINENTE'),
+(122, 'Mensaje: "Tu disciplina es ejemplar, sigue así" - Entrenador principal.', '2023-05-13 12:30:00', true, 44, 'MENSAJE'),
+
+-- Usuario 45
+(123, 'Cambio de políticas: Nuevo límite de tiempo en máquinas cardiovasculares.', '2023-04-25 09:00:00', true, 45, 'IMPORTANTE'),
+(124, 'Clase de pilates avanzado hoy a las 18:30.', '2023-05-16 08:45:00', false, 45, 'SESIONINMINENTE'),
+(125, '¡Increíble! Has logrado tu objetivo de flexibilidad 2 semanas antes.', '2023-05-14 17:15:00', true, 45, 'MENSAJE'),
+
+-- Usuario 46
+(126, 'Verificación de identidad completada exitosamente.', '2023-04-15 14:00:00', true, 46, 'IMPORTANTE'),
+(127, 'Sesión de entrenamiento funcional mañana a las 19:15.', '2023-05-11 10:30:00', false, 46, 'SESIONINMINENTE'),
+(128, 'Consejo del día: Varía tu rutina cada 4-6 semanas para mejores resultados.', '2023-05-17 16:00:00', false, 46, 'MENSAJE'),
+
+-- Usuario 47
+(129, 'Pago mensual procesado exitosamente. Gracias por tu continuidad.', '2023-05-01 08:30:00', true, 47, 'IMPORTANTE'),
+(130, 'Clase de baile fitness reprogramada para el viernes.', '2023-05-09 12:15:00', true, 47, 'SESIONINMINENTE'),
+(131, 'Nuevo reto mensual: "30 días de cardio" - ¡Únete!', '2023-05-15 11:45:00', false, 47, 'MENSAJE'),
+
+-- Usuario 48
+(132, 'Actualización importante: Nuevos protocolos de seguridad implementados.', '2023-03-20 10:00:00', true, 48, 'IMPORTANTE'),
+(133, 'Sesión de evaluación postural hoy a las 16:00.', '2023-05-10 09:30:00', false, 48, 'SESIONINMINENTE'),
+(134, 'Tu progreso en levantamiento olímpico es notable. ¡Sigue avanzando!', '2023-05-08 20:15:00', true, 48, 'MENSAJE'),
+
+-- Usuario 49
+(135, '¡Feliz aniversario! Un año como miembro de FitClub.', '2023-04-10 09:00:00', true, 49, 'IMPORTANTE'),
+(136, 'Clase especial de anniversary para miembros veteranos hoy.', '2023-04-10 18:00:00', true, 49, 'SESIONINMINENTE'),
+(137, 'Regalo especial: 1 mes gratis por tu lealtad.', '2023-04-10 12:30:00', true, 49, 'MENSAJE'),
+
+-- Usuario 50
+(138, 'Bienvenido a FitClub Premium. Acceso ilimitado activado.', '2023-05-15 10:45:00', true, 50, 'IMPORTANTE'),
+(139, 'Sesión de orientación premium mañana a las 17:00.', '2023-05-16 14:20:00', false, 50, 'SESIONINMINENTE'),
+(140, 'Beneficio exclusivo: Acceso a sauna y jacuzzi incluido.', '2023-05-15 16:00:00', true, 50, 'MENSAJE');
+
 INSERT INTO Sesion (id, estado, entrenador_id, sala_id, fecha, hora_inicio, hora_fin)
 VALUES (1, 'SIN_EMPEZAR', 1, 1, '2023-06-05 00:00:00.000', '09:00:00', '10:00:00'),
        (2, 'SIN_EMPEZAR', 3, 2, '2023-06-05 00:00:00.000', '11:00:00', '12:30:00'),
@@ -703,155 +781,81 @@ VALUES (1, 'Sentadillas', 'Flexionar rodillas bajando cadera hasta formar 90°',
        (52, 'Dominadas explosivas', 'Elevación rápida con impulso', 6, 4, 25),
        (53, 'Sentadilla con carga', 'Mantener peso adicional en posición de copa', 8, 4, 25);
 
-INSERT INTO plan_entrenamiento_rutina (plan_entrenamiento_id, rutina_id)
+INSERT INTO plan_entrenamiento_rutina (plan_entrenamiento_id, rutina_id) 
 VALUES (1, 1),
-       (1, 6),
-       (1, 23),
-       (2, 2),
-       (2, 3),
-       (2, 4),
-       (3, 1),
-       (3, 7),
-       (3, 10),
-       (4, 12),
-       (4, 6),
-       (4, 15),
-       (5, 15),
-       (5, 10),
-       (6, 18),
-       (6, 10),
-       (6, 24),
-       (7, 21),
-       (7, 22),
-       (7, 23),
-       (8, 24),
-       (8, 25),
-       (8, 26),
-       (9, 27),
-       (9, 28),
-       (9, 29),
-       (10, 30),
-       (10, 31),
-       (10, 32),
-       (11, 33),
-       (11, 34),
-       (11, 35),
-       (12, 36),
-       (12, 37),
-       (12, 38),
-       (13, 39),
-       (13, 40),
-       (13, 41),
-       (14, 42),
-       (14, 43),
-       (14, 44),
-       (15, 45),
-       (15, 46),
-       (15, 47),
-       (16, 48),
-       (16, 49),
-       (16, 50),
-       (17, 51),
-       (17, 52),
-       (17, 53),
-       (18, 1),
-       (18, 6),
-       (18, 9),
-       (19, 18),
-       (19, 47),
-       (19, 48),
-       (20, 19),
-       (20, 39),
-       (20, 40),
-       (21, 12),
-       (21, 30),
-       (21, 25),
-       (22, 63),
-       (22, 64),
-       (22, 65),
-       (23, 66),
-       (23, 67),
-       (23, 68),
-       (24, 69),
-       (24, 70),
-       (24, 71),
-       (25, 72),
-       (25, 73),
-       (25, 74),
-       (26, 75),
-       (26, 76),
-       (26, 77),
-       (27, 78),
-       (27, 79),
-       (27, 80),
-       (28, 81),
-       (28, 82),
-       (28, 83),
-       (29, 84),
-       (29, 85),
-       (29, 86),
-       (30, 87),
-       (30, 88),
-       (30, 89),
-       (31, 90),
-       (31, 91),
-       (31, 92),
-       (32, 93),
-       (32, 94),
-       (32, 95),
-       (33, 96),
-       (33, 97),
-       (33, 98),
-       (34, 99),
-       (34, 100),
-       (34, 101),
-       (35, 102),
-       (35, 103),
-       (35, 104);
+(1, 6), (1, 23),
+(2, 2), (2, 3), (2, 4),
+(3, 1), (3, 7), (3, 10),
+(4, 12), (4, 6), (4, 15),
+(5, 15), (5, 10),
+(6, 18), (6, 10), (6, 24),
+(7, 21), (7, 22), (7, 23),
+(8, 24), (8, 25), (8, 1),
+(9, 9), (9, 10), (9, 24),
+(10, 8), (10, 9), (10, 10),
+(11, 1), (11, 2), (11, 3),
+(12, 12), (12, 13), (12, 14),
+(13, 5), (13, 6), (13, 7),
+(14, 8), (14, 9), (14, 10),
+(15, 15), (15, 16), (15, 17),
+(16, 18), (16, 19), (16, 20),
+(17, 21), (17, 22), (17, 23),
+(18, 1), (18, 6), (18, 9),
+(19, 18), (19, 19), (19, 20),
+(20, 1), (20, 5), (20, 10),
+(21, 12), (21, 13), (21, 14),
+(22, 2), (22, 3), (22, 4),
+(23, 6), (23, 7), (23, 8),
+(24, 9), (24, 10), (24, 11),
+(25, 12), (25, 13), (25, 14),
+(26, 15), (26, 16), (26, 17),
+(27, 18), (27, 19), (27, 20),
+(28, 21), (28, 22), (28, 23),
+(29, 24), (29, 25), (29, 1),
+(30, 2), (30, 3), (30, 4),
+(31, 5), (31, 6), (31, 7),
+(32, 8), (32, 9), (32, 10),
+(33, 11), (33, 12), (33, 13),
+(34, 14), (34, 15), (34, 16),
+(35, 17), (35, 18), (35, 19);
 
 UPDATE Cliente
 SET plan_entrenamiento_id = CASE id
-                       WHEN 16 THEN 1
-                       WHEN 17 THEN 2
-                       WHEN 18 THEN 3
-                       WHEN 19 THEN 4
-                       WHEN 20 THEN 5
-                       WHEN 21 THEN 6
-                       WHEN 22 THEN 7
-                       WHEN 23 THEN 8
-                       WHEN 24 THEN 9
-                       WHEN 25 THEN 10
-                       WHEN 26 THEN 11
-                       WHEN 27 THEN 12
-                       WHEN 28 THEN 13
-                       WHEN 29 THEN 14
-                       WHEN 30 THEN 15
-                       WHEN 31 THEN 16
-                       WHEN 32 THEN 17
-                       WHEN 33 THEN 18
-                       WHEN 34 THEN 19
-                       WHEN 35 THEN 20
-                       WHEN 35 THEN 20
-                       WHEN 35 THEN 20
-                       WHEN 31 THEN 16
-                       WHEN 32 THEN 17
-                       WHEN 33 THEN 18
-                       WHEN 34 THEN 19
-                       WHEN 35 THEN 20
-                       WHEN 36 THEN 21
-                       WHEN 37 THEN 22
-                       WHEN 38 THEN 23
-                       WHEN 39 THEN 24
-                       WHEN 40 THEN 25
-                       WHEN 41 THEN 26
-                       WHEN 42 THEN 27
-                       WHEN 43 THEN 28
-                       WHEN 44 THEN 29
-                       WHEN 45 THEN 30
-                       WHEN 46 THEN 31
-                       WHEN 47 THEN 32
-                       WHEN 48 THEN 33
-                       WHEN 49 THEN 34
-                       WHEN 50 THEN 35
-                       ELSE NULL
-    END;
+    WHEN 16 THEN 1
+    WHEN 17 THEN 2
+    WHEN 18 THEN 3
+    WHEN 19 THEN 4
+    WHEN 20 THEN 5
+    WHEN 21 THEN 6
+    WHEN 22 THEN 7
+    WHEN 23 THEN 8
+    WHEN 24 THEN 9
+    WHEN 25 THEN 10
+    WHEN 26 THEN 11
+    WHEN 27 THEN 12
+    WHEN 28 THEN 13
+    WHEN 29 THEN 14
+    WHEN 30 THEN 15
+    WHEN 31 THEN 16
+    WHEN 32 THEN 17
+    WHEN 33 THEN 18
+    WHEN 34 THEN 19
+    WHEN 35 THEN 20
+    WHEN 36 THEN 21
+    WHEN 37 THEN 22
+    WHEN 38 THEN 23
+    WHEN 39 THEN 24
+    WHEN 40 THEN 25
+    WHEN 41 THEN 26
+    WHEN 42 THEN 27
+    WHEN 43 THEN 28
+    WHEN 44 THEN 29
+    WHEN 45 THEN 30
+    WHEN 46 THEN 31
+    WHEN 47 THEN 32
+    WHEN 48 THEN 33
+    WHEN 49 THEN 34
+    WHEN 50 THEN 35
+    ELSE NULL
+END
+WHERE id BETWEEN 16 AND 50;

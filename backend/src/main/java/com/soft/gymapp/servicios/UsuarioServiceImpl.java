@@ -1,12 +1,10 @@
 package com.soft.gymapp.servicios;
 
-import com.soft.gymapp.dominio.membresias.Membresia;
 import com.soft.gymapp.dominio.usuarios.CuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.EstadoCuentaUsuario;
 import com.soft.gymapp.dominio.usuarios.Usuario;
 import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio;
 import com.soft.gymapp.servicios.dto.MembresiaDTO;
-import com.soft.gymapp.servicios.dto.NotificacionDTO;
 import com.soft.gymapp.servicios.dto.SesionDTO;
 import org.slf4j.Logger; // CAMBIO: Importar Logger
 import org.slf4j.LoggerFactory; // CAMBIO: Importar LoggerFactory
@@ -31,6 +29,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private static final Logger logger = LoggerFactory.getLogger(UsuarioServiceImpl.class);
 
     private final UsuarioRepositorio usuarioRepositorio;
+    private final MembresiaService membresiaService;
 
     // --- CONSTANTES (ELIMINAR LAS NO USADAS) ---
     private static final String KEY_STATUS = "status";
@@ -51,9 +50,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
+
     @Autowired
-    public UsuarioServiceImpl(UsuarioRepositorio usuarioRepositorio) {
+    public UsuarioServiceImpl(UsuarioRepositorio usuarioRepositorio, MembresiaService membresiaService) {
         this.usuarioRepositorio = usuarioRepositorio;
+        this.membresiaService = membresiaService;
     }
 
     // --- Métodos Auxiliares Privados (REFACTORIZADOS) ---
@@ -303,9 +304,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public MembresiaDTO obtenerMembresia() {
         UsuarioDTO usuarioDTO = obtenerUsuarioLogueado();
-
-
-        return null;
+         return membresiaService.obtenerPorCliente(usuarioDTO.id()).orElse(null);
     }
 
     @Override

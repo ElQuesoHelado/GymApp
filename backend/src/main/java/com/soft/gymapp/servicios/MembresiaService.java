@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface MembresiaService {
     Optional<MembresiaDTO> obtenerPorId(Integer idMembresia);
 
-    Optional<MembresiaDTO> obtenerPorCliente();
+    Optional<MembresiaDTO> obtenerPorCliente(Integer idCliente);
 
     Membresia marcarComoAdeudada(Integer membresiaId, double montoDeuda);
 
