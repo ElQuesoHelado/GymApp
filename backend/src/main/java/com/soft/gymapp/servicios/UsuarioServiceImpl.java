@@ -1,9 +1,5 @@
 package com.soft.gymapp.servicios;
 
-import com.soft.gymapp.dominio.usuarios.CuentaUsuario;
-import com.soft.gymapp.dominio.usuarios.EstadoCuentaUsuario;
-import com.soft.gymapp.dominio.usuarios.Usuario;
-import com.soft.gymapp.dominio.usuarios.UsuarioRepositorio;
 import com.soft.gymapp.servicios.dto.ClienteDTO;
 import com.soft.gymapp.servicios.dto.MembresiaDTO;
 import com.soft.gymapp.servicios.dto.SesionDTO;
@@ -20,7 +16,11 @@ import java.util.*;
 
 import com.soft.gymapp.servicios.dto.UsuarioDTO;
 import com.soft.gymapp.dominio.usuarios.*;
+import com.soft.gymapp.servicios.dto.EntrenadorDTO;
+import com.soft.gymapp.servicios.dto.ClienteAsignadoDTO; 
 import org.springframework.security.core.Authentication;
+
+import java.util.stream.Collectors;
 
 
 @Service
@@ -335,5 +335,44 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<SesionDTO> listarSesiones() {
         return List.of();
+    }
+
+
+    @Override
+    public EntrenadorDTO obtenerPerfilEntrenador() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        
+        Usuario u = usuarioRepositorio.findByCuentaUsuarioUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        String nombreCompleto = u.getNombre(); 
+
+        return new EntrenadorDTO(
+            u.getId(),
+            nombreCompleto,
+            u.getDni(),
+            u.getEmail(),
+            u.getTelefono() != null ? u.getTelefono() : "Sin registrar",
+            u.getFechaNacimiento(),
+            "Musculación", 
+            "N/A"          
+        );
+    }
+
+    @Override
+    public List<ClienteAsignadoDTO> listarClientesAsignados() {
+        List<Cliente> clientes = clienteRepositorio.findAll();
+
+        return clientes.stream()
+            .map(c -> new ClienteAsignadoDTO(
+                c.getId(),
+                c.getNombre(),
+                c.getObjetivo() != null ? c.getObjetivo() : "Sin objetivo",
+                c.getNivel() != null ? c.getNivel() : "Principiante",
+                "Activo",      
+                "Hace 2 días"  
+            ))
+            .collect(Collectors.toList());
     }
 }

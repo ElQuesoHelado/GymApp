@@ -57,4 +57,8 @@ public interface UsuarioService {
   List<SesionDTO> listarSesiones();
 
   MembresiaDTO obtenerMembresia();
+
+  EntrenadorDTO obtenerPerfilEntrenador();
+
+  List<ClienteAsignadoDTO> listarClientesAsignados();
 }
