@@ -16,6 +16,70 @@ más fluida y personalizada, maximizando la eficiencia en el uso de recursos del
 demuestre eficiencia entre los tipos de usuario y el funcionamiento, sin exponer datos personales, convservando los cambios
 necesarios para los planes de entrenamiento y también aplicando practicas de codificación correctas.
 
+## Actores del sistema (alto nivel)
+
+En GymApp se identifican claramente estos actores:
+
+- Administrador
+- Entrenador
+- Cliente
+- Sistema (servicios automáticos / notificaciones) 
+
+## Funcionalidades a Alto Nivel por Actor
+
+###  1. Administrador
+
+El Administrador gestiona la operación general del gimnasio.
+
+#### Funcionalidades:
+
+- Autenticarse en el sistema
+- Gestionar usuarios (crear, editar, eliminar)
+- Gestionar entrenadores y clientes
+- Gestionar tipos de membresía
+- Visualizar estadísticas del gimnasio
+- Supervisar sesiones de entrenamiento
+- Gestionar planes de entrenamiento
+- Recibir notificaciones del sistema
+
+### 2. Entrenador
+
+El Entrenador administra el entrenamiento de los clientes.
+
+#### Funcionalidades:
+
+- Autenticarse en el sistema
+- Visualizar su perfil
+- Gestionar clientes asignados
+- Crear y modificar planes de entrenamiento
+- Programar sesiones de entrenamiento
+- Consultar sesiones programadas
+- Cancelar o reprogramar sesiones
+- Recibir notificaciones relacionadas a sesiones
+
+### 3. Cliente
+
+El Cliente consume los servicios del gimnasio.
+
+#### Funcionalidades:
+
+- Autenticarse en el sistema
+- Visualizar su perfil
+- Consultar su membresía activa
+- Visualizar planes de entrenamiento asignados
+- Consultar sesiones de entrenamiento
+- Recibir notificaciones del sistema
+
+### 4. Sistema (Automático)
+
+#### Funcionalidades automáticas del sistema:
+
+- Validar credenciales de acceso
+- Controlar disponibilidad de horarios
+- Gestionar estados de membresías
+- Enviar notificaciones automáticas
+- Registrar eventos del sistema
+
 ## Users relevantes
 ### Entrenadores
 | Usuario | Password |
