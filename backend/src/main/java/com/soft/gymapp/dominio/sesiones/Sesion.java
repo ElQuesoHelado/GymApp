@@ -2,6 +2,8 @@ package com.soft.gymapp.dominio.sesiones;
 
 import com.soft.gymapp.dominio.usuarios.Cliente;
 import com.soft.gymapp.dominio.usuarios.Entrenador;
+import com.soft.gymapp.servicios.dto.ClienteDTO;
+import com.soft.gymapp.servicios.dto.SesionDTO;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -35,6 +37,24 @@ public class Sesion {
 
     @ManyToOne
     private Sala sala;
+
+    public SesionDTO toDTO() {
+        // Convertir lista de Clientes a ClienteDTO
+        List<ClienteDTO> clienteDTOs = this.clientes != null
+                ? this.clientes.stream()
+                .map(Cliente::toDTO)
+                .toList()
+                : new ArrayList<>();
+
+        return new SesionDTO(
+                this.id,
+                this.estado.toString(),
+                clienteDTOs,
+                this.entrenador != null ? this.entrenador.toDTO() : null,
+                this.horario != null ? this.horario.toDTO() : null,
+                this.sala != null ? this.sala.toDTO() : null
+        );
+    }
 
     public void confirmar() {
         this.estado = EstadoSesion.EN_PROGRESO;

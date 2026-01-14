@@ -3,6 +3,7 @@ package com.soft.gymapp.dominio.usuarios;
 import com.soft.gymapp.dominio.membresias.Membresia;
 import com.soft.gymapp.dominio.planesentrenamiento.PlanEntrenamiento;
 import com.soft.gymapp.dominio.sesiones.Sesion;
+import com.soft.gymapp.servicios.dto.ClienteDTO;
 import jakarta.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,19 @@ public class Cliente extends Usuario {
         this.nivel = nivel;
         this.membresia = membresia;
         this.planEntrenamiento = planEntrenamiento;
+    }
+
+    public ClienteDTO toDTO() {
+        return new ClienteDTO(
+                this.getId(),
+                this.getNombre(),
+                this.getDni(),
+                this.getEmail(),
+                this.getTelefono(),
+                this.getFechaNacimiento(),
+                this.getObjetivo(),
+                this.getNivel()
+        );
     }
 
     public String getObjetivo() {

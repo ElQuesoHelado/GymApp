@@ -1,9 +1,10 @@
-import axios from './axiosConfig';
+import axiosInstance from "./axiosConfig";
 
-const BASE_URL = 'http://localhost:8080/sesiones';
+export const getSesiones = () =>
+  axiosInstance.get("/sesiones");
 
-export const listarSesionesPorUsuario = (usuarioId) => axios.get(`${BASE_URL}/usuario/${usuarioId}`);
+export const cancelarSesion = () => { }
+// axiosInstance.get("/sesiones");
+export const crearSesion = () => { }
+export const listarSesionesPorUsuario = () => { }
 
-export const crearSesion = (sesion) => axios.post(BASE_URL, sesion);
-
-export const cancelarSesion = (id) => axios.put(`${BASE_URL}/${id}/cancelar`);

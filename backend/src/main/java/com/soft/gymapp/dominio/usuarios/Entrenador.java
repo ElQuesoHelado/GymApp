@@ -3,6 +3,7 @@ package com.soft.gymapp.dominio.usuarios;
 import com.soft.gymapp.dominio.planesentrenamiento.PlanEntrenamiento;
 import com.soft.gymapp.dominio.planesentrenamiento.Rutina;
 import com.soft.gymapp.dominio.sesiones.Sesion;
+import com.soft.gymapp.servicios.dto.EntrenadorDTO;
 import jakarta.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,19 @@ public class Entrenador extends Usuario {
 
     public Entrenador() {
         // Constructor vacío requerido por JPA
+    }
+
+    public EntrenadorDTO toDTO() {
+        return new EntrenadorDTO(
+                this.getId(),
+                this.getNombre(),
+                this.getDni(),
+                this.getEmail(),
+                this.getTelefono(),
+                this.getFechaNacimiento(),
+                this.especialidad,
+                this.certificaciones
+        );
     }
 
     public void crearRutina(String nombre, String objetivo, PlanEntrenamiento plan) {

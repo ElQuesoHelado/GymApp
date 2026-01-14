@@ -1,9 +1,13 @@
 
 package com.soft.gymapp.servicios;
+import com.soft.gymapp.dominio.sesiones.Horario;
+import com.soft.gymapp.dominio.sesiones.Sala;
 import com.soft.gymapp.dominio.sesiones.Sesion;
 import com.soft.gymapp.dominio.sesiones.SesionRepositorio;
-import com.soft.gymapp.servicios.SesionService;
+
 import java.util.List;
+
+import com.soft.gymapp.servicios.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,10 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class SesionServiceImpl implements SesionService {
 
   private final SesionRepositorio sesionRepositorio;
+  private final UsuarioService usuarioService;
 
-  public SesionServiceImpl(SesionRepositorio sesionRepositorio) {
+  public SesionServiceImpl(SesionRepositorio sesionRepositorio, UsuarioService usuarioService) {
     this.sesionRepositorio = sesionRepositorio;
+    this.usuarioService = usuarioService;
   }
+
 
   @Override
   @Transactional
@@ -32,7 +39,8 @@ public class SesionServiceImpl implements SesionService {
   }
 
   @Override
-  public List<Sesion> listarSesionesPorUsuario(int usuarioId) {
-    return sesionRepositorio.findByClientes_Id(usuarioId);
+  public List<SesionDTO> listarSesionesPorUsuario() {
+    UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioLogueado();
+    return sesionRepositorio.findByClientes_Id(usuarioDTO.id()).stream().map(Sesion::toDTO).toList();
   }
 }

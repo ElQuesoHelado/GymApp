@@ -3,10 +3,12 @@ package com.soft.gymapp.presentation.controladores;
 import com.soft.gymapp.dominio.sesiones.Sesion;
 import com.soft.gymapp.servicios.SesionService;
 import java.util.List;
+
+import com.soft.gymapp.servicios.dto.SesionDTO;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/sesiones")
+@RequestMapping("/api/sesiones")
 public class SesionController {
 
   private final SesionService sesionService;
@@ -25,9 +27,8 @@ public class SesionController {
     sesionService.cancelarSesion(id);
   }
 
-  @GetMapping("/usuario/{usuarioId}")
-  public List<Sesion> listarSesionesPorUsuario(@PathVariable int usuarioId) {
-
-    return sesionService.listarSesionesPorUsuario(usuarioId);
+  @GetMapping()
+  public List<SesionDTO> listarSesionesPorUsuario() {
+    return sesionService.listarSesionesPorUsuario();
   }
 }

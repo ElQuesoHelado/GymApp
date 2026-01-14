@@ -60,18 +60,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         this.clienteRepositorio = clienteRepositorio;
     }
 
-    public ClienteDTO toDTO(Cliente cliente) {
-        return new ClienteDTO(
-                cliente.getId(),
-                cliente.getNombre(),
-                cliente.getDni(),
-                cliente.getEmail(),
-                cliente.getTelefono(),
-                cliente.getFechaNacimiento(),
-                cliente.getObjetivo(),
-                cliente.getNivel()
-        );
-    }
+
 
     // --- Métodos Auxiliares Privados (REFACTORIZADOS) ---
 
@@ -248,7 +237,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Cliente cliente = clienteRepositorio.findByCuentaUsuarioUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        return toDTO(cliente);
+        return cliente.toDTO();
     }
 
     @Override

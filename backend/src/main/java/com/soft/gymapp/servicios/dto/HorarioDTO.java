@@ -1,4 +1,9 @@
 package com.soft.gymapp.servicios.dto;
 
-public class HorarioDTO {
-}
+import java.time.LocalDate;
+
+public record HorarioDTO(
+        LocalDate fecha,
+        String horaInicio,
+        String horaFin
+) {}

@@ -9,6 +9,7 @@ import ClienteHome from "./pages/cliente/Home";
 import EntrenadorHome from "./pages/entrenador/EntrenadorHome";
 import Membresia from "./pages/cliente/Membresia";
 import PlanesCliente from "./pages/cliente/Plan";
+import Sesiones from "./pages/Sesiones"
 import Notificaciones from "./pages/Notificaciones";
 import ClientesAsignados from "./pages/entrenador/ClientesAsignados.jsx";
 import PlanesEntrenador from "./pages/entrenador/Planes";
@@ -32,6 +33,7 @@ export default function App() {
         <Route index element={<ClienteHome />} />
         <Route path="membresia" element={<Membresia />} />
         <Route path="planes" element={<PlanesCliente />} />
+        <Route path="sesiones" element={<Sesiones />} />
         <Route path="notificaciones" element={<Notificaciones />} />
       </Route>
 

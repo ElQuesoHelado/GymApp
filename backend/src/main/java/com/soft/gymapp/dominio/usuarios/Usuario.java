@@ -1,6 +1,8 @@
 package com.soft.gymapp.dominio.usuarios;
 
 import com.soft.gymapp.dominio.notificaciones.Notificacion;
+import com.soft.gymapp.servicios.dto.ClienteDTO;
+import com.soft.gymapp.servicios.dto.UsuarioDTO;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

@@ -1,4 +1,7 @@
 package com.soft.gymapp.servicios.dto;
 
-public class SalaDTO {
-}
+public record SalaDTO(
+        int id,
+        String nombre,
+        int capacidad
+) {}

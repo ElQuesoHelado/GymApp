@@ -9,7 +9,6 @@ export default function ClienteHome() {
   useEffect(() => {
     getClienteHome()
       .then(res => {
-        console.log(res.data);
         setData(res.data);
         setLoading(false);
       })

@@ -1,6 +1,8 @@
 package com.soft.gymapp.servicios;
 
 import com.soft.gymapp.dominio.sesiones.Sesion;
+import com.soft.gymapp.servicios.dto.SesionDTO;
+
 import java.util.List;
 
 public interface SesionService {
@@ -9,5 +11,5 @@ public interface SesionService {
 
   void cancelarSesion(int sesionId);
 
-  List<Sesion> listarSesionesPorUsuario(int usuarioId);
+  List<SesionDTO> listarSesionesPorUsuario();
 }

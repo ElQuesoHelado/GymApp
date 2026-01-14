@@ -1,14 +1,10 @@
 package com.soft.gymapp.presentation.controladores;
 
 import com.soft.gymapp.servicios.PlanEntrenamientoService;
+import com.soft.gymapp.servicios.SesionService;
 import com.soft.gymapp.servicios.UsuarioService;
-import com.soft.gymapp.servicios.dto.ClienteDTO;
-import com.soft.gymapp.servicios.dto.MembresiaDTO;
-import com.soft.gymapp.servicios.dto.PlanEntrenamientoDTO;
-import com.soft.gymapp.servicios.dto.UsuarioDTO;
+import com.soft.gymapp.servicios.dto.*;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +17,7 @@ public class ClienteController {
     private final UsuarioService usuarioService;
     private final PlanEntrenamientoService planEntrenamientoService;
 
-    public ClienteController(UsuarioService usuarioService, PlanEntrenamientoService planEntrenamientoService) {
+    public ClienteController(UsuarioService usuarioService, PlanEntrenamientoService planEntrenamientoService, SesionService sesionService) {
         this.usuarioService = usuarioService;
         this.planEntrenamientoService = planEntrenamientoService;
     }
@@ -39,10 +35,5 @@ public class ClienteController {
     @GetMapping("/membresia")
     public MembresiaDTO membresia() {
         return usuarioService.obtenerMembresia();
-    }
-
-    @GetMapping("/sesiones")
-    public String sesiones() {
-        return "cliente/sesiones";
     }
 }
