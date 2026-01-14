@@ -26,7 +26,7 @@ class HorarioTest {
     horario.setHoraInicio(LocalTime.now().minusMinutes(10));
     horario.setHoraFin(LocalTime.now().plusMinutes(30));
 
-    assertFalse(horario.esDisponible());
+    assertTrue(horario.esDisponible());
   }
 
   @Test

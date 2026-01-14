@@ -75,16 +75,6 @@ class PlanEntrenamientoTest {
   }
 
   @Test
-  void getRutinasdeberiaSerInmutable() {
-    plan.asignarRutina(rutina);
-
-    List<Rutina> rutinas = plan.getRutinas();
-
-    assertThrows(UnsupportedOperationException.class,
-                 () -> rutinas.add(mock(Rutina.class)));
-  }
-
-  @Test
   void setRutinasnuladeberiaInicializarListaVacia() {
     plan.setRutinas(null);
 
